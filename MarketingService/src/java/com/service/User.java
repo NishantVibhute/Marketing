@@ -1,0 +1,108 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.service;
+
+import com.beans.UserBean;
+import com.beans.UserPassword;
+import com.dao.UserDao;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import org.apache.log4j.Logger;
+import org.codehaus.jackson.map.ObjectMapper;
+
+/**
+ * REST Web Service
+ *
+ * @author Nishant
+ */
+@Path("user")
+public class User {
+
+    Logger logger = Logger.getLogger(User.class);
+    UserDao userDao = new UserDao();
+    ObjectMapper objectMapper = new ObjectMapper();
+
+    @POST
+    @Path("/create")
+    @Produces("text/plain")
+    @Consumes("text/plain")
+    public String createUser(String data) {
+        String jsonInString = "";
+        try {
+
+            String msg;
+            //TODO return proper representation object
+            UserBean userBean = new UserBean();
+
+            userBean = objectMapper.readValue(data, UserBean.class);
+
+            int updatedRows = userDao.createUser(userBean);
+
+            if (updatedRows != 0) {
+                msg = "User Added Successfuly";
+            } else {
+                msg = "Failed to Add user";
+            }
+            jsonInString = objectMapper.writeValueAsString(msg);
+        } catch (Exception ex) {
+            logger.error("User Class" + ex);
+        }
+        return jsonInString;
+
+    }
+
+    @POST
+    @Path("/signup")
+    @Produces("text/plain")
+    @Consumes("text/plain")
+    public String signup(String data) {
+        String jsonInString = "";
+        try {
+
+            String msg;
+            //TODO return proper representation object
+            UserPassword up = objectMapper.readValue(data, UserPassword.class);
+
+            int updatedRows = userDao.signUp(up);
+
+            if (updatedRows != 0) {
+                msg = "User Added Successfuly";
+            } else {
+                msg = "Failed to Add user";
+            }
+            jsonInString = objectMapper.writeValueAsString(msg);
+        } catch (Exception ex) {
+            logger.error("User Class" + ex);
+        }
+        return jsonInString;
+
+    }
+
+    @POST
+    @Path("/validate")
+    @Produces("text/plain")
+    @Consumes("text/plain")
+    public String validate(String data) {
+        String jsonInString = "";
+        try {
+
+            String msg;
+            //TODO return proper representation object
+            UserPassword up = objectMapper.readValue(data, UserPassword.class);
+
+            UserBean userBean = userDao.validate(up);
+
+            jsonInString = objectMapper.writeValueAsString(userBean);
+        } catch (Exception ex) {
+            logger.error("User Class" + ex);
+        }
+        return jsonInString;
+
+    }
+
+}

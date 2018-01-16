@@ -1,0 +1,28 @@
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <!-- Configuration for the default package. -->
+    <package name="default" extends="struts-default">
+        <action name="newscheme" class="com.redirect.SchemeAction" method="redirectNew">
+            
+            <result name="success">/newscheme.jsp</result>
+            
+        </action>
+        
+        <action name="dashboard" class="com.redirect.DashboardAction" method="redirect">
+            
+            <result name="success">/index.jsp</result>
+            
+        </action>
+        
+        <action name="createScheme" class="com.redirect.SchemeAction" method="createScheme">
+            
+            <result name="success">/newscheme.jsp</result>
+            
+        </action>
+        
+        
+    </package>
+</struts>
