@@ -5,7 +5,6 @@
  */
 package com.util;
 
-import com.beans.SchemeBean;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,7 +12,6 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  *
@@ -21,20 +19,15 @@ import org.codehaus.jackson.map.ObjectMapper;
  */
 public class ServiceUtil {
 
-    public static String getResponse(SchemeBean schemeBean) {
-        String output = null;
+    public static String getResponse(String input, String serviceMethod) {
+        String output = "", result = "";
         try {
 
-            ObjectMapper objectMapper = new ObjectMapper();
-
-            URL url = new URL("http://localhost:8084/MarketingService/webresources/Scheme/create");
+            URL url = new URL("http://localhost:8084/MarketingService/webresources" + serviceMethod);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setDoOutput(true);
             conn.setRequestMethod("POST");
-
             conn.setRequestProperty("Content-Type", "text/plain");
-
-            String input = objectMapper.writeValueAsString(schemeBean);
 
             OutputStream os = conn.getOutputStream();
             os.write(input.getBytes());
@@ -48,11 +41,7 @@ public class ServiceUtil {
             BufferedReader br = new BufferedReader(new InputStreamReader(
                     (conn.getInputStream())));
 
-            System.out.println("Output from Server .... \n");
-            while ((output = br.readLine()) != null) {
-                System.out.println(output);
-            }
-
+            output = br.readLine();
             conn.disconnect();
 
         } catch (MalformedURLException e) {
@@ -67,4 +56,38 @@ public class ServiceUtil {
         return output;
 
     }
+
+    public static String getResponseGet(String serviceMethod) {
+        String output = "";
+        try {
+
+            URL url = new URL("http://localhost:8084/MarketingService/webresources" + serviceMethod);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "text/plain");
+
+            if (conn.getResponseCode() != 200) {
+                throw new RuntimeException("Failed : HTTP error code : "
+                        + conn.getResponseCode());
+            }
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+                    (conn.getInputStream())));
+
+            output = br.readLine();
+
+            conn.disconnect();
+
+        } catch (MalformedURLException e) {
+
+            e.printStackTrace();
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+
+        }
+        return output;
+    }
+
 }

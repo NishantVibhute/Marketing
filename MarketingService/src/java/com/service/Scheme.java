@@ -5,9 +5,14 @@
  */
 package com.service;
 
+import com.beans.PendingJoinRequest;
 import com.beans.SchemeBean;
+import com.beans.SchemeJoinBean;
+import com.beans.UserDatails;
 import com.dao.SchemeDao;
+import java.util.List;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -19,7 +24,7 @@ import org.codehaus.jackson.map.ObjectMapper;
  *
  * @author Nishant
  */
-@Path("Scheme")
+@Path("scheme")
 public class Scheme {
 
     Logger logger = Logger.getLogger(User.class);
@@ -35,9 +40,27 @@ public class Scheme {
     @Path("/join")
     @Produces("text/plain")
     @Consumes("text/plain")
-    public String joinScheme() {
+    public String joinScheme(String data) {
         //TODO return proper representation object
-        throw new UnsupportedOperationException();
+        String jsonInString = "";
+        try {
+
+            String msg;
+            //TODO return proper representation object
+            SchemeJoinBean up = objectMapper.readValue(data, SchemeJoinBean.class);
+
+            int count = schemeDao.joinScheme(up);
+
+            if (count != 0) {
+                jsonInString = "success";
+            } else {
+                jsonInString = "failed";
+            }
+//            jsonInString = objectMapper.writeValueAsString(msg);
+        } catch (Exception ex) {
+            logger.error("User Class" + ex);
+        }
+        return jsonInString;
     }
 
     @POST
@@ -57,11 +80,109 @@ public class Scheme {
             int count = schemeDao.createScheme(up);
 
             if (count != 0) {
-                msg = "Scheme Added Successfuly";
+                jsonInString = "success";
             } else {
-                msg = "Failed to Add Scheme";
+                jsonInString = "failed";
             }
-            jsonInString = objectMapper.writeValueAsString(msg);
+//            jsonInString = objectMapper.writeValueAsString(msg);
+        } catch (Exception ex) {
+            logger.error("User Class" + ex);
+        }
+        return jsonInString;
+    }
+
+    @GET
+    @Path("/getlist")
+    @Produces("text/plain")
+
+    public String getSchemeList() {
+        //TODO return proper representation object
+        String jsonInString = "";
+        try {
+
+            //TODO return proper representation object
+            List<SchemeBean> schemeList = schemeDao.getSchemeList();
+            jsonInString = objectMapper.writeValueAsString(schemeList);
+        } catch (Exception ex) {
+            logger.error("User Class" + ex);
+        }
+        return jsonInString;
+    }
+
+    @POST
+    @Path("/getschemedetail")
+    @Consumes("text/plain")
+    @Produces("text/plain")
+
+    public String getSchemeDetail(String data) {
+        //TODO return proper representation object
+        String jsonInString = "";
+        try {
+
+            //TODO return proper representation object
+            SchemeBean scheme = schemeDao.getSchemeDetail(Integer.parseInt(data));
+            jsonInString = objectMapper.writeValueAsString(scheme);
+        } catch (Exception ex) {
+            logger.error("User Class" + ex);
+        }
+        return jsonInString;
+    }
+
+    @POST
+    @Path("/edit")
+    @Consumes("text/plain")
+    @Produces("text/plain")
+
+    public String edit(String data) {
+        //TODO return proper representation object
+        String jsonInString = "";
+        try {
+
+            String msg;
+            //TODO return proper representation object
+            SchemeBean up = objectMapper.readValue(data, SchemeBean.class);
+
+            int count = schemeDao.editScheme(up);
+
+            if (count != 0) {
+                jsonInString = "success";
+            } else {
+                jsonInString = "failed";
+            }
+//            jsonInString = objectMapper.writeValueAsString(msg);
+        } catch (Exception ex) {
+            logger.error("User Class" + ex);
+        }
+        return jsonInString;
+    }
+
+    @GET
+    @Path("/getpendingrequest")
+    @Produces("text/plain")
+
+    public String getPendingRequest() {
+        //TODO return proper representation object
+        String jsonInString = "";
+        try {
+            List<PendingJoinRequest> pendingReqestList = schemeDao.getPendingJoinRequest();
+            jsonInString = objectMapper.writeValueAsString(pendingReqestList);
+        } catch (Exception ex) {
+            logger.error("User Class" + ex);
+        }
+        return jsonInString;
+    }
+
+    @POST
+    @Path("/getpendingrequestbyscheme")
+    @Consumes("text/plain")
+    @Produces("text/plain")
+
+    public String getPendingRequestDetailByScheme(String data) {
+        //TODO return proper representation object
+        String jsonInString = "";
+        try {
+            List<UserDatails> pendingUserDetails = schemeDao.getPendingRequestByScheme(Integer.parseInt(data));
+            jsonInString = objectMapper.writeValueAsString(pendingUserDetails);
         } catch (Exception ex) {
             logger.error("User Class" + ex);
         }

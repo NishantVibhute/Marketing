@@ -38,4 +38,13 @@ public enum MemberType {
         this.value = value;
     }
 
+    public static MemberType getById(int id) {
+        for (MemberType e : values()) {
+            if (e.id == id) {
+                return e;
+            }
+        }
+        return null;
+    }
+
 }

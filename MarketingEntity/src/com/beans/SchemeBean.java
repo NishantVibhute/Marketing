@@ -19,6 +19,8 @@ public class SchemeBean {
     double memberPerc;
     double companyPerc;
     double amount;
+    int isClosed;
+    int isStarted;
 
     public int getId() {
         return id;
@@ -82,6 +84,22 @@ public class SchemeBean {
 
     public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+    public int getIsClosed() {
+        return isClosed;
+    }
+
+    public void setIsClosed(int isClosed) {
+        this.isClosed = isClosed;
+    }
+
+    public int getIsStarted() {
+        return isStarted;
+    }
+
+    public void setIsStarted(int isStarted) {
+        this.isStarted = isStarted;
     }
 
 }

@@ -6,21 +6,41 @@
     <!-- Configuration for the default package. -->
     <package name="default" extends="struts-default">
         <action name="newscheme" class="com.redirect.SchemeAction" method="redirectNew">
-            
             <result name="success">/newscheme.jsp</result>
-            
         </action>
         
         <action name="dashboard" class="com.redirect.DashboardAction" method="redirect">
-            
-            <result name="success">/index.jsp</result>
-            
+            <result name="success">/dashboard.jsp</result>
         </action>
         
+        <action name="joining" class="com.redirect.JoiningAction" method="redirect">
+            <result name="success">/joininingrequest.jsp</result>
+        </action>
+        
+        
         <action name="createScheme" class="com.redirect.SchemeAction" method="createScheme">
-            
             <result name="success">/newscheme.jsp</result>
-            
+        </action>
+        
+          <action name="editScheme" class="com.redirect.SchemeAction" method="editScheme">
+            <result name="success" type="chain">detailScheme</result>
+        </action>
+        
+        
+        <action name="detailScheme" class="com.redirect.SchemeAction" method="redirectList">
+            <result name="success">/schemedetails.jsp</result>
+        </action>
+        
+        <action name="getSchemeDetails" class="com.redirect.SchemeAction" method="getSchemeDetails">
+             <result type="stream">
+                <param name="contentType">text/plain</param>
+            </result>
+        </action>
+        
+        <action name="getPendingUserList" class="com.redirect.JoiningAction" method="getPendingUserListByScheme">
+             <result type="stream">
+                <param name="contentType">text/plain</param>
+            </result>
         </action>
         
         
