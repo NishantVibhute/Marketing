@@ -5,9 +5,12 @@
  */
 package com.service;
 
+import com.beans.PaymentBean;
+import com.beans.PaymentResponse;
 import com.beans.PendingJoinRequest;
 import com.beans.SchemeBean;
 import com.beans.SchemeJoinBean;
+import com.beans.SchemeRows;
 import com.beans.UserDatails;
 import com.dao.SchemeDao;
 import java.util.List;
@@ -189,4 +192,42 @@ public class Scheme {
         return jsonInString;
     }
 
+    @POST
+    @Path("/getSchemePool")
+    @Consumes("text/plain")
+    @Produces("text/plain")
+
+    public String getSchemePool(String data) {
+        //TODO return proper representation object
+        String jsonInString = "";
+        try {
+            List<SchemeRows> schemeRowList = schemeDao.getSchemePool(Integer.parseInt(data));
+            jsonInString = objectMapper.writeValueAsString(schemeRowList);
+        } catch (Exception ex) {
+            logger.error("User Class" + ex);
+        }
+        return jsonInString;
+    }
+
+    @POST
+    @Path("/savePaymentDetails")
+    @Consumes("text/plain")
+    @Produces("text/plain")
+
+    public String savePaymentDetails(String data) {
+        //TODO return proper representation object
+        String jsonInString = "";
+        try {
+
+            //TODO return proper representation object
+            PaymentBean up = objectMapper.readValue(data, PaymentBean.class);
+
+            PaymentResponse psResponse = schemeDao.updatePayment(up);
+
+            jsonInString = objectMapper.writeValueAsString(psResponse);
+        } catch (Exception ex) {
+            logger.error("User Class" + ex);
+        }
+        return jsonInString;
+    }
 }

@@ -31,6 +31,10 @@
             <result name="success">/schemedetails.jsp</result>
         </action>
         
+        <action name="savePaymentDetails" class="com.redirect.JoiningAction" method="savePayment">
+            <result name="success" type="chain">joining</result>
+        </action>
+        
         <action name="getSchemeDetails" class="com.redirect.SchemeAction" method="getSchemeDetails">
              <result type="stream">
                 <param name="contentType">text/plain</param>
@@ -38,6 +42,12 @@
         </action>
         
         <action name="getPendingUserList" class="com.redirect.JoiningAction" method="getPendingUserListByScheme">
+             <result type="stream">
+                <param name="contentType">text/plain</param>
+            </result>
+        </action>
+        
+        <action name="getSchemePool" class="com.redirect.JoiningAction" method="getSchemePool">
              <result type="stream">
                 <param name="contentType">text/plain</param>
             </result>

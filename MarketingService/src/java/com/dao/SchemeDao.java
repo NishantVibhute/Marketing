@@ -5,11 +5,15 @@
  */
 package com.dao;
 
+import com.beans.PaymentBean;
+import com.beans.PaymentResponse;
 import com.beans.PendingJoinRequest;
 import com.beans.SchemeBean;
 import com.beans.SchemeJoinBean;
+import com.beans.SchemeRows;
 import com.beans.UserDatails;
 import com.ennum.MemberType;
+import com.ennum.StatusEnum;
 import com.util.CommonUtil;
 import com.util.DbUtil;
 import java.sql.Connection;
@@ -209,7 +213,7 @@ public class SchemeDao {
 
             while (rs.next()) {
                 UserDatails ud = new UserDatails();
-                ud.setType(rs.getString(1));
+                ud.setId(rs.getInt(1));
                 ud.setName(rs.getString(2));
                 ud.setType(MemberType.getById(rs.getInt(3)).name());
                 pendingUserDatails.add(ud);
@@ -223,6 +227,69 @@ public class SchemeDao {
 
         return pendingUserDatails;
 
+    }
+
+    public List<SchemeRows> getSchemePool(int schemeId) {
+        List<SchemeRows> schemeRowsList = new ArrayList<>();
+
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement("call getSchemePoolDetails(?,?)");
+            ps.setString(1, "Scheme_" + schemeId);
+            ps.setInt(2, 10);
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                SchemeRows ud = new SchemeRows();
+                ud.setParent(rs.getString(1));
+                ud.setChild1(rs.getString(2) == null ? "" : rs.getString(2));
+                ud.setChild2(rs.getString(3) == null ? "" : rs.getString(3));
+                ud.setChild3(rs.getString(4) == null ? "" : rs.getString(4));
+                schemeRowsList.add(ud);
+
+            }
+
+            db.closeConnection(con);
+        } catch (Exception ex) {
+            logger.error("CreateUser", ex);
+        }
+
+        return schemeRowsList;
+
+    }
+
+    public PaymentResponse updatePayment(PaymentBean payBean) {
+        int count = 0;
+        PaymentResponse psResponse = new PaymentResponse();
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement("call updatePaymentDetails(?,?,?,?,?,?,?,?)");
+            ps.setInt(1, payBean.getJoiningId());
+            ps.setInt(2, payBean.getPaymentModeId());
+            ps.setString(3, payBean.getChequeNo());
+            ps.setString(4, payBean.getChequeDate());
+            ps.setString(5, payBean.getBankName());
+            ps.setString(6, payBean.getUTRNo());
+            ps.setInt(7, StatusEnum.CONFIRMED.getId());
+            ps.setDouble(8, payBean.getAmount());
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                psResponse.setIsExit(rs.getInt(1));
+                psResponse.setUserId(rs.getInt(2));
+                psResponse.setMemberType(rs.getInt(3));
+                psResponse.setIsSuccess(rs.getInt(4));
+                psResponse.setSchemeId(rs.getInt(5));
+                psResponse.setPaymentModeId(rs.getInt(6));
+            }
+
+            db.closeConnection(con);
+        } catch (Exception ex) {
+            logger.error("CreateUser", ex);
+        }
+        return psResponse;
     }
 
 }

@@ -40,15 +40,17 @@
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
-                    <h1>
-                        General Form Elements
-                        <small>Preview</small>
-                    </h1>
-                    <ol class="breadcrumb">
-                        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                        <li><a href="#">Forms</a></li>
-                        <li class="active">General Elements</li>
-                    </ol>
+                    <s:if test="successMsg!=''">
+                        <div class="alert alert-success">
+                            <strong><s:property value = 'successMsg'/></strong>
+                        </div>
+                    </s:if>
+
+                    <s:if test="errorMsg!=''">
+                        <div class="alert alert-danger">
+                            <strong><s:property value = 'errorMsg'/></strong>
+                        </div>
+                    </s:if>
                 </section>
 
                 <!-- Main content -->
@@ -60,7 +62,7 @@
                                     <h3 class="box-title">Bordered Table</h3>
                                 </div>
                                 <!-- /.box-header -->
-                                <div class="box-body">
+                                <div class="box-body" style="overflow: auto;height:250px">
                                     <table class="table table-bordered">
                                         <tr>
                                             <th style="width: 10px">#</th>
@@ -87,7 +89,27 @@
 
                             </div>
                             <!-- /.box -->
+                            <div class="box" >
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Bordered Table</h3>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body" style="overflow: auto">
+                                    <table id="schemePool" class="table table-bordered" >
+                                        <tr>
+                                            <th bgcolor='#E0FFFF'>Parent</th>
+                                            <th>Child1</th>
+                                            <th>Child2</th>
+                                            <th>Child3</th>
 
+                                        </tr>
+
+
+                                    </table>
+                                </div>
+                                <!-- /.box-body -->
+
+                            </div>
 
                         </div>
                         <!-- /.col -->
@@ -107,9 +129,11 @@
                                                 <th style="text-align: center">Deny</th>
 
                                             </tr>
+
+
                                         </thead>
                                         <tbody>
-                                           
+
 
                                         </tbody>
 
@@ -123,6 +147,9 @@
                         </div>
                         <!-- /.col -->
                     </div>
+
+
+
                     <!--/.col (left) -->
 
                     <!-- /.row -->
@@ -138,60 +165,58 @@
                                 <span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title">Payment Details</h4>
                         </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label>Payment Mode</label>
-                                <select class="form-control">
-                                    <option>by Cash</option>
-                                    <option>by Cheque</option>
-                                    <option>by Netbanking</option>
+                        <form method="post" action="savePaymentDetails">
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label>Payment Mode</label>
+                                    <input type="hidden" id="joinId" name="joiningId"/>
+                                    <select id="paymode"  name="paymentModeId" class="form-control">
 
-                                </select>
+                                        <option value="1">by Cash</option>
+                                        <option value="2">by Cheque</option>
+                                        <option value="3">by Netbanking</option>
+
+                                    </select>
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="amount">Amount</label>
+                                    <input type="text" class="form-control" id="amount" name="amount" placeholder="Amount">
+                                </div>
+
+                                <div id="cheque" style="display:none">
+                                    <div class="form-group">
+                                        <label for="chequeNo">Cheque No.</label>
+                                        <input type="text" class="form-control" id="amount" name="chequeNo" placeholder="Cheque No">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="amount">Cheque Date</label>
+                                        <input type="text" class="form-control" id="datepickerDate" name="chequeDate" placeholder="Cheque Date">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="amount">Bank Name</label>
+                                        <input type="text" class="form-control" id="amount" name ="bankName" placeholder="Bank Name">
+                                    </div>
+
+
+                                </div>
+
+                                <div id="netBanking" style="display:none">
+                                    <div class="form-group">
+                                        <label for="amount">UTR No.</label>
+                                        <input type="text" class="form-control" id="amount" name="UTRNo" placeholder="UTR No">
+                                    </div>
+
+                                </div>
+
+
 
                             </div>
-
-                            <div>
-                                <div class="form-group">
-                                    <label for="amount">Cheque No.</label>
-                                    <input type="text" class="form-control" id="amount" placeholder="Amount">
-                                </div>
-                                <div class="form-group">
-                                    <label for="amount">Cheque Date</label>
-                                    <input type="text" class="form-control" id="amount" placeholder="Amount">
-                                </div>
-                                <div class="form-group">
-                                    <label for="amount">Bank Name</label>
-                                    <input type="text" class="form-control" id="amount" placeholder="Amount">
-                                </div>
-
-
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
                             </div>
-
-                            <div>
-                                <div class="form-group">
-                                    <label for="amount">UTR No.</label>
-                                    <input type="text" class="form-control" id="amount" placeholder="Amount">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="amount">Bank Name</label>
-                                    <input type="text" class="form-control" id="amount" placeholder="Amount">
-                                </div>
-
-
-
-                            </div>
-
-
-                            <div class="form-group">
-                                <label for="amount">Amount</label>
-                                <input type="text" class="form-control" id="amount" placeholder="Amount">
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save</button>
-                        </div>
+                        </form>
                     </div>
                     <!-- /.modal-content -->
                 </div>
@@ -219,7 +244,22 @@
         <script src="dist/js/adminlte.min.js"></script>
         <!-- AdminLTE for demo purposes -->
         <script src="dist/js/demo.js"></script>
+
+        <!-- bootstrap datepicker -->
+        <script src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
         <script>
+
+                                                $(function() {
+
+                                                    //Date picker
+                                                    $('#datepickerDate').datepicker({
+                                                        autoclose: true,
+                                                        format: 'dd/mm/yyyy'
+                                                    });
+
+
+                                                })
+
                                                 $(function() {
                                                     $('#userDetail').DataTable({
                                                         'paging': true,
@@ -233,30 +273,114 @@
 
                                                 function getSchemePendinInfo(id)
                                                 {
+
+
                                                     $.ajax({
                                                         type: "post",
                                                         url: "getPendingUserList?val=" + id,
                                                         dataType: 'json',
                                                         success: function(response) {
 
-jQuery.each(response, function(index, value){
+                                                            jQuery.each(response, function(index, value) {
 //    var dt = "<tr><td>"+index+"</td><td>"+value.name+"</td><td><button type='button' class='btn btn-block btn-success'>Accept</button></td><td><button type='button' class='btn btn-block  btn-danger'>Deny</button></td></tr>";
-    
-    $('#userDetail').dataTable().fnAddData( [
-        value.type,
-        value.name,
-       " <button type='button' class='btn btn-block btn-success'  data-toggle='modal' data-target='#modal-default'>Accept</button>",
-        "<button type='button' class='btn btn-block  btn-danger'>Deny</button>" ] );
-    
-    
-            
-        });
+
+
+
+                                                                $('#userDetail').dataTable().fnAddData([
+                                                                    value.type,
+                                                                    value.name,
+                                                                    " <button type='button' class='btn btn-block btn-success'  onClick=showPayModal(" + value.id + ")>Accept</button>",
+                                                                    "<button type='button' class='btn btn-block  btn-danger'>Deny</button>"]);
+
+
+
+                                                            });
                                                         }
                                                     });
-                                                    
+
+
+                                                    $.ajax({
+                                                        type: "post",
+                                                        url: "getSchemePool?valScheme=" + id,
+                                                        dataType: 'json',
+                                                        success: function(response) {
+                                                            $("#schemePool > tr").remove();
+                                                            jQuery.each(response, function(index, value) {
+//    var dt = "<tr><td>"+index+"</td><td>"+value.name+"</td><td><button type='button' class='btn btn-block btn-success'>Accept</button></td><td><button type='button' class='btn btn-block  btn-danger'>Deny</button></td></tr>";
+
+                                                                var pn="";
+                                                                var ch1="";
+                                                                var ch2="";
+                                                                var ch3="";
+
+                                                                if (value.parent === 'Physical') {
+                                                                   pn= "<span class='badge bg-green'>P</span>"
+                                                                } else if (value.parent === 'Virtual'){
+                                                                    pn=  "<span class='badge bg-red'>V</span>"
+                                                                }
+                                                                
+                                                                if (value.child1 === 'Physical') {
+                                                                   ch1= "<span class='badge bg-green'>P</span>"
+                                                                } else if (value.child1 === 'Virtual'){
+                                                                    ch1=  "<span class='badge bg-red'>V</span>"
+                                                                }
+                                                                
+                                                                if (value.child2 === 'Physical') {
+                                                                   ch2= "<span class='badge bg-green'>P</span>"
+                                                                } else if (value.child2 === 'Virtual'){
+                                                                    ch2=  "<span class='badge bg-red'>V</span>"
+                                                                }
+                                                                
+                                                                if (value.child3 === 'Physical') {
+                                                                   ch3= "<span class='badge bg-green'>P</span>"
+                                                                } else if (value.child3 === 'Virtual'){
+                                                                    ch3=  "<span class='badge bg-red'>V</span>"
+                                                                }
+                                                                
+
+
+
+                                                                var dt = "<tr>\n\
+<td bgcolor='#E0FFFF'>" + pn+"</td>\n\
+<td>" + ch1 + "</td>\n\
+<td>" + ch2 + "</td>\n\
+<td>" + ch3 + "</td></tr>";
+
+                                                                $("#schemePool").append(dt);
+
+
+
+                                                            });
+                                                        }
+                                                    });
+
                                                 }
 
+                                                $('#paymode').on('change', function() {
+                                                    if (this.value == "1")
+                                                    {
+                                                        $('#cheque').hide();
+                                                        $('#netBanking').hide();
 
+                                                    }
+                                                    if (this.value == "2")
+                                                    {
+                                                        $('#cheque').show();
+                                                        $('#netBanking').hide();
+                                                    }
+                                                    if (this.value == "3")
+                                                    {
+                                                        $('#cheque').hide();
+                                                        $('#netBanking').show();
+
+                                                    }
+                                                })
+
+                                                function showPayModal(id)
+                                                {
+                                                    $("#joinId").val(id);
+                                                    $('#modal-default').modal('show');
+                                                }
 
         </script>
     </body>
