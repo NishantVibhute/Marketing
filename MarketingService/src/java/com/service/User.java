@@ -5,6 +5,7 @@
  */
 package com.service;
 
+import com.beans.CreateVirtualUser;
 import com.beans.UserBean;
 import com.beans.UserPassword;
 import com.dao.UserDao;
@@ -49,6 +50,26 @@ public class User {
                 msg = "Failed to Add user";
             }
             jsonInString = objectMapper.writeValueAsString(msg);
+        } catch (Exception ex) {
+            logger.error("User Class" + ex);
+        }
+        return jsonInString;
+
+    }
+
+    @POST
+    @Path("/createvirtualuser")
+    @Produces("text/plain")
+    @Consumes("text/plain")
+    public String createVirtualUser(String data) {
+        String jsonInString = "";
+        try {
+
+            CreateVirtualUser userBean = new CreateVirtualUser();
+
+            userBean = objectMapper.readValue(data, CreateVirtualUser.class);
+            jsonInString = "" + userDao.createVirtualUser(userBean);
+
         } catch (Exception ex) {
             logger.error("User Class" + ex);
         }

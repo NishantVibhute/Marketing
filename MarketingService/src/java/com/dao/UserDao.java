@@ -6,6 +6,7 @@
 package com.dao;
 
 import com.beans.BankDetailsBean;
+import com.beans.CreateVirtualUser;
 import com.beans.UserBean;
 import com.beans.UserPassword;
 import com.service.User;
@@ -46,6 +47,29 @@ public class UserDao {
             ps.setString(11, userBean.getBankDetails().getBranchName());
             ps.setString(12, userBean.getBankDetails().getBankAccNo());
             count = ps.executeUpdate();
+            db.closeConnection(con);
+        } catch (Exception ex) {
+            logger.error("CreateUser", ex);
+        }
+        return count;
+
+    }
+
+    public int createVirtualUser(CreateVirtualUser data) {
+
+        int count = 0;
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement("call createVirtualUser(?,?)");
+            ps.setInt(1, data.getUserId());
+            ps.setInt(2, data.getSchemeId());
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                count = rs.getInt(1);
+            }
+
             db.closeConnection(con);
         } catch (Exception ex) {
             logger.error("CreateUser", ex);

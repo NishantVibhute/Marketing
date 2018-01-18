@@ -19,6 +19,8 @@ public class PaymentBean {
     String chequeDate;
     String bankName;
     String UTRNo;
+    int vitualIdToBecreated;
+    int schemeId;
 
     public int getId() {
         return id;
@@ -82,6 +84,22 @@ public class PaymentBean {
 
     public void setJoiningId(int joiningId) {
         this.joiningId = joiningId;
+    }
+
+    public int getVitualIdToBecreated() {
+        return vitualIdToBecreated;
+    }
+
+    public void setVitualIdToBecreated(int vitualIdToBecreated) {
+        this.vitualIdToBecreated = vitualIdToBecreated;
+    }
+
+    public int getSchemeId() {
+        return schemeId;
+    }
+
+    public void setSchemeId(int schemeId) {
+        this.schemeId = schemeId;
     }
 
 }

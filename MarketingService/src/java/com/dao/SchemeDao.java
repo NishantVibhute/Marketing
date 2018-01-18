@@ -124,7 +124,6 @@ public class SchemeDao {
     }
 
     public int editScheme(SchemeBean schemeBean) {
-
         int count = 0;
         try {
             this.con = db.getConnection();
@@ -138,14 +137,12 @@ public class SchemeDao {
             ps.setDouble(7, schemeBean.getAmount());
             ps.setInt(8, schemeBean.getIsClosed());
             ps.setInt(9, schemeBean.getId());
-
             count = ps.executeUpdate();
             db.closeConnection(con);
         } catch (Exception ex) {
             logger.error("CreateUser", ex);
         }
         return count;
-
     }
 
     public int joinScheme(SchemeJoinBean schemeJoinBean) {
@@ -216,6 +213,7 @@ public class SchemeDao {
                 ud.setId(rs.getInt(1));
                 ud.setName(rs.getString(2));
                 ud.setType(MemberType.getById(rs.getInt(3)).name());
+                ud.setPaymentModeId(rs.getInt(4));
                 pendingUserDatails.add(ud);
 
             }
@@ -282,7 +280,7 @@ public class SchemeDao {
                 psResponse.setMemberType(rs.getInt(3));
                 psResponse.setIsSuccess(rs.getInt(4));
                 psResponse.setSchemeId(rs.getInt(5));
-                psResponse.setPaymentModeId(rs.getInt(6));
+
             }
 
             db.closeConnection(con);

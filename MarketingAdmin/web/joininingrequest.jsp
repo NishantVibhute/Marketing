@@ -123,10 +123,11 @@
                                     <table id="userDetail" class="table table-bordered table-hover">
                                         <thead>
                                             <tr>
-                                                <th>Type</th>
+                                                <th style="text-align: center;width: 5%">Type</th>
                                                 <th>Customer Name</th>
-                                                <th style="text-align: center">Accept</th>
-                                                <th style="text-align: center">Deny</th>
+                                                <th style="text-align: center;width: 15%">Payment</th>
+                                                <th  style="text-align: center;width: 15%">Accept</th>
+                                                <th style="text-align: center;width: 15%">Deny</th>
 
                                             </tr>
 
@@ -224,6 +225,39 @@
             </div>
             <!-- /.modal -->
 
+            <div class="modal fade" id="modal-Virtual">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Payment Details</h4>
+                        </div>
+                        <form method="post" action="updateVirtualUserPayment">
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label>Create Virtual Ids</label>
+                                    <input type="hidden" id="joinIdVirtual" name="joiningId"/>
+                                    <input type="hidden" id="schemeIdI" name="schemeId"/>
+                                    <select id="virtaulIds"  name="vitualIdToBecreated" class="form-control">
+                                        <option value="0">0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+
             <%@include file="/include/includefooter.jsp"%>
 
         </div>
@@ -267,7 +301,8 @@
                                                         'searching': false,
                                                         'ordering': true,
                                                         'info': true,
-                                                        'autoWidth': false
+                                                        'autoWidth': false,
+                                                        'aaSorting': []
                                                     })
                                                 })
 
@@ -284,12 +319,37 @@
                                                             jQuery.each(response, function(index, value) {
 //    var dt = "<tr><td>"+index+"</td><td>"+value.name+"</td><td><button type='button' class='btn btn-block btn-success'>Accept</button></td><td><button type='button' class='btn btn-block  btn-danger'>Deny</button></td></tr>";
 
+                                                                var type = "";
+                                                                if (value.type === 'PHYSICAL') {
+                                                                    type = "<span class='badge bg-green'>P</span>"
+                                                                } else if (value.type === 'VIRTUAL') {
+                                                                    type = "<span class='badge bg-red'>V</span>"
+                                                                }
 
+                                                                var pm = "";
+
+                                                                if (value.paymentModeId === 1) {
+                                                                    pm = "by Cash"
+                                                                } else if (value.paymentModeId === 2) {
+                                                                    pm = "by Cheque"
+                                                                }
+                                                                else if (value.paymentModeId === 3) {
+                                                                    pm = "by Netbanking"
+                                                                }
+                                                                else if (value.paymentModeId === 4)
+                                                                {
+                                                                    pm = "by Company"
+                                                                }
+                                                                else
+                                                                {
+                                                                    pm = "by Rejoining"
+                                                                }
 
                                                                 $('#userDetail').dataTable().fnAddData([
-                                                                    value.type,
+                                                                    type,
                                                                     value.name,
-                                                                    " <button type='button' class='btn btn-block btn-success'  onClick=showPayModal(" + value.id + ")>Accept</button>",
+                                                                    pm,
+                                                                    " <button type='button' class='btn btn-block btn-success'  onClick=showPayModal(" + value.id + ",'" + value.type + "','" + id + "')>Accept</button>",
                                                                     "<button type='button' class='btn btn-block  btn-danger'>Deny</button>"]);
 
 
@@ -308,40 +368,40 @@
                                                             jQuery.each(response, function(index, value) {
 //    var dt = "<tr><td>"+index+"</td><td>"+value.name+"</td><td><button type='button' class='btn btn-block btn-success'>Accept</button></td><td><button type='button' class='btn btn-block  btn-danger'>Deny</button></td></tr>";
 
-                                                                var pn="";
-                                                                var ch1="";
-                                                                var ch2="";
-                                                                var ch3="";
+                                                                var pn = "";
+                                                                var ch1 = "";
+                                                                var ch2 = "";
+                                                                var ch3 = "";
 
                                                                 if (value.parent === 'Physical') {
-                                                                   pn= "<span class='badge bg-green'>P</span>"
-                                                                } else if (value.parent === 'Virtual'){
-                                                                    pn=  "<span class='badge bg-red'>V</span>"
+                                                                    pn = "<span class='badge bg-green'>P</span>"
+                                                                } else if (value.parent === 'Virtual') {
+                                                                    pn = "<span class='badge bg-red'>V</span>"
                                                                 }
-                                                                
+
                                                                 if (value.child1 === 'Physical') {
-                                                                   ch1= "<span class='badge bg-green'>P</span>"
-                                                                } else if (value.child1 === 'Virtual'){
-                                                                    ch1=  "<span class='badge bg-red'>V</span>"
+                                                                    ch1 = "<span class='badge bg-green'>P</span>"
+                                                                } else if (value.child1 === 'Virtual') {
+                                                                    ch1 = "<span class='badge bg-red'>V</span>"
                                                                 }
-                                                                
+
                                                                 if (value.child2 === 'Physical') {
-                                                                   ch2= "<span class='badge bg-green'>P</span>"
-                                                                } else if (value.child2 === 'Virtual'){
-                                                                    ch2=  "<span class='badge bg-red'>V</span>"
+                                                                    ch2 = "<span class='badge bg-green'>P</span>"
+                                                                } else if (value.child2 === 'Virtual') {
+                                                                    ch2 = "<span class='badge bg-red'>V</span>"
                                                                 }
-                                                                
+
                                                                 if (value.child3 === 'Physical') {
-                                                                   ch3= "<span class='badge bg-green'>P</span>"
-                                                                } else if (value.child3 === 'Virtual'){
-                                                                    ch3=  "<span class='badge bg-red'>V</span>"
+                                                                    ch3 = "<span class='badge bg-green'>P</span>"
+                                                                } else if (value.child3 === 'Virtual') {
+                                                                    ch3 = "<span class='badge bg-red'>V</span>"
                                                                 }
-                                                                
+
 
 
 
                                                                 var dt = "<tr>\n\
-<td bgcolor='#E0FFFF'>" + pn+"</td>\n\
+<td bgcolor='#E0FFFF'>" + pn + "</td>\n\
 <td>" + ch1 + "</td>\n\
 <td>" + ch2 + "</td>\n\
 <td>" + ch3 + "</td></tr>";
@@ -376,12 +436,17 @@
                                                     }
                                                 })
 
-                                                function showPayModal(id)
-                                                {
-                                                    $("#joinId").val(id);
-                                                    $('#modal-default').modal('show');
+                                                function showPayModal(id, type, schemeId)
+                                               {
+                                                    if (type === 'PHYSICAL') {
+                                                        $("#joinId").val(id);
+                                                        $('#modal-default').modal('show');
+                                                    } else if (type === 'VIRTUAL') {
+                                                        $("#joinIdVirtual").val(id);
+                                                        $('#modal-Virtual').modal('show');
+                                                        $("#schemeIdI").val(schemeId);
+                                                    }
                                                 }
-
         </script>
     </body>
 </html>

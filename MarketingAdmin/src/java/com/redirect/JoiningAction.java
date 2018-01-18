@@ -5,11 +5,16 @@
  */
 package com.redirect;
 
+import com.beans.CreateVirtualUser;
 import com.beans.PaymentBean;
 import com.beans.PaymentResponse;
 import com.beans.PendingJoinRequest;
+import com.beans.SchemeJoinBean;
 import com.beans.SchemeRows;
 import com.beans.UserDatails;
+import com.ennum.MemberType;
+import com.ennum.PaymentMode;
+import com.ennum.StatusEnum;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import com.util.ServiceUtil;
@@ -100,14 +105,178 @@ public class JoiningAction extends ActionSupport implements ModelDriven {
 
             PaymentResponse ps = objectMapper.readValue(resp, PaymentResponse.class);
 
+            SchemeJoinBean sjb = new SchemeJoinBean();
+
             if (ps.getIsSuccess() == 1) {
                 successMsg = "Payment Added Successfully";
+                if (ps.getIsExit() == 1) {
+                    if (ps.getMemberType() == MemberType.PHYSICAL.getId()) {
+                        sjb.setMemberType(MemberType.PHYSICAL.getId());
+                        sjb.setPaymentModeId(PaymentMode.REJOINING.getId());
+                        sjb.setSchemeId(ps.getSchemeId());
+                        sjb.setUserId(ps.getUserId());
+                        sjb.setUserStatus(StatusEnum.PENDING.getId());
+                        String input1 = objectMapper.writeValueAsString(sjb);
+                        String resp1 = ServiceUtil.getResponse(input1, "/scheme/join");
+
+                        if (resp1.equalsIgnoreCase("success")) {
+                            successMsg = successMsg + " And Join Request Created";
+                        } else {
+                            errorMsg = successMsg + " Failed Create Join Request";
+                        }
+
+                    } else {
+                        sjb.setMemberType(MemberType.VIRTUAL.getId());
+                        sjb.setPaymentModeId(PaymentMode.REJOINING.getId());
+                        sjb.setSchemeId(ps.getSchemeId());
+                        sjb.setUserId(ps.getUserId());
+                        sjb.setUserStatus(StatusEnum.PENDING.getId());
+                        String input1 = objectMapper.writeValueAsString(sjb);
+                        String resp1 = ServiceUtil.getResponse(input1, "/scheme/join");
+
+                        if (resp1.equalsIgnoreCase("success")) {
+                            successMsg = successMsg + " And Join Request Created";
+                        } else {
+                            errorMsg = successMsg + " Failed Create Join Request";
+                        }
+                    }
+                }
+
             } else {
                 errorMsg = "Failed to Add Payment";
             }
 
         } catch (Exception ex) {
             Logger.getLogger(SchemeAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return ActionSupport.SUCCESS;
+    }
+
+    public String updateVirtualUserPayment() {
+        try {
+
+            String input = objectMapper.writeValueAsString(this.paymentBean);
+            String resp = ServiceUtil.getResponse(input, "/scheme/savePaymentDetails");
+
+            PaymentResponse ps = objectMapper.readValue(resp, PaymentResponse.class);
+
+            if (ps.getIsSuccess() == 1) {
+                successMsg = "Payment Added Successfully";
+                if (ps.getIsExit() == 1) {
+                    if (ps.getMemberType() == MemberType.PHYSICAL.getId()) {
+                        SchemeJoinBean sjb = new SchemeJoinBean();
+                        sjb.setMemberType(MemberType.PHYSICAL.getId());
+                        sjb.setPaymentModeId(PaymentMode.REJOINING.getId());
+                        sjb.setSchemeId(ps.getSchemeId());
+                        sjb.setUserId(ps.getUserId());
+                        sjb.setUserStatus(StatusEnum.PENDING.getId());
+                        String input1 = objectMapper.writeValueAsString(sjb);
+                        String resp1 = ServiceUtil.getResponse(input1, "/scheme/join");
+
+                        if (resp1.equalsIgnoreCase("success")) {
+                            successMsg = successMsg + " And Join Request Created";
+                        } else {
+                            errorMsg = successMsg + " Failed Create Join Request";
+                        }
+
+                    } else {
+                        SchemeJoinBean sjb = new SchemeJoinBean();
+                        sjb.setMemberType(MemberType.VIRTUAL.getId());
+                        sjb.setPaymentModeId(PaymentMode.REJOINING.getId());
+                        sjb.setSchemeId(ps.getSchemeId());
+                        sjb.setUserId(ps.getUserId());
+                        sjb.setUserStatus(StatusEnum.PENDING.getId());
+                        String input1 = objectMapper.writeValueAsString(sjb);
+                        String resp1 = ServiceUtil.getResponse(input1, "/scheme/join");
+
+                        if (resp1.equalsIgnoreCase("success")) {
+                            successMsg = successMsg + " And Join Request Created";
+                        } else {
+                            errorMsg = successMsg + " Failed Create Join Request";
+                        }
+                    }
+                }
+
+                for (int i = 0; i < paymentBean.getVitualIdToBecreated(); i++) {
+
+                    CreateVirtualUser createVirtualUser = new CreateVirtualUser();
+                    createVirtualUser.setSchemeId(paymentBean.getJoiningId());
+                    createVirtualUser.setSchemeId(paymentBean.getSchemeId());
+                    String input5 = objectMapper.writeValueAsString(createVirtualUser);
+
+                    String resp1 = ServiceUtil.getResponse(input5, "/user/createvirtualuser");
+
+                    if (!resp1.equalsIgnoreCase("0")) {
+                        SchemeJoinBean sjb = new SchemeJoinBean();
+                        sjb.setMemberType(MemberType.VIRTUAL.getId());
+                        sjb.setPaymentModeId(PaymentMode.REJOINING.getId());
+                        sjb.setSchemeId(paymentBean.getSchemeId());
+                        sjb.setUserId(Integer.parseInt(resp1));
+                        sjb.setUserStatus(StatusEnum.CONFIRMED.getId());
+                        String input1 = objectMapper.writeValueAsString(sjb);
+                        String resp2 = ServiceUtil.getResponse(input1, "/scheme/join");
+
+                        if (resp2.equalsIgnoreCase("success")) {
+
+                            PaymentBean pb = new PaymentBean();
+                            pb.setJoiningId(Integer.parseInt(resp1));
+                            pb.setPaymentModeId(PaymentMode.REJOINING.getId());
+                            pb.setAmount(1000);
+                            String input3 = objectMapper.writeValueAsString(this.paymentBean);
+                            String resp3 = ServiceUtil.getResponse(input3, "/scheme/savePaymentDetails");
+
+                            PaymentResponse ps3 = objectMapper.readValue(resp3, PaymentResponse.class);
+
+                            if (ps3.getIsSuccess() == 1) {
+                                successMsg = "Payment Added Successfully";
+                                if (ps3.getIsExit() == 1) {
+                                    if (ps3.getMemberType() == MemberType.PHYSICAL.getId()) {
+                                        SchemeJoinBean sjb3 = new SchemeJoinBean();
+                                        sjb3.setMemberType(MemberType.PHYSICAL.getId());
+                                        sjb3.setPaymentModeId(PaymentMode.REJOINING.getId());
+                                        sjb3.setSchemeId(ps3.getSchemeId());
+                                        sjb3.setUserId(ps3.getUserId());
+                                        sjb3.setUserStatus(StatusEnum.PENDING.getId());
+                                        String input4 = objectMapper.writeValueAsString(sjb3);
+                                        String resp4 = ServiceUtil.getResponse(input4, "/scheme/join");
+
+                                        if (resp4.equalsIgnoreCase("success")) {
+                                            successMsg = successMsg + " And Join Request Created";
+                                        } else {
+                                            errorMsg = successMsg + " Failed Create Join Request";
+                                        }
+
+                                    } else {
+                                        SchemeJoinBean sjb4 = new SchemeJoinBean();
+                                        sjb4.setMemberType(MemberType.VIRTUAL.getId());
+                                        sjb4.setPaymentModeId(PaymentMode.REJOINING.getId());
+                                        sjb4.setSchemeId(ps3.getSchemeId());
+                                        sjb4.setUserId(ps3.getUserId());
+                                        sjb4.setUserStatus(StatusEnum.PENDING.getId());
+                                        String input4 = objectMapper.writeValueAsString(sjb4);
+                                        String resp4 = ServiceUtil.getResponse(input4, "/scheme/join");
+
+                                        if (resp4.equalsIgnoreCase("success")) {
+                                            successMsg = successMsg + " And Join Request Created";
+                                        } else {
+                                            errorMsg = successMsg + " Failed Create Join Request";
+                                        }
+                                    }
+
+                                }
+
+                            }
+
+                        }
+
+                    } else {
+                        errorMsg = "Failed to Add Payment";
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Logger.getLogger(SchemeAction.class.getName()).log(Level.SEVERE, null, e);
         }
 
         return ActionSupport.SUCCESS;

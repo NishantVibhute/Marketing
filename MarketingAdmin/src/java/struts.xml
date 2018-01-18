@@ -35,6 +35,10 @@
             <result name="success" type="chain">joining</result>
         </action>
         
+        <action name="updateVirtualUserPayment" class="com.redirect.JoiningAction" method="updateVirtualUserPayment">
+            <result name="success" type="chain">joining</result>
+        </action>
+        
         <action name="getSchemeDetails" class="com.redirect.SchemeAction" method="getSchemeDetails">
              <result type="stream">
                 <param name="contentType">text/plain</param>

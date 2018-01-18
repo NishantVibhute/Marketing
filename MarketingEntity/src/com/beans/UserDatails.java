@@ -14,6 +14,7 @@ public class UserDatails {
     long id;
     String type;
     String name;
+    int paymentModeId;
 
     public long getId() {
         return id;
@@ -37,6 +38,14 @@ public class UserDatails {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getPaymentModeId() {
+        return paymentModeId;
+    }
+
+    public void setPaymentModeId(int paymentModeId) {
+        this.paymentModeId = paymentModeId;
     }
 
 }
