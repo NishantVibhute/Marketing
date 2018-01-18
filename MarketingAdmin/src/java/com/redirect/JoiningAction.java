@@ -201,7 +201,7 @@ public class JoiningAction extends ActionSupport implements ModelDriven {
                 for (int i = 0; i < paymentBean.getVitualIdToBecreated(); i++) {
 
                     CreateVirtualUser createVirtualUser = new CreateVirtualUser();
-                    createVirtualUser.setSchemeId(paymentBean.getJoiningId());
+                    createVirtualUser.setUserId(paymentBean.getJoiningId());
                     createVirtualUser.setSchemeId(paymentBean.getSchemeId());
                     String input5 = objectMapper.writeValueAsString(createVirtualUser);
 
@@ -223,7 +223,7 @@ public class JoiningAction extends ActionSupport implements ModelDriven {
                             pb.setJoiningId(Integer.parseInt(resp1));
                             pb.setPaymentModeId(PaymentMode.REJOINING.getId());
                             pb.setAmount(1000);
-                            String input3 = objectMapper.writeValueAsString(this.paymentBean);
+                            String input3 = objectMapper.writeValueAsString(pb);
                             String resp3 = ServiceUtil.getResponse(input3, "/scheme/savePaymentDetails");
 
                             PaymentResponse ps3 = objectMapper.readValue(resp3, PaymentResponse.class);
