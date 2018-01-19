@@ -32,7 +32,7 @@ public class SchemeAction extends ActionSupport implements ModelDriven {
     String successMsg = StringUtils.EMPTY, errorMsg = StringUtils.EMPTY;
     List<SchemeBean> schemeList = new ArrayList<>();
     private InputStream inputStream;
-    public String val;
+    public String val, val2;
 
     public String redirectNew() {
 
@@ -79,6 +79,46 @@ public class SchemeAction extends ActionSupport implements ModelDriven {
             }
 
         } catch (IOException ex) {
+            Logger.getLogger(SchemeAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ActionSupport.SUCCESS;
+    }
+
+    public String poolScheme() {
+        try {
+
+            String resp = ServiceUtil.getResponseGet("/scheme/getlist");
+
+            schemeList = objectMapper.readValue(resp, new TypeReference<List<SchemeBean>>() {
+            });
+
+        } catch (Exception ex) {
+            Logger.getLogger(SchemeAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ActionSupport.SUCCESS;
+    }
+
+    public String getSchemeStats() {
+        try {
+
+            String resp = ServiceUtil.getResponse(val, "/scheme/getschemestats");
+
+            inputStream = new ByteArrayInputStream(resp.getBytes(StandardCharsets.UTF_8));
+
+        } catch (Exception ex) {
+            Logger.getLogger(SchemeAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ActionSupport.SUCCESS;
+    }
+
+    public String getSchemePoolByName() {
+        try {
+
+            String resp = ServiceUtil.getResponse(val2, "/scheme/getSchemePoolByName");
+
+            inputStream = new ByteArrayInputStream(resp.getBytes(StandardCharsets.UTF_8));
+
+        } catch (Exception ex) {
             Logger.getLogger(SchemeAction.class.getName()).log(Level.SEVERE, null, ex);
         }
         return ActionSupport.SUCCESS;
@@ -144,6 +184,14 @@ public class SchemeAction extends ActionSupport implements ModelDriven {
 
     public void setVal(String val) {
         this.val = val;
+    }
+
+    public String getVal2() {
+        return val2;
+    }
+
+    public void setVal2(String val2) {
+        this.val2 = val2;
     }
 
 }

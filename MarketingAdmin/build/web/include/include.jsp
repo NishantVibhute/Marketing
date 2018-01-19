@@ -304,8 +304,11 @@
             </span>
           </a>
           <ul class="treeview-menu">
+              <li><a href="poolScheme"><i class="fa fa-circle-o"></i> Pool</a></li>
+              <li><a href="detailScheme"><i class="fa fa-circle-o"></i> List</a></li>
             <li class="active"><a href="newscheme"><i class="fa fa-circle-o"></i> New</a></li>
-            <li><a href="detailScheme"><i class="fa fa-circle-o"></i> List</a></li>
+            
+            
             
           </ul>
         </li>
@@ -313,6 +316,13 @@
          <li >
           <a href="joining">
             <i class="fa fa-dashboard"></i> <span>Joining </span>
+            
+          </a>
+          
+        </li>
+         <li >
+          <a href="email">
+            <i class="fa fa-inbox"></i> <span>Email </span>
             
           </a>
           

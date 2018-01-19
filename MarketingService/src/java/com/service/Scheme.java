@@ -5,12 +5,14 @@
  */
 package com.service;
 
+import com.beans.ChartData;
 import com.beans.PaymentBean;
 import com.beans.PaymentResponse;
 import com.beans.PendingJoinRequest;
 import com.beans.SchemeBean;
 import com.beans.SchemeJoinBean;
 import com.beans.SchemeRows;
+import com.beans.SchemeRowsByName;
 import com.beans.UserDatails;
 import com.dao.SchemeDao;
 import java.util.List;
@@ -53,12 +55,8 @@ public class Scheme {
             SchemeJoinBean up = objectMapper.readValue(data, SchemeJoinBean.class);
 
             int count = schemeDao.joinScheme(up);
+            jsonInString = "" + count;
 
-            if (count != 0) {
-                jsonInString = "success";
-            } else {
-                jsonInString = "failed";
-            }
 //            jsonInString = objectMapper.writeValueAsString(msg);
         } catch (Exception ex) {
             logger.error("User Class" + ex);
@@ -225,6 +223,43 @@ public class Scheme {
             PaymentResponse psResponse = schemeDao.updatePayment(up);
 
             jsonInString = objectMapper.writeValueAsString(psResponse);
+        } catch (Exception ex) {
+            logger.error("User Class" + ex);
+        }
+        return jsonInString;
+    }
+
+    @POST
+    @Path("/getschemestats")
+    @Consumes("text/plain")
+    @Produces("text/plain")
+
+    public String getSchemeStats(String data) {
+        //TODO return proper representation object
+        String jsonInString = "";
+        try {
+
+            //TODO return proper representation object
+            List<ChartData> chartDatas = schemeDao.getSchemeStats(Integer.parseInt(data));
+
+            jsonInString = objectMapper.writeValueAsString(chartDatas);
+        } catch (Exception ex) {
+            logger.error("User Class" + ex);
+        }
+        return jsonInString;
+    }
+
+    @POST
+    @Path("/getSchemePoolByName")
+    @Consumes("text/plain")
+    @Produces("text/plain")
+
+    public String getSchemePoolByName(String data) {
+        //TODO return proper representation object
+        String jsonInString = "";
+        try {
+            List<SchemeRowsByName> schemeRowList = schemeDao.getSchemePoolByName(Integer.parseInt(data));
+            jsonInString = objectMapper.writeValueAsString(schemeRowList);
         } catch (Exception ex) {
             logger.error("User Class" + ex);
         }

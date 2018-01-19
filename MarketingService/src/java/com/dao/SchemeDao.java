@@ -5,12 +5,14 @@
  */
 package com.dao;
 
+import com.beans.ChartData;
 import com.beans.PaymentBean;
 import com.beans.PaymentResponse;
 import com.beans.PendingJoinRequest;
 import com.beans.SchemeBean;
 import com.beans.SchemeJoinBean;
 import com.beans.SchemeRows;
+import com.beans.SchemeRowsByName;
 import com.beans.UserDatails;
 import com.ennum.MemberType;
 import com.ennum.StatusEnum;
@@ -155,7 +157,11 @@ public class SchemeDao {
             ps.setInt(3, schemeJoinBean.getUserStatus());
             ps.setInt(4, schemeJoinBean.getSchemeId());
             ps.setInt(5, schemeJoinBean.getMemberType());
-            count = ps.executeUpdate();
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                count = rs.getInt(1);
+            }
+
             db.closeConnection(con);
         } catch (Exception ex) {
             logger.error("CreateUser", ex);
@@ -176,7 +182,7 @@ public class SchemeDao {
                 PendingJoinRequest pd = new PendingJoinRequest();
                 pd.setId(rs.getInt(1));
                 pd.setName(rs.getString(2));
-
+                pd.setAmount(rs.getDouble(3));
                 PreparedStatement ps1 = this.con.prepareStatement("call getCountUserOfScheme(?,?)");
                 ps1.setInt(1, rs.getInt(1));
                 ps1.setInt(2, 1);
@@ -257,6 +263,46 @@ public class SchemeDao {
 
     }
 
+    public List<SchemeRowsByName> getSchemePoolByName(int schemeId) {
+        List<SchemeRowsByName> schemeRowsList = new ArrayList<>();
+
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement("call getSchemePoolDetailsByName(?)");
+            ps.setString(1, "Scheme_" + schemeId);
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                SchemeRowsByName ud = new SchemeRowsByName();
+                ud.setPmemberType(rs.getInt(1));
+                ud.setPname(rs.getString(2));
+                ud.setPjoinDate(rs.getString(3));
+
+                ud.setCh1memberType(rs.getInt(4));
+                ud.setCh1name(rs.getString(5));
+                ud.setCh1joinDate(rs.getString(6));
+
+                ud.setCh2memberType(rs.getInt(7));
+                ud.setCh2name(rs.getString(8));
+                ud.setCh2joinDate(rs.getString(9));
+
+                ud.setCh3memberType(rs.getInt(10));
+                ud.setCh3name(rs.getString(11));
+                ud.setCh3joinDate(rs.getString(12));
+                schemeRowsList.add(ud);
+
+            }
+
+            db.closeConnection(con);
+        } catch (Exception ex) {
+            logger.error("CreateUser", ex);
+        }
+
+        return schemeRowsList;
+
+    }
+
     public PaymentResponse updatePayment(PaymentBean payBean) {
         int count = 0;
         PaymentResponse psResponse = new PaymentResponse();
@@ -288,6 +334,34 @@ public class SchemeDao {
             logger.error("CreateUser", ex);
         }
         return psResponse;
+    }
+
+    public List<ChartData> getSchemeStats(int schemeId) {
+        List<ChartData> chartData = new ArrayList<>();
+
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement("call getSchemePoolStats(?)");
+            ps.setInt(1, schemeId);
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                ChartData ud = new ChartData();
+                ud.setLabel(rs.getString(1));
+                ud.setValue(rs.getInt(2));
+
+                chartData.add(ud);
+
+            }
+
+            db.closeConnection(con);
+        } catch (Exception ex) {
+            logger.error("CreateUser", ex);
+        }
+
+        return chartData;
+
     }
 
 }

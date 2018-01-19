@@ -14,6 +14,7 @@ public class PendingJoinRequest {
     public int id;
     public String name;
     public int count;
+    public double amount;
 
     public int getId() {
         return id;
@@ -37,6 +38,14 @@ public class PendingJoinRequest {
 
     public void setCount(int count) {
         this.count = count;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 
 }

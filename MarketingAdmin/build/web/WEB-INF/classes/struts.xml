@@ -18,6 +18,10 @@
         </action>
         
         
+        <action name="poolScheme" class="com.redirect.SchemeAction" method="poolScheme">
+            <result name="success">/schemepool.jsp</result>
+        </action>
+        
         <action name="createScheme" class="com.redirect.SchemeAction" method="createScheme">
             <result name="success">/newscheme.jsp</result>
         </action>
@@ -51,12 +55,28 @@
             </result>
         </action>
         
+        <action name="getSchemePoolByName" class="com.redirect.SchemeAction" method="getSchemePoolByName">
+             <result type="stream">
+                <param name="contentType">text/plain</param>
+            </result>
+        </action>
+        <action name="getSchemeStats" class="com.redirect.SchemeAction" method="getSchemeStats">
+             <result type="stream">
+                <param name="contentType">text/plain</param>
+            </result>
+        </action>
+        
+        
         <action name="getSchemePool" class="com.redirect.JoiningAction" method="getSchemePool">
              <result type="stream">
                 <param name="contentType">text/plain</param>
             </result>
         </action>
         
+        
+        <action name="email" class="com.redirect.EmailAction" method="redirect">
+            <result name="success">/email.jsp</result>
+        </action>
         
     </package>
 </struts>

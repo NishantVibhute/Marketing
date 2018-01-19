@@ -14,6 +14,8 @@ import com.util.DbUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.log4j.Logger;
 
 /**
@@ -137,6 +139,45 @@ public class UserDao {
             logger.error("CreateUser", ex);
         }
         return userBean;
+
+    }
+
+    public List<UserBean> getUserDetilsList() {
+        List<UserBean> userList = new ArrayList<>();
+        int count = 0;
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement("call getUserDetails()");
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                UserBean ub = new UserBean();
+                ub.setId(rs.getInt(1));
+                ub.setFirstName(rs.getString(2));
+                ub.setMiddleName(rs.getString(3));
+                ub.setLastName(rs.getString(4));
+                ub.setEmailId(rs.getString(5));
+                ub.setMobileNo(rs.getString(6));
+                ub.setAddress(rs.getString(7));
+                ub.setPanCardNo(rs.getString(8));
+                ub.setAadharCardNo(rs.getString(9));
+                BankDetailsBean b = new BankDetailsBean();
+                b.setBankName(rs.getString(10));
+                b.setIfscCode(rs.getString(11));
+                b.setBranchName(rs.getString(12));
+                b.setBankAccNo(rs.getString(13));
+                ub.setBankDetails(b);
+                ub.setBalance(rs.getDouble(14));
+                ub.setPassword(rs.getString(15));
+                userList.add(ub);
+            }
+
+            db.closeConnection(con);
+        } catch (Exception ex) {
+            logger.error("CreateUser", ex);
+        }
+        return userList;
 
     }
 

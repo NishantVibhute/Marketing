@@ -9,7 +9,9 @@ import com.beans.CreateVirtualUser;
 import com.beans.UserBean;
 import com.beans.UserPassword;
 import com.dao.UserDao;
+import java.util.List;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -124,6 +126,22 @@ public class User {
         }
         return jsonInString;
 
+    }
+
+    @GET
+    @Path("/getuserdetailslist")
+    @Produces("text/plain")
+    public String getUserListWithDetails() {
+        String jsonInString = "";
+        try {
+
+            List<UserBean> userBean = userDao.getUserDetilsList();
+
+            jsonInString = objectMapper.writeValueAsString(userBean);
+        } catch (Exception ex) {
+            logger.error("User Class" + ex);
+        }
+        return jsonInString;
     }
 
 }

@@ -119,7 +119,7 @@ public class JoiningAction extends ActionSupport implements ModelDriven {
                         String input1 = objectMapper.writeValueAsString(sjb);
                         String resp1 = ServiceUtil.getResponse(input1, "/scheme/join");
 
-                        if (resp1.equalsIgnoreCase("success")) {
+                        if (Integer.parseInt(resp1) != 0) {
                             successMsg = successMsg + " And Join Request Created";
                         } else {
                             errorMsg = successMsg + " Failed Create Join Request";
@@ -134,7 +134,7 @@ public class JoiningAction extends ActionSupport implements ModelDriven {
                         String input1 = objectMapper.writeValueAsString(sjb);
                         String resp1 = ServiceUtil.getResponse(input1, "/scheme/join");
 
-                        if (resp1.equalsIgnoreCase("success")) {
+                        if (Integer.parseInt(resp1) != 0) {
                             successMsg = successMsg + " And Join Request Created";
                         } else {
                             errorMsg = successMsg + " Failed Create Join Request";
@@ -174,7 +174,7 @@ public class JoiningAction extends ActionSupport implements ModelDriven {
                         String input1 = objectMapper.writeValueAsString(sjb);
                         String resp1 = ServiceUtil.getResponse(input1, "/scheme/join");
 
-                        if (resp1.equalsIgnoreCase("success")) {
+                        if (Integer.parseInt(resp1) != 0) {
                             successMsg = successMsg + " And Join Request Created";
                         } else {
                             errorMsg = successMsg + " Failed Create Join Request";
@@ -183,14 +183,14 @@ public class JoiningAction extends ActionSupport implements ModelDriven {
                     } else {
                         SchemeJoinBean sjb = new SchemeJoinBean();
                         sjb.setMemberType(MemberType.VIRTUAL.getId());
-                        sjb.setPaymentModeId(PaymentMode.REJOINING.getId());
+                        sjb.setPaymentModeId(PaymentMode.COMPANY.getId());
                         sjb.setSchemeId(ps.getSchemeId());
                         sjb.setUserId(ps.getUserId());
                         sjb.setUserStatus(StatusEnum.PENDING.getId());
                         String input1 = objectMapper.writeValueAsString(sjb);
                         String resp1 = ServiceUtil.getResponse(input1, "/scheme/join");
 
-                        if (resp1.equalsIgnoreCase("success")) {
+                        if (Integer.parseInt(resp1) != 0) {
                             successMsg = successMsg + " And Join Request Created";
                         } else {
                             errorMsg = successMsg + " Failed Create Join Request";
@@ -210,19 +210,19 @@ public class JoiningAction extends ActionSupport implements ModelDriven {
                     if (!resp1.equalsIgnoreCase("0")) {
                         SchemeJoinBean sjb = new SchemeJoinBean();
                         sjb.setMemberType(MemberType.VIRTUAL.getId());
-                        sjb.setPaymentModeId(PaymentMode.REJOINING.getId());
+                        sjb.setPaymentModeId(PaymentMode.COMPANY.getId());
                         sjb.setSchemeId(paymentBean.getSchemeId());
                         sjb.setUserId(Integer.parseInt(resp1));
                         sjb.setUserStatus(StatusEnum.CONFIRMED.getId());
                         String input1 = objectMapper.writeValueAsString(sjb);
                         String resp2 = ServiceUtil.getResponse(input1, "/scheme/join");
 
-                        if (resp2.equalsIgnoreCase("success")) {
+                        if (Integer.parseInt(resp2) != 0) {
 
                             PaymentBean pb = new PaymentBean();
-                            pb.setJoiningId(Integer.parseInt(resp1));
-                            pb.setPaymentModeId(PaymentMode.REJOINING.getId());
-                            pb.setAmount(1000);
+                            pb.setJoiningId(Integer.parseInt(resp2));
+                            pb.setPaymentModeId(PaymentMode.COMPANY.getId());
+                            pb.setAmount(this.paymentBean.getAmount());
                             String input3 = objectMapper.writeValueAsString(pb);
                             String resp3 = ServiceUtil.getResponse(input3, "/scheme/savePaymentDetails");
 
@@ -241,7 +241,7 @@ public class JoiningAction extends ActionSupport implements ModelDriven {
                                         String input4 = objectMapper.writeValueAsString(sjb3);
                                         String resp4 = ServiceUtil.getResponse(input4, "/scheme/join");
 
-                                        if (resp4.equalsIgnoreCase("success")) {
+                                        if (Integer.parseInt(resp4) != 0) {
                                             successMsg = successMsg + " And Join Request Created";
                                         } else {
                                             errorMsg = successMsg + " Failed Create Join Request";
@@ -250,14 +250,14 @@ public class JoiningAction extends ActionSupport implements ModelDriven {
                                     } else {
                                         SchemeJoinBean sjb4 = new SchemeJoinBean();
                                         sjb4.setMemberType(MemberType.VIRTUAL.getId());
-                                        sjb4.setPaymentModeId(PaymentMode.REJOINING.getId());
+                                        sjb4.setPaymentModeId(PaymentMode.COMPANY.getId());
                                         sjb4.setSchemeId(ps3.getSchemeId());
                                         sjb4.setUserId(ps3.getUserId());
                                         sjb4.setUserStatus(StatusEnum.PENDING.getId());
                                         String input4 = objectMapper.writeValueAsString(sjb4);
                                         String resp4 = ServiceUtil.getResponse(input4, "/scheme/join");
 
-                                        if (resp4.equalsIgnoreCase("success")) {
+                                        if (Integer.parseInt(resp4) != 0) {
                                             successMsg = successMsg + " And Join Request Created";
                                         } else {
                                             errorMsg = successMsg + " Failed Create Join Request";

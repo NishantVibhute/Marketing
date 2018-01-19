@@ -73,7 +73,7 @@
                                         </tr>
 
                                         <s:iterator value="pendingJoinRequestList"  >
-                                            <tr onclick="getSchemePendinInfo(<s:property value="id" />)">
+                                            <tr onclick="getSchemePendinInfo(<s:property value="id" />,<s:property value="amount"/>)">
                                                 <td><s:property value="id" /></td>
                                                 <td><s:property value="name" /></td>
                                                 <td><span class="badge bg-green"><s:property value="count" /></span></td>
@@ -176,6 +176,9 @@
                                         <option value="1">by Cash</option>
                                         <option value="2">by Cheque</option>
                                         <option value="3">by Netbanking</option>
+                                        <option value="4">by Company</option>
+                                        <option value="5">by Rejoining</option>
+                                        
 
                                     </select>
 
@@ -239,6 +242,20 @@
                                     <label>Create Virtual Ids</label>
                                     <input type="hidden" id="joinIdVirtual" name="joiningId"/>
                                     <input type="hidden" id="schemeIdI" name="schemeId"/>
+                                   
+                                    
+                                    <select id="payModeId"  name="paymentModeId" class="form-control">
+                                        <option value="4">by Company</option>
+                                       
+                                        
+                                    </select>
+                                    
+                                    <div class="form-group">
+                                        <label for="amount">Amount</label>
+                                        <input type="text" class="form-control" id="amountV" name="amount" placeholder="UTR No">
+                                    </div>
+                                    
+                                    
                                     <select id="virtaulIds"  name="vitualIdToBecreated" class="form-control">
                                         <option value="0">0</option>
                                         <option value="1">1</option>
@@ -297,8 +314,8 @@
                                                 $(function() {
                                                     $('#userDetail').DataTable({
                                                         'paging': true,
-                                                        'lengthChange': false,
-                                                        'searching': false,
+                                                        'lengthChange': true,
+                                                        'searching': true,
                                                         'ordering': true,
                                                         'info': true,
                                                         'autoWidth': false,
@@ -306,7 +323,7 @@
                                                     })
                                                 })
 
-                                                function getSchemePendinInfo(id)
+                                                function getSchemePendinInfo(id,amount)
                                                 {
 
 
@@ -316,6 +333,9 @@
                                                         dataType: 'json',
                                                         success: function(response) {
 
+$('#userDetail').DataTable().rows()
+    .remove()
+    .draw();
                                                             jQuery.each(response, function(index, value) {
 //    var dt = "<tr><td>"+index+"</td><td>"+value.name+"</td><td><button type='button' class='btn btn-block btn-success'>Accept</button></td><td><button type='button' class='btn btn-block  btn-danger'>Deny</button></td></tr>";
 
@@ -349,7 +369,7 @@
                                                                     type,
                                                                     value.name,
                                                                     pm,
-                                                                    " <button type='button' class='btn btn-block btn-success'  onClick=showPayModal(" + value.id + ",'" + value.type + "','" + id + "')>Accept</button>",
+                                                                    " <button type='button' class='btn btn-block btn-success'  onClick=showPayModal(" + value.id + ",'" + value.type + "','" + id + "',"+value.paymentModeId+","+amount+")>Accept</button>",
                                                                     "<button type='button' class='btn btn-block  btn-danger'>Deny</button>"]);
 
 
@@ -364,7 +384,8 @@
                                                         url: "getSchemePool?valScheme=" + id,
                                                         dataType: 'json',
                                                         success: function(response) {
-                                                            $("#schemePool > tr").remove();
+                                                            
+                                                           $("#schemePool").find("tr:gt(0)").remove();
                                                             jQuery.each(response, function(index, value) {
 //    var dt = "<tr><td>"+index+"</td><td>"+value.name+"</td><td><button type='button' class='btn btn-block btn-success'>Accept</button></td><td><button type='button' class='btn btn-block  btn-danger'>Deny</button></td></tr>";
 
@@ -436,15 +457,35 @@
                                                     }
                                                 })
 
-                                                function showPayModal(id, type, schemeId)
+                                                function showPayModal(id, type, schemeId,paymodeId,amount)
                                                {
                                                     if (type === 'PHYSICAL') {
                                                         $("#joinId").val(id);
                                                         $('#modal-default').modal('show');
+                                                        $('#paymode').val(paymodeId);
+                                                        
+                                                        if (paymodeId == "1" || paymodeId == "5")
+                                                    {
+                                                        $('#cheque').hide();
+                                                        $('#netBanking').hide();
+
+                                                    }
+                                                    if (paymodeId == "2")
+                                                    {
+                                                        $('#cheque').show();
+                                                        $('#netBanking').hide();
+                                                    }
+                                                    if (paymodeId == "3")
+                                                    {
+                                                        $('#cheque').hide();
+                                                        $('#netBanking').show();
+
+                                                    }
                                                     } else if (type === 'VIRTUAL') {
                                                         $("#joinIdVirtual").val(id);
                                                         $('#modal-Virtual').modal('show');
                                                         $("#schemeIdI").val(schemeId);
+                                                        $("#amountV").val(amount);
                                                     }
                                                 }
         </script>

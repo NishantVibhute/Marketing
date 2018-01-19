@@ -21,6 +21,8 @@ public class UserBean {
     String emailId;
     String mobileNo;
     BankDetailsBean bankDetails;
+    double balance;
+    String password;
     int isValid;
 
     public long getId() {
@@ -109,6 +111,22 @@ public class UserBean {
 
     public void setIsValid(int isValid) {
         this.isValid = isValid;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
 }
