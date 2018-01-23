@@ -19,9 +19,9 @@ public class DbUtil {
 
     public Connection getConnection() {
         try {
-            url = ("jdbc:mysql://localhost:3306/marketing");
+            url = ("jdbc:mysql://marketing.cogc0bcdvlsa.ap-south-1.rds.amazonaws.com:3306/marketing");
             Class.forName("com.mysql.jdbc.Driver");
-            this.con = DriverManager.getConnection(url, "root", "root");
+            this.con = DriverManager.getConnection(url, "root", "marketingroot");
             return con;
 
 //           url = ("jdbc:mysql://localhost:3306/my_society");

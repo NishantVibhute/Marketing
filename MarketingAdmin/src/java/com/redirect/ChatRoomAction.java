@@ -7,11 +7,9 @@ package com.redirect;
 
 import com.beans.ChatRoomBean;
 import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.ModelDriven;
 import com.util.ServiceUtil;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -22,36 +20,63 @@ import org.codehaus.jackson.type.TypeReference;
 
 /**
  *
- * @author Nishant
+ * @author nishant.vibhute
  */
-public class DashboardAction extends ActionSupport {
+public class ChatRoomAction extends ActionSupport implements ModelDriven {
 
     List<ChatRoomBean> chatList = new ArrayList();
     ChatRoomBean chatRoomBean = new ChatRoomBean();
     ObjectMapper objectMapper = new ObjectMapper();
     String successMsg = StringUtils.EMPTY, errorMsg = StringUtils.EMPTY;
-    int countMessage = 0;
-    private InputStream inputStream;
 
     public String redirect() {
 
-        return ActionSupport.SUCCESS;
-    }
-
-    public String getUnreadMessage() {
-
         try {
-            String resp = ServiceUtil.getResponseGet("/Chat/getunreadmessage");
+            String resp = ServiceUtil.getResponseGet("/Chat/getlist");
 
             chatList = objectMapper.readValue(resp, new TypeReference<List<ChatRoomBean>>() {
             });
 
-            inputStream = new ByteArrayInputStream(resp.getBytes(StandardCharsets.UTF_8));
-            countMessage = chatList.size();
         } catch (IOException ex) {
             Logger.getLogger(SchemeAction.class.getName()).log(Level.SEVERE, null, ex);
         }
         return ActionSupport.SUCCESS;
+    }
+
+    public String getChats() {
+        try {
+            String resp = ServiceUtil.getResponseGet("/Chat/getlist");
+
+            chatList = objectMapper.readValue(resp, new TypeReference<List<ChatRoomBean>>() {
+            });
+
+        } catch (IOException ex) {
+            Logger.getLogger(SchemeAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ActionSupport.SUCCESS;
+    }
+
+    public String sendMessage() {
+        try {
+            chatRoomBean.setUserId(1);
+            String input = objectMapper.writeValueAsString(chatRoomBean);
+            String resp = ServiceUtil.getResponse(input, "/Chat/sendreply");
+
+            if (!resp.equalsIgnoreCase("0")) {
+                successMsg = "Message Sent";
+            } else {
+                errorMsg = "Failed to Send Message";
+            }
+
+        } catch (IOException ex) {
+            Logger.getLogger(ChatRoomAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ActionSupport.SUCCESS;
+    }
+
+    @Override
+    public Object getModel() {
+        return chatRoomBean;
     }
 
     public List<ChatRoomBean> getChatList() {
@@ -60,14 +85,6 @@ public class DashboardAction extends ActionSupport {
 
     public void setChatList(List<ChatRoomBean> chatList) {
         this.chatList = chatList;
-    }
-
-    public ChatRoomBean getChatRoomBean() {
-        return chatRoomBean;
-    }
-
-    public void setChatRoomBean(ChatRoomBean chatRoomBean) {
-        this.chatRoomBean = chatRoomBean;
     }
 
     public String getSuccessMsg() {
@@ -86,20 +103,12 @@ public class DashboardAction extends ActionSupport {
         this.errorMsg = errorMsg;
     }
 
-    public int getCountMessage() {
-        return countMessage;
+    public ChatRoomBean getChatRoomBean() {
+        return chatRoomBean;
     }
 
-    public void setCountMessage(int countMessage) {
-        this.countMessage = countMessage;
-    }
-
-    public InputStream getInputStream() {
-        return inputStream;
-    }
-
-    public void setInputStream(InputStream inputStream) {
-        this.inputStream = inputStream;
+    public void setChatRoomBean(ChatRoomBean chatRoomBean) {
+        this.chatRoomBean = chatRoomBean;
     }
 
 }
