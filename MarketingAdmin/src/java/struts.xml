@@ -13,6 +13,20 @@
             <result name="success">/dashboard.jsp</result>
         </action>
         
+        <action name="getUnreadMessage" class="com.redirect.DashboardAction" method="getUnreadMessage">
+            <result type="stream">
+                <param name="contentType">text/plain</param>
+            </result>
+        </action>
+        
+        <action name="chatroom" class="com.redirect.ChatRoomAction" method="redirect">
+            <result name="success">/chatroom.jsp</result>
+        </action>
+        
+        <action name="sendReply" class="com.redirect.ChatRoomAction" method="sendMessage">
+            <result name="success" type="chain">chatroom</result>
+        </action>
+        
         <action name="joining" class="com.redirect.JoiningAction" method="redirect">
             <result name="success">/joininingrequest.jsp</result>
         </action>
