@@ -174,6 +174,22 @@
 <script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
+    $(document).ready(function(){
+          
+          $("#dashboardli").removeClass("active");
+          $("#schmeLi").removeClass("active");
+          $("#schemePoolLi").removeClass("active");
+          $("#schemeDetailLi").removeClass("active");
+          $("#schmeNewLi").removeClass("active");
+          $("#joiningLi").removeClass("active");
+          $("#emailLi").removeClass("active");
+                    $("#smsLi").removeClass("active");
+                    $("#chatroomLi").addClass("active");
+
+
+      });
+    
+    
   $.widget.bridge('uibutton', $.ui.button);
   $(function () {
     

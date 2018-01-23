@@ -305,6 +305,20 @@ $("#countMsg").text(i);
           </a>
           
         </li>
+        <li id="smsLi" >
+          <a href="email">
+            <i class="fa fa-inbox"></i> <span>SMS </span>
+            
+          </a>
+          
+        </li>
+        <li id="chatroomLi" >
+          <a href="chatroom">
+            <i class="fa fa-inbox"></i> <span>Chat Room </span>
+            
+          </a>
+          
+        </li>
       </ul>
     </section>
     <!-- /.sidebar -->

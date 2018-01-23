@@ -168,6 +168,8 @@
           $("#schmeNewLi").addClass("active");
           $("#joiningLi").removeClass("active");
           $("#emailLi").removeClass("active");
+          $("#smsLi").removeClass("active");
+                    $("#chatroomLi").removeClass("active");
 
       });
     

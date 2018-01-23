@@ -312,6 +312,8 @@ $(document).ready(function(){
           $("#schmeNewLi").removeClass("active");
           $("#joiningLi").addClass("active");
           $("#emailLi").removeClass("active");
+          $("#smsLi").removeClass("active");
+                    $("#chatroomLi").removeClass("active");
 
       });
                                                 $(function() {
