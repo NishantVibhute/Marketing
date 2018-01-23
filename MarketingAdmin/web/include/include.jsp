@@ -287,7 +287,7 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
-        <li >
+        <li id="dashboardli">
           <a href="dashboard">
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
             
@@ -295,7 +295,7 @@
           
         </li>
         
-        <li class="active treeview">
+        <li id="schmeLi" class="treeview">
           <a href="#">
             <i class="fa fa-files-o"></i>
             <span>Schemes</span>
@@ -304,23 +304,23 @@
             </span>
           </a>
           <ul class="treeview-menu">
-              <li><a href="poolScheme"><i class="fa fa-circle-o"></i> Pool</a></li>
-              <li><a href="detailScheme"><i class="fa fa-circle-o"></i> List</a></li>
-            <li class="active"><a href="newscheme"><i class="fa fa-circle-o"></i> New</a></li>
+              <li id="schemePoolLi"><a href="poolScheme"><i class="fa fa-circle-o"></i> Pool</a></li>
+              <li id="schemeDetailLi"><a href="detailScheme"><i class="fa fa-circle-o"></i> List</a></li>
+            <li id="schmeNewLi"><a href="newscheme"><i class="fa fa-circle-o"></i> New</a></li>
             
             
             
           </ul>
         </li>
         
-         <li >
+         <li id="joiningLi" >
           <a href="joining">
             <i class="fa fa-dashboard"></i> <span>Joining </span>
             
           </a>
           
         </li>
-         <li >
+         <li id="emailLi" >
           <a href="email">
             <i class="fa fa-inbox"></i> <span>Email </span>
             

@@ -62,7 +62,7 @@
                         <div class="col-md-12">
                             <div class="box">
                                 <div class="box-header">
-                                    <h3 class="box-title">Hover Data Table</h3>
+                                    <h3 class="box-title">Scheme Details</h3>
                                 </div>
                                 <!-- /.box-header -->
                                 <div class="box-body">
@@ -271,6 +271,19 @@
         <!-- bootstrap datepicker -->
         <script src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
         <script>
+            
+     $(document).ready(function(){
+          
+          $("#dashboardli").removeClass("active");
+          $("#schmeLi").addClass("active");
+          $("#schemePoolLi").removeClass("active");
+          $("#schemeDetailLi").addClass("active");
+          $("#schmeNewLi").removeClass("active");
+          $("#joiningLi").removeClass("active");
+          $("#emailLi").removeClass("active");
+
+      });
+    
                                                         $(function() {
 
                                                             //Date picker

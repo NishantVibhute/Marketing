@@ -29,6 +29,10 @@
 
         <!-- Google Font -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+         <script>
+     
+      
+  </script>
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
         <div class="wrapper">
@@ -239,11 +243,11 @@
                         <form method="post" action="updateVirtualUserPayment">
                             <div class="modal-body">
                                 <div class="form-group">
-                                    <label>Create Virtual Ids</label>
+                                   
                                     <input type="hidden" id="joinIdVirtual" name="joiningId"/>
                                     <input type="hidden" id="schemeIdI" name="schemeId"/>
                                    
-                                    
+                                     <label>Payment Mode</label>
                                     <select id="payModeId"  name="paymentModeId" class="form-control">
                                         <option value="4">by Company</option>
                                        
@@ -255,12 +259,12 @@
                                         <input type="text" class="form-control" id="amountV" name="amount" placeholder="UTR No">
                                     </div>
                                     
-                                    
+                                     <label>Create Virtual Ids</label>
                                     <select id="virtaulIds"  name="vitualIdToBecreated" class="form-control">
-                                        <option value="0">0</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
+                                        <option value="0">+0</option>
+                                        <option value="1">+1</option>
+                                        <option value="2">+2</option>
+                                        <option value="3">+3</option>
                                     </select>
                                 </div>
                             </div>
@@ -299,7 +303,17 @@
         <!-- bootstrap datepicker -->
         <script src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
         <script>
+$(document).ready(function(){
+          
+          $("#dashboardli").removeClass("active");
+          $("#schmeLi").removeClass("active");
+          $("#schemePoolLi").removeClass("active");
+          $("#schemeDetailLi").removeClass("active");
+          $("#schmeNewLi").removeClass("active");
+          $("#joiningLi").addClass("active");
+          $("#emailLi").removeClass("active");
 
+      });
                                                 $(function() {
 
                                                     //Date picker

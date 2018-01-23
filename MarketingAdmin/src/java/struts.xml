@@ -78,5 +78,9 @@
             <result name="success">/email.jsp</result>
         </action>
         
+        <action name="sendemail" class="com.redirect.EmailAction" method="send">
+            <result name="success" type="chain">email</result>
+        </action>
+        
     </package>
 </struts>

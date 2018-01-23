@@ -179,7 +179,18 @@
         <!-- page script -->
 
         <script>
-            
+               
+     $(document).ready(function(){
+          
+          $("#dashboardli").removeClass("active");
+          $("#schmeLi").addClass("active");
+          $("#schemePoolLi").addClass("active");
+          $("#schemeDetailLi").removeClass("active");
+          $("#schmeNewLi").removeClass("active");
+          $("#joiningLi").removeClass("active");
+          $("#emailLi").removeClass("active");
+
+      });
                                   var donut = "";
                                   $(function() {
                                       $('#tablePool').DataTable({
