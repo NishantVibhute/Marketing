@@ -78,5 +78,13 @@
             <result name="success">/email.jsp</result>
         </action>
         
+        <action name="sms" class="com.redirect.MessageAction" method="redirect">
+            <result name="success">/sms.jsp</result>
+        </action>
+        
+         <action name="editMessage" class="com.redirect.MessageAction" method="editMessage">
+            <result name="success">/sms.jsp</result>
+        </action>
+        
     </package>
 </struts>

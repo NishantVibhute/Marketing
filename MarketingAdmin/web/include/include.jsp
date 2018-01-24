@@ -327,6 +327,13 @@
           </a>
           
         </li>
+        <li >
+          <a href="sms">
+            <i class="fa fa-envelope"></i> <span>SMS </span>
+            
+          </a>
+          
+        </li>
       </ul>
     </section>
     <!-- /.sidebar -->
