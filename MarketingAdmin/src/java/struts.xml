@@ -92,7 +92,7 @@
             <result name="success">/email.jsp</result>
         </action>
         
-        <action name="sms" class="com.redirect.MessageAction" method="redirect">
+        <action name="showTemplates" class="com.redirect.MessageAction" method="redirect">
             <result name="success">/sms.jsp</result>
         </action>
         
@@ -100,6 +100,17 @@
             <result name="success">/sms.jsp</result>
         </action>
         
+        <action name="showSentSMS" class="com.redirect.MessageAction" method="showSentSMS">
+            <result name="success">/showSentSMS.jsp</result>
+        </action>
+        
+        <action name="newMessage" class="com.redirect.MessageAction" method="newMessage">
+            <result name="success">/newMessage.jsp</result>
+        </action>
+        
+        <action name="sendMessage" class="com.redirect.MessageAction" method="sendMessage">
+            <result name="success">/newMessage.jsp</result>
+        </action>
         <action name="sendemail" class="com.redirect.EmailAction" method="send">
             <result name="success" type="chain">email</result>
         </action>
