@@ -305,20 +305,24 @@ $("#countMsg").text(i);
           </a>
           
         </li>
-        <li >
-          <a href="sms">
+        
+        <li id="smsLi" class="treeview">
+          <a href="#">
             <i class="fa fa-envelope"></i> <span>SMS </span>
-            
+             <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
           </a>
-          
-        </li>
-        <li id="smsLi" >
-          <a href="email">
-            <i class="fa fa-inbox"></i> <span>SMS </span>
+          <ul class="treeview-menu">
+              <li id="smsNewLi"><a href="newMessage"><i class="fa fa-circle-o"></i> New</a></li>
+              <li id="smsDetailLi"><a href="showSentSMS"><i class="fa fa-circle-o"></i> List</a></li>
+            <li id="smsTemplateLi"><a href="showTemplates"><i class="fa fa-circle-o"></i> Templates</a></li>
             
-          </a>
-          
+            
+            
+          </ul>
         </li>
+        
         <li id="chatroomLi" >
           <a href="chatroom">
             <i class="fa fa-inbox"></i> <span>Chat Room </span>
