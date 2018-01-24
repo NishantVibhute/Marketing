@@ -181,4 +181,51 @@ public class UserDao {
 
     }
 
+    public List<UserPassword> getVisitorList() {
+        List<UserPassword> userList = new ArrayList<>();
+        int count = 0;
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement("call getVisitors()");
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                UserPassword ub = new UserPassword();
+                ub.setId(rs.getInt(1));
+                ub.setEmailId(rs.getString(2));
+                ub.setPassword(rs.getString(3));
+                ub.setDate(rs.getString(4));
+                ub.setIsBlocked(rs.getInt(5));
+
+                userList.add(ub);
+            }
+
+            db.closeConnection(con);
+        } catch (Exception ex) {
+            logger.error("CreateUser", ex);
+        }
+        return userList;
+
+    }
+
+    public int updatevisitorstatus(UserPassword data) {
+
+        int count = 0;
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement("call updatevisitorstatus(?,?)");
+            ps.setInt(1, data.getId());
+            ps.setInt(2, data.getIsBlocked());
+
+            count = ps.executeUpdate();
+
+            db.closeConnection(con);
+        } catch (Exception ex) {
+            logger.error("CreateUser", ex);
+        }
+        return count;
+
+    }
+
 }

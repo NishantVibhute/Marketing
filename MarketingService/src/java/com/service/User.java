@@ -144,4 +144,40 @@ public class User {
         return jsonInString;
     }
 
+    @GET
+    @Path("/getvisitorlist")
+    @Produces("text/plain")
+    public String getVisiorList() {
+        String jsonInString = "";
+        try {
+            List<UserPassword> userPass = userDao.getVisitorList();
+            jsonInString = objectMapper.writeValueAsString(userPass);
+        } catch (Exception ex) {
+            logger.error("User Class" + ex);
+        }
+        return jsonInString;
+    }
+
+    @POST
+    @Path("/updatevisitorstatus")
+    @Produces("text/plain")
+    @Consumes("text/plain")
+    public String updatevisitorstatus(String data) {
+        String jsonInString = "";
+        try {
+            UserPassword up = objectMapper.readValue(data, UserPassword.class);
+
+            int updatedRows = userDao.updatevisitorstatus(up);
+
+            if (updatedRows != 0) {
+                jsonInString = "success";
+            } else {
+                jsonInString = "failed";
+            }
+        } catch (Exception ex) {
+            logger.error("User Class" + ex);
+        }
+        return jsonInString;
+    }
+
 }
