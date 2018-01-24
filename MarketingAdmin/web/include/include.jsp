@@ -3,7 +3,45 @@
     Created on : Jan 16, 2018, 11:30:07 AM
     Author     : nishant.vibhute
 --%>
+<html>
+    <head>
+         <meta charset="utf-8">
+         <meta http-equiv="X-UA-Compatible" content="IE=edge">
+         <!-- jQuery 3 -->
+        <script src="bower_components/jquery/dist/jquery.min.js"></script>
+        <style>
+      #circle{width: 40px; height: 40px; border-radius: 50px; border: 2px solid orange; }
+#circle div { margin-top:  8px;  color: white; text-align:center; }
+        </style>
+        <script>
+        $(document).ready(function(){
+            var i=0;
+$.ajax({
+                                        type: "post",
+                                        url: "getUnreadMessage",
+                                        dataType: 'json',
+                                        success: function(response) {
+                                            jQuery.each(response, function(index, value) {
+                                                i=i+1;
+                                                var val = '<li> <a href="#"><div class="pull-left"> <div style="background:#'+value.hashValue+'" id="circle"><div>'+value.shortForm+'</div></div></div><h4>'+value.name+'<small><i class="fa fa-clock-o"></i> '+value.time+'</small></h4><p>'+value.message+'</p></a></li>';
+                                                                                               
+                                                $("#unreadmessages").append(val);
+                                                
+                                            })
+                                            
+                                            $("#countMsghead").text(i);
+$("#countMsg").text(i);
+                                        }
+                                    });
+                                    
+                                    
+});
+</script>
 
+    </head>
+    <body>
+        
+  
 
          <header class="main-header">
     <!-- Logo -->
@@ -29,77 +67,17 @@
           <li class="dropdown messages-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-envelope-o"></i>
-              <span class="label label-success">4</span>
+              <span class="label label-success"><span id="countMsghead">0</span></span>
             </a>
             <ul class="dropdown-menu">
-              <li class="header">You have 4 messages</li>
+                <li class="header">You have <span id="countMsg">0</span> messages</li>
               <li>
                 <!-- inner menu: contains the actual data -->
-                <ul class="menu">
-                  <li><!-- start message -->
-                    <a href="#">
-                      <div class="pull-left">
-                        <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-                      </div>
-                      <h4>
-                        Support Team
-                        <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                      </h4>
-                      <p>Why not buy a new awesome theme?</p>
-                    </a>
-                  </li>
-                  <!-- end message -->
-                  <li>
-                    <a href="#">
-                      <div class="pull-left">
-                        <img src="dist/img/user3-128x128.jpg" class="img-circle" alt="User Image">
-                      </div>
-                      <h4>
-                        AdminLTE Design Team
-                        <small><i class="fa fa-clock-o"></i> 2 hours</small>
-                      </h4>
-                      <p>Why not buy a new awesome theme?</p>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <div class="pull-left">
-                        <img src="dist/img/user4-128x128.jpg" class="img-circle" alt="User Image">
-                      </div>
-                      <h4>
-                        Developers
-                        <small><i class="fa fa-clock-o"></i> Today</small>
-                      </h4>
-                      <p>Why not buy a new awesome theme?</p>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <div class="pull-left">
-                        <img src="dist/img/user3-128x128.jpg" class="img-circle" alt="User Image">
-                      </div>
-                      <h4>
-                        Sales Department
-                        <small><i class="fa fa-clock-o"></i> Yesterday</small>
-                      </h4>
-                      <p>Why not buy a new awesome theme?</p>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <div class="pull-left">
-                        <img src="dist/img/user4-128x128.jpg" class="img-circle" alt="User Image">
-                      </div>
-                      <h4>
-                        Reviewers
-                        <small><i class="fa fa-clock-o"></i> 2 days</small>
-                      </h4>
-                      <p>Why not buy a new awesome theme?</p>
-                    </a>
-                  </li>
+                <ul class="menu" id="unreadmessages">
+                  
                 </ul>
               </li>
-              <li class="footer"><a href="#">See All Messages</a></li>
+              <li class="footer"><a href="chatroom">See All Messages</a></li>
             </ul>
           </li>
           <!-- Notifications: style can be found in dropdown.less -->
@@ -287,7 +265,7 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
-        <li >
+        <li id="dashboardli">
           <a href="dashboard">
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
             
@@ -295,7 +273,7 @@
           
         </li>
         
-        <li class="active treeview">
+        <li id="schmeLi" class="treeview">
           <a href="#">
             <i class="fa fa-files-o"></i>
             <span>Schemes</span>
@@ -304,23 +282,23 @@
             </span>
           </a>
           <ul class="treeview-menu">
-              <li><a href="poolScheme"><i class="fa fa-circle-o"></i> Pool</a></li>
-              <li><a href="detailScheme"><i class="fa fa-circle-o"></i> List</a></li>
-            <li class="active"><a href="newscheme"><i class="fa fa-circle-o"></i> New</a></li>
+              <li id="schemePoolLi"><a href="poolScheme"><i class="fa fa-circle-o"></i> Pool</a></li>
+              <li id="schemeDetailLi"><a href="detailScheme"><i class="fa fa-circle-o"></i> List</a></li>
+            <li id="schmeNewLi"><a href="newscheme"><i class="fa fa-circle-o"></i> New</a></li>
             
             
             
           </ul>
         </li>
         
-         <li >
+         <li id="joiningLi" >
           <a href="joining">
             <i class="fa fa-dashboard"></i> <span>Joining </span>
             
           </a>
           
         </li>
-         <li >
+         <li id="emailLi" >
           <a href="email">
             <i class="fa fa-inbox"></i> <span>Email </span>
             
@@ -334,6 +312,20 @@
           </a>
           
         </li>
+        <li id="smsLi" >
+          <a href="email">
+            <i class="fa fa-inbox"></i> <span>SMS </span>
+            
+          </a>
+          
+        </li>
+        <li id="chatroomLi" >
+          <a href="chatroom">
+            <i class="fa fa-inbox"></i> <span>Chat Room </span>
+            
+          </a>
+          
+        </li>
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -341,4 +333,5 @@
   <!-- Left side column. contains the logo and sidebar -->
  
   <!-- /.control-sidebar -->
-  
+    </body>
+</html>

@@ -159,6 +159,22 @@
 <!-- bootstrap datepicker -->
 <script src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 <script>
+     $(document).ready(function(){
+          
+          $("#dashboardli").removeClass("active");
+          $("#schmeLi").addClass("active");
+          $("#schemePoolLi").removeClass("active");
+          $("#schemeDetailLi").removeClass("active");
+          $("#schmeNewLi").addClass("active");
+          $("#joiningLi").removeClass("active");
+          $("#emailLi").removeClass("active");
+          $("#smsLi").removeClass("active");
+                    $("#chatroomLi").removeClass("active");
+
+      });
+    
+    
+    
   $(function () {
     
     //Date picker

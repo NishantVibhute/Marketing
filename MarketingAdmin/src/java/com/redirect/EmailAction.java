@@ -5,8 +5,10 @@
  */
 package com.redirect;
 
+import com.beans.EmailBean;
 import com.beans.UserBean;
 import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.ModelDriven;
 import com.util.EmailUtil;
 import com.util.ServiceUtil;
 import java.util.ArrayList;
@@ -19,16 +21,17 @@ import org.codehaus.jackson.type.TypeReference;
  *
  * @author nishant.vibhute
  */
-public class EmailAction extends ActionSupport {
+public class EmailAction extends ActionSupport implements ModelDriven {
 
     ObjectMapper objectMapper = new ObjectMapper();
     List<String> emailIdList = new ArrayList<>();
     String successMsg = StringUtils.EMPTY, errorMsg = StringUtils.EMPTY;
+    EmailUtil emailUtil = new EmailUtil();
+    EmailBean emailBean = new EmailBean();
 
     public String redirect() {
 
         try {
-            EmailUtil.sendEmail();
 
             String resp = ServiceUtil.getResponseGet("/user/getuserdetailslist");
 
@@ -42,6 +45,19 @@ public class EmailAction extends ActionSupport {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return ActionSupport.SUCCESS;
+
+    }
+
+    public String send() {
+        String resp = emailUtil.send(emailBean.getTo(), emailBean.getSubject(), emailBean.getBody());
+
+        if (resp.equalsIgnoreCase("success")) {
+            successMsg = "Email sent successfully";
+        } else {
+            errorMsg = "Email sending failed";
+        }
+
         return ActionSupport.SUCCESS;
     }
 
@@ -67,6 +83,11 @@ public class EmailAction extends ActionSupport {
 
     public void setErrorMsg(String errorMsg) {
         this.errorMsg = errorMsg;
+    }
+
+    @Override
+    public Object getModel() {
+        return emailBean;
     }
 
 }
