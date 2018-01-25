@@ -7,16 +7,11 @@
             <file>file:/E:/Z/Marketing/Marketing/MarketingAdmin/web/dashboard.jsp</file>
             <file>file:/E:/Z/Marketing/Marketing/MarketingAdmin/web/include/include.jsp</file>
             <file>file:/E:/Z/Marketing/Marketing/MarketingAdmin/src/java/struts.xml</file>
-            <file>file:/E:/Z/Marketing/Marketing/MarketingAdmin/src/java/com/redirect/EmailAction.java</file>
-            <file>file:/E:/Z/Marketing/Marketing/MarketingAdmin/web/js/scheme.js</file>
-            <file>file:/E:/Z/Marketing/Marketing/MarketingAdmin/src/java/com/util/EmailUtil.java</file>
-            <file>file:/E:/Z/Marketing/Marketing/MarketingAdmin/web/email.jsp</file>
-            <file>file:/E:/Z/Marketing/Marketing/MarketingAdmin/web/newscheme.jsp</file>
-            <file>file:/E:/Z/Marketing/Marketing/MarketingAdmin/src/java/com/util/ServiceUtil.java</file>
+            <file>file:/E:/Z/Marketing/Marketing/MarketingAdmin/web/schemepool.jsp</file>
+            <file>file:/E:/Z/Marketing/Marketing/MarketingAdmin/src/java/com/redirect/SchemeAction.java</file>
             <file>file:/E:/Z/Marketing/Marketing/MarketingAdmin/src/java/com/redirect/MessageAction.java</file>
-            <file>file:/E:/Z/Marketing/Marketing/MarketingAdmin/src/java/com/util/CommonUtil.java</file>
             <file>file:/E:/Z/Marketing/Marketing/MarketingAdmin/web/sms.jsp</file>
-            <file>file:/E:/Z/Marketing/Marketing/MarketingAdmin/web/index.jsp</file>
+            <file>file:/E:/Z/Marketing/Marketing/MarketingAdmin/web/chatroom.jsp</file>
         </group>
     </open-files>
 </project-private>
