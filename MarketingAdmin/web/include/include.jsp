@@ -12,6 +12,28 @@
         <style>
       #circle{width: 40px; height: 40px; border-radius: 50px; border: 2px solid orange; }
 #circle div { margin-top:  8px;  color: white; text-align:center; }
+
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
         </style>
         <script>
         $(document).ready(function(){
@@ -316,7 +338,7 @@ $("#countMsg").text(i);
           <ul class="treeview-menu">
               <li id="smsNewLi"><a href="newMessage"><i class="fa fa-circle-o"></i> New</a></li>
               <li id="smsDetailLi"><a href="showSentSMS"><i class="fa fa-circle-o"></i> List</a></li>
-            <li id="smsTemplateLi"><a href="showTemplates"><i class="fa fa-circle-o"></i> Templates</a></li>
+            <li id="smsTemplateLi"><a href="redirectToTemplates"><i class="fa fa-circle-o"></i> Templates</a></li>
             
             
             

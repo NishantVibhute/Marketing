@@ -102,8 +102,8 @@
                                                         <td> Default </td>
                                                     </s:elseif>
                                                 <td><s:property value="message" /> </td>
-                                                <td><s:property value="sentDate" /> </td>
-                                                <td><s:property value="deliveredDate" /> </td>
+                                                <td><s:date name="sentDate" format="dd-MM-yy  hh:mm:ss a"/> </td>
+                                                <td><s:date name="deliveredDate" format="dd-MM-yy  hh:mm:ss a"/> </td>
                                                 <td><s:property value="status" /> </td>
                                                 </tr>
                                             </s:iterator>

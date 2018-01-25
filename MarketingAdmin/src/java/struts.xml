@@ -92,8 +92,14 @@
             <result name="success">/email.jsp</result>
         </action>
         
-        <action name="showTemplates" class="com.redirect.MessageAction" method="redirect">
+        <action name="redirectToTemplates" class="com.redirect.MessageAction" method="redirect">
             <result name="success">/sms.jsp</result>
+        </action>
+        
+        <action name="showTemplates" class="com.redirect.MessageAction" method="getTemplateContent">
+           <result type="stream">
+                <param name="contentType">text/plain</param>
+            </result>
         </action>
         
          <action name="editMessage" class="com.redirect.MessageAction" method="editMessage">

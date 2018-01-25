@@ -62,31 +62,33 @@
                             <div class="box box-primary">
                                 <div class="box-header with-border">
                                     <h3 class="box-title">Modify Messages</h3><br>
-                                    <!-- /.box-header -->
-                                    <!-- form start -->
-                                    <form class="form-horizontal" action="editMessage">
-                                        <div class="box-body">
-                                            <div class="form-group">
-                                                <label>Select</label>
-                                                <select class="form-control" onchange="handleChange(this.value)">
-                                                    <option>Welcome MSG</option>
-                                                    <option>Business pool Completed Msg</option>
-                                                    <option>Payment Release Msg</option>
-                                                    <option>Business Exit Msg</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <s:textarea name="messageContent.body" class="form-control" style="height: 300px; width : 650px"></s:textarea> 
-                                            </div>
-                                        </div>
-                                        <div class="box-footer">
-                                            <div class="pull-right">
-
-                                                <button type="submit" class="btn btn-primary">Save</button>
-                                            </div>
-                                        </div>
-                                    </form>
                                 </div>
+                                <!-- /.box-header -->
+                                <!-- form start -->
+                                <form class="form-horizontal" action="editMessage"> 
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <label>Select</label>
+                                            <select class="form-control" onchange="handleChange(this.value)" name="messageContent.subject">
+                                                <option>Select</option>
+                                                <option>Welcome MSG</option>
+                                                <option>Business pool Completed Msg</option>
+                                                <option>Payment Release Msg</option>
+                                                <option>Business Exit Msg</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <textarea name="messageContent.body" id= "messageBody" class="form-control" style="height: 300px; width : 650px"></textarea> 
+                                        </div>
+                                    </div>
+                                    <div class="box-footer">
+                                        <div class="pull-right">
+
+                                            <button type="submit" class="btn btn-primary">Save</button>
+                                        </div>
+                                    </div>
+                                </form>
+
                             </div>
                         </div>
                     </div>
@@ -116,22 +118,28 @@
         <!-- bootstrap datepicker -->
         <script src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
         <script>
-                                                $(function() {
+                                                    $(function() {
 
-                                                    //Date picker
-                                                    $('#datepickerDate').datepicker({
-                                                        autoclose: true,
-                                                        format: 'dd/mm/yyyy'
+                                                        //Date picker
+                                                        $('#datepickerDate').datepicker({
+                                                            autoclose: true,
+                                                            format: 'dd/mm/yyyy'
+                                                        });
+
                                                     });
+                                                    function handleChange(value) {
+                                                        $('#messageBody').val("");
+                                                        $.ajax({
+                                                            url: "showTemplates?valueToSubmit=" + value,
+                                                            type: "GET",
+                                                            dataType: 'json',
+                                                            success: function(response) {
+                                                                $('#messageBody').val(response.body);
+                                                            }
+                                                        });
+//                                                    window.location = "sms?valueToSubmit=" + value; //or you can submit a form from here or make an ajax call
+                                                    }
 
-                                                });
-                                                function handleChange(value) {
-//                                                    $.ajax({
-//                                                        url: "sms?valueToSubmit=" + value,
-//                                                        type: "GET"
-//                                                    });
-                                                    window.location = "sms?valueToSubmit=" + value; //or you can submit a form from here or make an ajax call
-                                                }
         </script>
     </body>
 </html>
