@@ -19,6 +19,19 @@
             </result>
         </action>
         
+         <action name="users" class="com.redirect.UserAction" method="redirect">
+            <result name="success">/user.jsp</result>
+        </action>
+        
+        <action name="visitors" class="com.redirect.VisitorAction" method="redirect">
+            <result name="success">/visitors.jsp</result>
+        </action>
+        
+        <action name="updatevisitorstatus" class="com.redirect.VisitorAction" method="updatevisitorstatus">
+            <result name="success" type="chain">visitors</result>
+        </action>
+        
+        
         <action name="chatroom" class="com.redirect.ChatRoomAction" method="redirect">
             <result name="success">/chatroom.jsp</result>
         </action>

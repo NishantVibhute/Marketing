@@ -352,6 +352,22 @@ $("#countMsg").text(i);
           </a>
           
         </li>
+        
+        <li id="userLi" >
+          <a href="users">
+            <i class="fa fa-inbox"></i> <span>Users</span>
+            
+          </a>
+          
+        </li>
+        
+        <li id="visitorLi" >
+          <a href="visitors">
+            <i class="fa fa-inbox"></i> <span>Visitors</span>
+            
+          </a>
+          
+        </li>
       </ul>
     </section>
     <!-- /.sidebar -->
