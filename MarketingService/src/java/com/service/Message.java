@@ -20,12 +20,13 @@ import org.codehaus.jackson.map.ObjectMapper;
 /**
  * REST Web Service
  *
- * @author 
+ * @author
  */
 @Path("message")
 public class Message {
 
     Logger logger = Logger.getLogger(Message.class);
+
     ObjectMapper objectMapper = new ObjectMapper();
 
     @POST
@@ -38,7 +39,7 @@ public class Message {
             MessageDao messageDao = new MessageDao();
             MessageBean messageContent = messageDao.getSMSContentFromSubject(data);
             jsonInString = objectMapper.writeValueAsString(messageContent);
-         
+
         } catch (Exception ex) {
             logger.error("Message Class" + ex);
         }

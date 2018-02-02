@@ -29,6 +29,8 @@ public class User {
     Logger logger = Logger.getLogger(User.class);
     UserDao userDao = new UserDao();
     ObjectMapper objectMapper = new ObjectMapper();
+    static final Logger errorLog = Logger.getLogger("errorLogger");
+    static final Logger infoLog = Logger.getLogger("infoLogger");
 
     @POST
     @Path("/create")
@@ -134,12 +136,13 @@ public class User {
     public String getUserListWithDetails() {
         String jsonInString = "";
         try {
-
+            int a = 10 / 0;
             List<UserBean> userBean = userDao.getUserDetilsList();
 
             jsonInString = objectMapper.writeValueAsString(userBean);
         } catch (Exception ex) {
-            logger.error("User Class" + ex);
+            errorLog.error("User Class : " + ex);
+            infoLog.info("User Class info hey");
         }
         return jsonInString;
     }
