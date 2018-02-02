@@ -59,47 +59,47 @@
                 <section class="content">
                     <div class="row">
                         <div class="col-md-9">
-          <div class="box box-primary">
-            <div class="box-header with-border">
-              <h3 class="box-title">New SMS</h3>
-            </div>
-              <form action="sendMessage" method="post">
-            <!-- /.box-header -->
-            <div class="box-body">
-<!--              <div class="form-group">
-                
-                <select class="form-control select2" name="to" multiple="multiple" data-placeholder="To:"
-                        style="width: 100%;">
-                 
-                  
-                  <s:iterator value="emailIdList">
-                      <option><s:property/></option>
-                    </s:iterator>
-                </select>
-              </div>-->
-              <div class="form-group">
-                <input name="sentMessageBean.to" class="form-control" placeholder="To:">
-              </div>
-              <div class="form-group">
-                    <textarea id="compose-textarea" name="sentMessageBean.message" class="form-control" style="height: 300px">
+                            <div class="box box-primary">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">New SMS</h3>
+                                </div>
+                                <form id="formID" action="sendMessage" method="post" class="formular" >
+                                    <!-- /.box-header -->
+                                    <div class="box-body">
+                                        <!--              <div class="form-group">
+                                                        
+                                                        <select class="form-control select2" name="to" multiple="multiple" data-placeholder="To:"
+                                                                style="width: 100%;">
+                                                         
+                                                          
+                                        <s:iterator value="emailIdList">
+                                            <option><s:property/></option>
+                                        </s:iterator>
+                                    </select>
+                                  </div>-->
+                                        <div class="form-group">
+                                            <input name="sentMessageBean.to" class="validate[required,custom[mobile]] form-control" placeholder="To:">
+                                        </div>
+                                        <div class="form-group">
+                                            <textarea id="compose-textarea" name="sentMessageBean.message" class="validate[required] form-control" style="height: 300px">
                       
-                    </textarea>
-              </div>
-              
-            </div>
-              
-            <!-- /.box-body -->
-            <div class="box-footer">
-              <div class="pull-right">
-              
-                <button type="submit" class="btn btn-primary"><i class="fa fa-envelope-o"></i> Send</button>
-              </div>
-            </div>
-              </form>
-            <!-- /.box-footer -->
-          </div>
-          <!-- /. box -->
-        </div>
+                                            </textarea>
+                                        </div>
+
+                                    </div>
+
+                                    <!-- /.box-body -->
+                                    <div class="box-footer">
+                                        <div class="pull-right">
+
+                                            <button type="submit" class="btn btn-primary"><i class="fa fa-envelope-o"></i> Send</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <!-- /.box-footer -->
+                            </div>
+                            <!-- /. box -->
+                        </div>
                     </div>
                     <!-- /.row -->
                 </section>
@@ -118,24 +118,37 @@
         <!-- Bootstrap 3.3.7 -->
         <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
         <!-- FastClick -->
-        <script src="bower_components/fastclick/lib/fastclick.js"></script>
+                <script src="bower_components/fastclick/lib/fastclick.js"></script>
         <!-- AdminLTE App -->
-        <script src="dist/js/adminlte.min.js"></script>
+                <script src="dist/js/adminlte.min.js"></script>
         <!-- AdminLTE for demo purposes -->
-        <script src="dist/js/demo.js"></script>
-
+                <script src="dist/js/demo.js"></script>
+        
         <!-- bootstrap datepicker -->
         <script src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
         <script>
-                                                $(function() {
+            $(function() {
 
-                                                    //Date picker
-                                                    $('#datepickerDate').datepicker({
-                                                        autoclose: true,
-                                                        format: 'dd/mm/yyyy'
-                                                    });
+            //Date picker
+            $('#datepickerDate').datepicker({
+            autoclose: true,
+                    format: 'dd/mm/yyyy'
+            });
 
-                                                });
+        });
+        </script>
+        <link rel="stylesheet" href="css/jquery.validationEngine.css" type="text/css"/>
+        <!--<script src="bower_components/jquery/dist/jquery.min.js"></script>-->
+        <!--<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>-->
+        <script src="js/jquery.validationEngine-en.js" type="text/javascript" charset="utf-8">
+        </script>
+        <script src="js/jquery.validationEngine.js" type="text/javascript" charset="utf-8">
+        </script>
+        <script>
+            jQuery(document).ready(function() {
+            // binds form submission and fields to the validation engine
+            jQuery("#formID").validationEngine('attach');
+            });
         </script>
     </body>
 </html>
