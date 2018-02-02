@@ -20,14 +20,14 @@ import org.codehaus.jackson.map.ObjectMapper;
 /**
  * REST Web Service
  *
- * @author
+ * @author 
  */
 @Path("message")
 public class Message {
 
-    Logger logger = Logger.getLogger(Message.class);
-
     ObjectMapper objectMapper = new ObjectMapper();
+    static final Logger errorLog = Logger.getLogger("errorLogger");
+    static final Logger infoLog = Logger.getLogger("infoLogger");
 
     @POST
     @Path("/getSMSTemplateContent")
@@ -39,9 +39,9 @@ public class Message {
             MessageDao messageDao = new MessageDao();
             MessageBean messageContent = messageDao.getSMSContentFromSubject(data);
             jsonInString = objectMapper.writeValueAsString(messageContent);
-
+         
         } catch (Exception ex) {
-            logger.error("Message Class" + ex);
+            errorLog.error("Message Class" + ex);
         }
         return jsonInString;
 
@@ -60,7 +60,7 @@ public class Message {
             jsonInString = objectMapper.writeValueAsString(messageContent);
 
         } catch (Exception ex) {
-            logger.error("Message Class" + ex);
+            errorLog.error("Message Class" + ex);
         }
         return jsonInString;
 
@@ -79,7 +79,7 @@ public class Message {
             jsonInString = objectMapper.writeValueAsString(sentMessageBean);
 
         } catch (Exception ex) {
-            logger.error("Message Class" + ex);
+            errorLog.error("Message Class" + ex);
         }
         return jsonInString;
 
@@ -98,7 +98,7 @@ public class Message {
             List<SentMessageBean> sentMessageList = messageDao.getSentList();
             jsonInString = objectMapper.writeValueAsString(sentMessageList);
         } catch (Exception ex) {
-            logger.error("User Class" + ex);
+            errorLog.error("User Class" + ex);
         }
         return jsonInString;
     }

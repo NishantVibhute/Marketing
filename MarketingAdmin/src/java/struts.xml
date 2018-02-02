@@ -5,12 +5,25 @@
 <struts>
     <!-- Configuration for the default package. -->
     <package name="default" extends="struts-default">
+        
+        <interceptors>
+            <interceptor  name="loginInterceptor" class="com.interceptors.SecurityAction"/>
+            <interceptor-stack name="myStack">
+                <interceptor-ref name="loginInterceptor" />
+                <interceptor-ref name="defaultStack"/>
+            </interceptor-stack>
+        </interceptors>
+ 
+        <default-interceptor-ref name="myStack"/>
+    
         <action name="newscheme" class="com.redirect.SchemeAction" method="redirectNew">
             <result name="success">/newscheme.jsp</result>
+            <result name="login">/index.jsp</result>
         </action>
         
         <action name="dashboard" class="com.redirect.DashboardAction" method="redirect">
             <result name="success">/dashboard.jsp</result>
+            <result name="login">/index.jsp</result>
         </action>
         
         <action name="getUnreadMessage" class="com.redirect.DashboardAction" method="getUnreadMessage">
@@ -19,83 +32,95 @@
             </result>
         </action>
         
-         <action name="users" class="com.redirect.UserAction" method="redirect">
+        <action name="users" class="com.redirect.UserAction" method="redirect">
             <result name="success">/user.jsp</result>
+            <result name="login">/index.jsp</result>
         </action>
         
         <action name="visitors" class="com.redirect.VisitorAction" method="redirect">
             <result name="success">/visitors.jsp</result>
+            <result name="login">/index.jsp</result>
         </action>
         
         <action name="updatevisitorstatus" class="com.redirect.VisitorAction" method="updatevisitorstatus">
             <result name="success" type="chain">visitors</result>
+            <result name="login">/index.jsp</result>
         </action>
         
         
         <action name="chatroom" class="com.redirect.ChatRoomAction" method="redirect">
             <result name="success">/chatroom.jsp</result>
+            <result name="login">/index.jsp</result>
         </action>
         
         <action name="sendReply" class="com.redirect.ChatRoomAction" method="sendMessage">
             <result name="success" type="chain">chatroom</result>
+            <result name="login">/index.jsp</result>
         </action>
         
         <action name="joining" class="com.redirect.JoiningAction" method="redirect">
             <result name="success">/joininingrequest.jsp</result>
+            <result name="login">/index.jsp</result>
         </action>
         
         
         <action name="poolScheme" class="com.redirect.SchemeAction" method="poolScheme">
             <result name="success">/schemepool.jsp</result>
+            <result name="login">/index.jsp</result>
         </action>
         
         <action name="createScheme" class="com.redirect.SchemeAction" method="createScheme">
             <result name="success">/newscheme.jsp</result>
+            <result name="login">/index.jsp</result>
         </action>
         
-          <action name="editScheme" class="com.redirect.SchemeAction" method="editScheme">
+        <action name="editScheme" class="com.redirect.SchemeAction" method="editScheme">
             <result name="success" type="chain">detailScheme</result>
+            <result name="login">/index.jsp</result>
         </action>
         
         
         <action name="detailScheme" class="com.redirect.SchemeAction" method="redirectList">
             <result name="success">/schemedetails.jsp</result>
+            <result name="login">/index.jsp</result>
         </action>
         
         <action name="savePaymentDetails" class="com.redirect.JoiningAction" method="savePayment">
             <result name="success" type="chain">joining</result>
+            <result name="login">/index.jsp</result>
         </action>
         
         <action name="updateVirtualUserPayment" class="com.redirect.JoiningAction" method="updateVirtualUserPayment">
             <result name="success" type="chain">joining</result>
+            <result name="login">/index.jsp</result>
         </action>
         
         <action name="getSchemeDetails" class="com.redirect.SchemeAction" method="getSchemeDetails">
-             <result type="stream">
+            <result type="stream">
                 <param name="contentType">text/plain</param>
             </result>
         </action>
         
         <action name="getPendingUserList" class="com.redirect.JoiningAction" method="getPendingUserListByScheme">
-             <result type="stream">
+            <result type="stream">
                 <param name="contentType">text/plain</param>
             </result>
         </action>
         
         <action name="getSchemePoolByName" class="com.redirect.SchemeAction" method="getSchemePoolByName">
-             <result type="stream">
+            <result type="stream">
                 <param name="contentType">text/plain</param>
             </result>
         </action>
         <action name="getSchemeStats" class="com.redirect.SchemeAction" method="getSchemeStats">
-             <result type="stream">
+            <result type="stream">
                 <param name="contentType">text/plain</param>
             </result>
         </action>
         
         
         <action name="getSchemePool" class="com.redirect.JoiningAction" method="getSchemePool">
-             <result type="stream">
+            <result type="stream">
                 <param name="contentType">text/plain</param>
             </result>
         </action>
@@ -103,30 +128,52 @@
         
         <action name="email" class="com.redirect.EmailAction" method="redirect">
             <result name="success">/email.jsp</result>
+            <result name="login">/index.jsp</result>
         </action>
         
-        <action name="showTemplates" class="com.redirect.MessageAction" method="redirect">
+        <action name="redirectToTemplates" class="com.redirect.MessageAction" method="redirect">
             <result name="success">/sms.jsp</result>
+            <result name="login">/index.jsp</result>
         </action>
         
-         <action name="editMessage" class="com.redirect.MessageAction" method="editMessage">
+        <action name="showTemplates" class="com.redirect.MessageAction" method="getTemplateContent">
+            <result type="stream">
+                <param name="contentType">text/plain</param>
+            </result>
+        </action>
+        
+        <action name="editMessage" class="com.redirect.MessageAction" method="editMessage">
             <result name="success">/sms.jsp</result>
+            <result name="login">/index.jsp</result>
         </action>
         
         <action name="showSentSMS" class="com.redirect.MessageAction" method="showSentSMS">
             <result name="success">/showSentSMS.jsp</result>
+            <result name="login">/index.jsp</result>
         </action>
         
         <action name="newMessage" class="com.redirect.MessageAction" method="newMessage">
             <result name="success">/newMessage.jsp</result>
+            <result name="login">/index.jsp</result>
         </action>
         
         <action name="sendMessage" class="com.redirect.MessageAction" method="sendMessage">
             <result name="success">/newMessage.jsp</result>
+            <result name="login">/index.jsp</result>
         </action>
         <action name="sendemail" class="com.redirect.EmailAction" method="send">
             <result name="success" type="chain">email</result>
+            <result name="login">/index.jsp</result>
         </action>
         
+        <action name="login" class="com.redirect.LoginAction" method="login">
+            <interceptor-ref name="defaultStack" />
+            <result name="success">/dashboard.jsp</result>
+            <result name="login">/index.jsp</result>
+        </action>
+        
+        <action name="logout" class="com.redirect.LoginAction" method="logOut">
+            <result name="success">/index.jsp</result>
+        </action>
     </package>
 </struts>

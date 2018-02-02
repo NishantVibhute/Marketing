@@ -12,6 +12,28 @@
         <style>
       #circle{width: 40px; height: 40px; border-radius: 50px; border: 2px solid orange; }
 #circle div { margin-top:  8px;  color: white; text-align:center; }
+
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
         </style>
         <script>
         $(document).ready(function(){
@@ -200,17 +222,16 @@ $("#countMsg").text(i);
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs">Alexander Pierce</span>
+              <img src="dist/img/default_user.png" class="user-image" alt="User Image">
+              <span class="hidden-xs">${session.user.firstName} ${session.user.lastName}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <img src="dist/img/default_user.png" class="img-circle" alt="User Image">
 
                 <p>
-                  Alexander Pierce - Web Developer
-                  <small>Member since Nov. 2012</small>
+                  ${session.user.firstName} ${session.user.lastName}
                 </p>
               </li>
               <!-- Menu Body -->
@@ -234,7 +255,7 @@ $("#countMsg").text(i);
                   <a href="#" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="logout" class="btn btn-default btn-flat">Sign out</a>
                 </div>
               </li>
             </ul>
@@ -253,10 +274,10 @@ $("#countMsg").text(i);
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="dist/img/default_user.png" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>Alexander Pierce</p>
+          <p>${session.user.firstName} ${session.user.lastName}</p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
@@ -316,7 +337,7 @@ $("#countMsg").text(i);
           <ul class="treeview-menu">
               <li id="smsNewLi"><a href="newMessage"><i class="fa fa-circle-o"></i> New</a></li>
               <li id="smsDetailLi"><a href="showSentSMS"><i class="fa fa-circle-o"></i> List</a></li>
-            <li id="smsTemplateLi"><a href="showTemplates"><i class="fa fa-circle-o"></i> Templates</a></li>
+            <li id="smsTemplateLi"><a href="redirectToTemplates"><i class="fa fa-circle-o"></i> Templates</a></li>
             
             
             

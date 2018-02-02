@@ -62,31 +62,33 @@
                             <div class="box box-primary">
                                 <div class="box-header with-border">
                                     <h3 class="box-title">Modify Messages</h3><br>
-                                    <!-- /.box-header -->
-                                    <!-- form start -->
-                                    <form class="form-horizontal" action="editMessage">
-                                        <div class="box-body">
-                                            <div class="form-group">
-                                                <label>Select</label>
-                                                <select class="form-control" onchange="handleChange(this.value)">
-                                                    <option>Welcome MSG</option>
-                                                    <option>Business pool Completed Msg</option>
-                                                    <option>Payment Release Msg</option>
-                                                    <option>Business Exit Msg</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <s:textarea name="messageContent.body" class="form-control" style="height: 300px; width : 650px"></s:textarea> 
-                                            </div>
-                                        </div>
-                                        <div class="box-footer">
-                                            <div class="pull-right">
-
-                                                <button type="submit" class="btn btn-primary">Save</button>
-                                            </div>
-                                        </div>
-                                    </form>
                                 </div>
+                                <!-- /.box-header -->
+                                <!-- form start -->
+                                <form id="formID" class="form-horizontal" action="editMessage"> 
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <label>Select</label>
+                                            <select class="validate[required] form-control" onchange="handleChange(this.value)" name="messageContent.subject">
+                                                <option value="">Select</option>
+                                                <option>Welcome MSG</option>
+                                                <option>Business pool Completed Msg</option>
+                                                <option>Payment Release Msg</option>
+                                                <option>Business Exit Msg</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <textarea name="messageContent.body" id= "messageBody" class="validate[required] form-control" style="height: 300px; width : 650px"></textarea> 
+                                        </div>
+                                    </div>
+                                    <div class="box-footer">
+                                        <div class="pull-right">
+
+                                            <button type="submit" class="btn btn-primary">Save</button>
+                                        </div>
+                                    </div>
+                                </form>
+
                             </div>
                         </div>
                     </div>
@@ -126,12 +128,31 @@
 
                                                 });
                                                 function handleChange(value) {
-//                                                    $.ajax({
-//                                                        url: "sms?valueToSubmit=" + value,
-//                                                        type: "GET"
-//                                                    });
-                                                    window.location = "sms?valueToSubmit=" + value; //or you can submit a form from here or make an ajax call
+                                                    $('#messageBody').val("");
+                                                    $.ajax({
+                                                        url: "showTemplates?valueToSubmit=" + value,
+                                                        type: "GET",
+                                                        dataType: 'json',
+                                                        success: function(response) {
+                                                            $('#messageBody').val(response.body);
+                                                        }
+                                                    });
+//                                                    window.location = "sms?valueToSubmit=" + value; //or you can submit a form from here or make an ajax call
                                                 }
+
+        </script>
+        <link rel="stylesheet" href="css/jquery.validationEngine.css" type="text/css"/>
+        <!--<script src="bower_components/jquery/dist/jquery.min.js"></script>-->
+        <!--<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>-->
+        <script src="js/jquery.validationEngine-en.js" type="text/javascript" charset="utf-8">
+        </script>
+        <script src="js/jquery.validationEngine.js" type="text/javascript" charset="utf-8">
+        </script>
+        <script>
+            jQuery(document).ready(function() {
+                // binds form submission and fields to the validation engine
+                jQuery("#formID").validationEngine('attach');
+            });
         </script>
     </body>
 </html>

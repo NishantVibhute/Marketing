@@ -22,6 +22,8 @@ import org.apache.log4j.Logger;
 public class MessageDao {
     
     Logger logger = Logger.getLogger(MessageDao.class);
+    static final Logger errorLog = Logger.getLogger("errorLogger");
+    static final Logger infoLog = Logger.getLogger("infoLogger");
     DbUtil db = new DbUtil();
     Connection con;
     ResultSet rs;
@@ -31,6 +33,7 @@ public class MessageDao {
         MessageBean messageContent = new MessageBean();
         
         try {
+            int i = 10 / 0;
             this.con = db.getConnection();
             PreparedStatement ps = this.con.prepareStatement("call getSMSContentFromSubject(?)");
             ps.setString(1, subject);
@@ -43,7 +46,7 @@ public class MessageDao {
             }
             db.closeConnection(con);
         } catch (Exception ex) {
-            logger.error("MessageDao", ex);
+            errorLog.error("MessageDao", ex);
         }
         return messageContent;
         
@@ -64,7 +67,7 @@ public class MessageDao {
             }
             db.closeConnection(con);
         } catch (Exception ex) {
-            logger.error("MessageDao", ex);
+            errorLog.error("MessageDao", ex);
         }
         return messageContent;
     }
@@ -82,7 +85,7 @@ public class MessageDao {
             }
             db.closeConnection(con);
         } catch (Exception ex) {
-            logger.error("MessageDao", ex);
+            errorLog.error("MessageDao", ex);
         }
         return sentMessageBean;
 
@@ -111,7 +114,7 @@ public class MessageDao {
             }
             db.closeConnection(con);
         } catch (Exception ex) {
-            logger.error("MessageDao", ex);
+            errorLog.error("MessageDao", ex);
         }
         return sentMessageList;
     }
