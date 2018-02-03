@@ -11,8 +11,11 @@ package com.beans;
  */
 public class UserPassword {
 
+    int id;
     String emailId;
     String password;
+    String date;
+    int isBlocked;
 
     public String getEmailId() {
         return emailId;
@@ -28,6 +31,30 @@ public class UserPassword {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public int getIsBlocked() {
+        return isBlocked;
+    }
+
+    public void setIsBlocked(int isBlocked) {
+        this.isBlocked = isBlocked;
     }
 
 }

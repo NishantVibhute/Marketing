@@ -168,6 +168,10 @@
           $("#joiningLi").removeClass("active");
           $("#emailLi").addClass("active");
           $("#smsLi").removeClass("active");
+          $("#smsNewLi").removeClass("active");
+          $("#smsDetailLi").removeClass("active");
+          $("#smsTemplateLi").removeClass("active");
+          
                     $("#chatroomLi").removeClass("active");
 
       });

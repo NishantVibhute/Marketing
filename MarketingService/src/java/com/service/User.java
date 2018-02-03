@@ -29,6 +29,8 @@ public class User {
     Logger logger = Logger.getLogger(User.class);
     UserDao userDao = new UserDao();
     ObjectMapper objectMapper = new ObjectMapper();
+    static final Logger errorLog = Logger.getLogger("errorLogger");
+    static final Logger infoLog = Logger.getLogger("infoLogger");
 
     @POST
     @Path("/create")
@@ -134,10 +136,47 @@ public class User {
     public String getUserListWithDetails() {
         String jsonInString = "";
         try {
-
+            int a = 10 / 0;
             List<UserBean> userBean = userDao.getUserDetilsList();
 
             jsonInString = objectMapper.writeValueAsString(userBean);
+        } catch (Exception ex) {
+            errorLog.error("User Class : " + ex);
+            infoLog.info("User Class info hey");
+        }
+        return jsonInString;
+    }
+
+    @GET
+    @Path("/getvisitorlist")
+    @Produces("text/plain")
+    public String getVisiorList() {
+        String jsonInString = "";
+        try {
+            List<UserPassword> userPass = userDao.getVisitorList();
+            jsonInString = objectMapper.writeValueAsString(userPass);
+        } catch (Exception ex) {
+            logger.error("User Class" + ex);
+        }
+        return jsonInString;
+    }
+
+    @POST
+    @Path("/updatevisitorstatus")
+    @Produces("text/plain")
+    @Consumes("text/plain")
+    public String updatevisitorstatus(String data) {
+        String jsonInString = "";
+        try {
+            UserPassword up = objectMapper.readValue(data, UserPassword.class);
+
+            int updatedRows = userDao.updatevisitorstatus(up);
+
+            if (updatedRows != 0) {
+                jsonInString = "success";
+            } else {
+                jsonInString = "failed";
+            }
         } catch (Exception ex) {
             logger.error("User Class" + ex);
         }
