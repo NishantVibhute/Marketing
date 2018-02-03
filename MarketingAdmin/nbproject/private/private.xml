@@ -2,19 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/F:/marketing1/Marketing/MarketingAdmin/src/java/com/util/EmailUtil.java</file>
-            <file>file:/F:/marketing1/Marketing/MarketingAdmin/web/schemepool.jsp</file>
-            <file>file:/F:/marketing1/Marketing/MarketingAdmin/web/newscheme.jsp</file>
-            <file>file:/F:/marketing1/Marketing/MarketingAdmin/web/dashboard.jsp</file>
-            <file>file:/F:/marketing1/Marketing/MarketingAdmin/web/index.jsp</file>
-            <file>file:/F:/marketing1/Marketing/MarketingAdmin/web/schemedetails.jsp</file>
-            <file>file:/F:/marketing1/Marketing/MarketingAdmin/web/joininingrequest.jsp</file>
-            <file>file:/F:/marketing1/Marketing/MarketingAdmin/src/java/com/redirect/JoiningAction.java</file>
-            <file>file:/F:/marketing1/Marketing/MarketingAdmin/web/include/include.jsp</file>
-            <file>file:/F:/marketing1/Marketing/MarketingAdmin/src/java/com/redirect/EmailAction.java</file>
-            <file>file:/F:/marketing1/Marketing/MarketingAdmin/web/email.jsp</file>
-            <file>file:/F:/marketing1/Marketing/MarketingAdmin/src/java/struts.xml</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
