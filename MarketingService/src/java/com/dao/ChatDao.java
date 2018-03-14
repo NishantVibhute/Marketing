@@ -25,13 +25,14 @@ public class ChatDao {
     ResultSet rs;
     Logger logger = Logger.getLogger(ChatDao.class);
 
-    public List<ChatRoomBean> getChatList() {
+    public List<ChatRoomBean> getChatList(String type) {
 
         List<ChatRoomBean> chatList = new ArrayList();
 
         try {
             this.con = db.getConnection();
-            PreparedStatement ps = this.con.prepareStatement("call getChats()");
+            PreparedStatement ps = this.con.prepareStatement("call getChats(?)");
+            ps.setString(1, type);
 
             rs = ps.executeQuery();
 

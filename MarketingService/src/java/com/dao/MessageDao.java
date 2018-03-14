@@ -20,25 +20,25 @@ import org.apache.log4j.Logger;
  * @author sagar.gurav
  */
 public class MessageDao {
-    
+
     Logger logger = Logger.getLogger(MessageDao.class);
     static final Logger errorLog = Logger.getLogger("errorLogger");
     static final Logger infoLog = Logger.getLogger("infoLogger");
     DbUtil db = new DbUtil();
     Connection con;
     ResultSet rs;
-    
+
     public MessageBean getSMSContentFromSubject(String subject) {
-        
+
         MessageBean messageContent = new MessageBean();
-        
+
         try {
-            int i = 10 / 0;
+
             this.con = db.getConnection();
             PreparedStatement ps = this.con.prepareStatement("call getSMSContentFromSubject(?)");
             ps.setString(1, subject);
             rs = ps.executeQuery();
-            
+
             while (rs.next()) {
                 messageContent.setId(rs.getInt(1));
                 messageContent.setSubject(rs.getString(2));
@@ -49,7 +49,7 @@ public class MessageDao {
             errorLog.error("MessageDao", ex);
         }
         return messageContent;
-        
+
     }
 
     public MessageBean editSMSContentFromSubject(MessageBean messageContent) {
@@ -72,12 +72,15 @@ public class MessageDao {
         return messageContent;
     }
 
-    public SentMessageBean saveSMSSentStatus(SentMessageBean sentMessageBean) {
+    public SentMessageBean SendSms(SentMessageBean sentMessageBean) {
         try {
             this.con = db.getConnection();
-            PreparedStatement ps = this.con.prepareStatement("call saveSMSSentStatus(?,?)");
+            PreparedStatement ps = this.con.prepareStatement("call saveSMSSentStatus(?,?,?,?,?)");
             ps.setString(1, sentMessageBean.getTo());
             ps.setString(2, sentMessageBean.getMessage());
+            ps.setLong(3, sentMessageBean.getFrom());
+            ps.setInt(4, sentMessageBean.getTempId());
+            ps.setInt(5, sentMessageBean.getSchemeId());
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -85,6 +88,7 @@ public class MessageDao {
             }
             db.closeConnection(con);
         } catch (Exception ex) {
+
             errorLog.error("MessageDao", ex);
         }
         return sentMessageBean;
@@ -103,7 +107,7 @@ public class MessageDao {
             while (rs.next()) {
                 SentMessageBean sentMessageBean = new SentMessageBean();
                 sentMessageBean.setId(rs.getInt(1));
-                sentMessageBean.setFrom(rs.getString(2));
+                sentMessageBean.setFrom(rs.getInt(2));
                 sentMessageBean.setTo(rs.getString(3));
                 sentMessageBean.setTempId(rs.getInt(4));
                 sentMessageBean.setMessage(rs.getString(5));

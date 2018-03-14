@@ -9,9 +9,9 @@ import com.beans.ChatRoomBean;
 import com.dao.ChatDao;
 import java.util.List;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.Path;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -28,17 +28,17 @@ public class Chat {
     ObjectMapper objectMapper = new ObjectMapper();
     ChatDao chatDao = new ChatDao();
 
-    @GET
+    @POST
     @Path("/getlist")
     @Produces("text/plain")
-
-    public String getChatList() {
+    @Consumes("text/plain")
+    public String getChatList(String data) {
         //TODO return proper representation object
         String jsonInString = "";
         try {
 
             //TODO return proper representation object
-            List<ChatRoomBean> chatList = chatDao.getChatList();
+            List<ChatRoomBean> chatList = chatDao.getChatList(data);
             jsonInString = objectMapper.writeValueAsString(chatList);
         } catch (Exception ex) {
             logger.error("Chat Class" + ex);

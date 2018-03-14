@@ -20,7 +20,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 /**
  * REST Web Service
  *
- * @author 
+ * @author
  */
 @Path("message")
 public class Message {
@@ -39,7 +39,7 @@ public class Message {
             MessageDao messageDao = new MessageDao();
             MessageBean messageContent = messageDao.getSMSContentFromSubject(data);
             jsonInString = objectMapper.writeValueAsString(messageContent);
-         
+
         } catch (Exception ex) {
             errorLog.error("Message Class" + ex);
         }
@@ -75,7 +75,31 @@ public class Message {
         try {
             MessageDao messageDao = new MessageDao();
             SentMessageBean sentMessageBean = objectMapper.readValue(data, SentMessageBean.class);
-            sentMessageBean = messageDao.saveSMSSentStatus(sentMessageBean);
+            sentMessageBean = messageDao.SendSms(sentMessageBean);
+            jsonInString = objectMapper.writeValueAsString(sentMessageBean);
+
+        } catch (Exception ex) {
+            errorLog.error("Message Class" + ex);
+        }
+        return jsonInString;
+
+    }
+
+    @POST
+    @Path("/sendBulkSMS")
+    @Produces("text/plain")
+    @Consumes("text/plain")
+    public String sendBulkSMS(String data) {
+        String jsonInString = "";
+        try {
+            MessageDao messageDao = new MessageDao();
+            SentMessageBean sentMessageBean = objectMapper.readValue(data, SentMessageBean.class);
+
+            for (String to : sentMessageBean.getBulkTo()) {
+                sentMessageBean.setTo(to);
+                sentMessageBean = messageDao.SendSms(sentMessageBean);
+            }
+
             jsonInString = objectMapper.writeValueAsString(sentMessageBean);
 
         } catch (Exception ex) {
