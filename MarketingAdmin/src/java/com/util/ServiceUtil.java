@@ -23,7 +23,7 @@ public class ServiceUtil {
         String output = "", result = "";
         try {
 
-            URL url = new URL("http://13.127.62.153:8080/MarketingService/webresources" + serviceMethod);
+            URL url = new URL("http://localhost:8084/MarketingService/webresources" + serviceMethod);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setDoOutput(true);
             conn.setRequestMethod("POST");
@@ -61,7 +61,7 @@ public class ServiceUtil {
         String output = "";
         try {
 
-            URL url = new URL("http://13.127.62.153:8080/MarketingService/webresources" + serviceMethod);
+            URL url = new URL("http://localhost:8084/MarketingService/webresources" + serviceMethod);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "text/plain");

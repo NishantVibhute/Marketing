@@ -47,7 +47,7 @@ public class PaymentDao {
                 List<String> joinDates = new ArrayList<>();
                 ResultSet rs1 = ps1.executeQuery();
                 while (rs1.next()) {
-                    joinDates.add(rs.getString(1));
+                    joinDates.add(rs1.getString(1));
                 }
                 pd.setJoinDates(joinDates);
 
