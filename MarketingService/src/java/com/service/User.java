@@ -6,6 +6,7 @@
 package com.service;
 
 import com.beans.CreateVirtualUser;
+import com.beans.JoiningDetailsBean;
 import com.beans.UserBean;
 import com.beans.UserPassword;
 import com.dao.UserDao;
@@ -49,11 +50,11 @@ public class User {
             int updatedRows = userDao.createUser(userBean);
 
             if (updatedRows != 0) {
-                msg = "User Added Successfuly";
+                msg = "" + updatedRows;
             } else {
-                msg = "Failed to Add user";
+                msg = "" + updatedRows;
             }
-            jsonInString = objectMapper.writeValueAsString(msg);
+            jsonInString = msg;
         } catch (Exception ex) {
             logger.error("User Class" + ex);
         }
@@ -177,6 +178,24 @@ public class User {
             } else {
                 jsonInString = "failed";
             }
+        } catch (Exception ex) {
+            logger.error("User Class" + ex);
+        }
+        return jsonInString;
+    }
+
+    @POST
+    @Path("/userschemejoininglist")
+    @Produces("text/plain")
+    @Consumes("text/plain")
+    public String userschemejoininglist(String data) {
+        String jsonInString = "";
+        try {
+            JoiningDetailsBean up = objectMapper.readValue(data, JoiningDetailsBean.class);
+
+            List<JoiningDetailsBean> updatedRows = userDao.userschemejoininglist(up);
+            jsonInString = objectMapper.writeValueAsString(updatedRows);
+
         } catch (Exception ex) {
             logger.error("User Class" + ex);
         }

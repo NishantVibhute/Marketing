@@ -367,6 +367,13 @@ $("#countMsg").text(i);
           </a>
           
         </li>
+        <li id="paymentLi" >
+            <a href="paymentRelease">
+                <i class="fa fa-credit-card"></i> <span>Payment</span>
+
+            </a>
+
+        </li>
       </ul>
     </section>
     <!-- /.sidebar -->

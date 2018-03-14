@@ -32,7 +32,7 @@ public class ChatRoomAction extends ActionSupport implements ModelDriven {
     public String redirect() {
 
         try {
-            String resp = ServiceUtil.getResponseGet("/Chat/getlist");
+            String resp = ServiceUtil.getResponse("Admin", "/Chat/getlist");
 
             chatList = objectMapper.readValue(resp, new TypeReference<List<ChatRoomBean>>() {
             });
@@ -45,7 +45,7 @@ public class ChatRoomAction extends ActionSupport implements ModelDriven {
 
     public String getChats() {
         try {
-            String resp = ServiceUtil.getResponseGet("/Chat/getlist");
+            String resp = ServiceUtil.getResponse("Admin", "/Chat/getlist");
 
             chatList = objectMapper.readValue(resp, new TypeReference<List<ChatRoomBean>>() {
             });

@@ -6,6 +6,7 @@
 package com.beans;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -14,13 +15,23 @@ import java.util.Date;
 public class SentMessageBean {
 
     private int id;
-    private String from;
+    private long from;
+    private int schemeId;
     private String to;
     private int tempId;
     private String message;
     private Date sentDate;
     private Date deliveredDate;
     private String status;
+    private List<String> bulkTo;
+
+    public List<String> getBulkTo() {
+        return bulkTo;
+    }
+
+    public void setBulkTo(List<String> bulkTo) {
+        this.bulkTo = bulkTo;
+    }
 
     public int getId() {
         return id;
@@ -28,14 +39,6 @@ public class SentMessageBean {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getFrom() {
-        return from;
-    }
-
-    public void setFrom(String from) {
-        this.from = from;
     }
 
     public String getTo() {
@@ -84,6 +87,22 @@ public class SentMessageBean {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public long getFrom() {
+        return from;
+    }
+
+    public void setFrom(long from) {
+        this.from = from;
+    }
+
+    public int getSchemeId() {
+        return schemeId;
+    }
+
+    public void setSchemeId(int schemeId) {
+        this.schemeId = schemeId;
     }
 
 }

@@ -62,6 +62,16 @@
             <result name="success">/joininingrequest.jsp</result>
             <result name="login">/index.jsp</result>
         </action>
+        <action name="paymentRelease" class="com.redirect.PaymentAction" method="redirect">
+            <result name="success">/paymentRequest.jsp</result>
+            <result name="login">/index.jsp</result>
+        </action>
+        
+        <action name="getPaymentRealeaseRequest" class="com.redirect.PaymentAction" method="getPaymentRealeaseRequest">
+            <result type="stream">
+                <param name="contentType">text/plain</param>
+            </result>
+        </action>
         
         
         <action name="poolScheme" class="com.redirect.SchemeAction" method="poolScheme">
