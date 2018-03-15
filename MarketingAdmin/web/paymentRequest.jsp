@@ -147,9 +147,9 @@
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title">Payment Details</h4>
+                            <h4 class="modal-title"><span id="userName"></span></h4>
                         </div>
-                        <form method="post" action="savePaymentDetails">
+                        <form method="post" action="saveCustomerPaymentDetails">
                             <div class="modal-body">
                                 <div class="row">
   <div class="col-sm-6"><div class="box-body">
@@ -170,7 +170,8 @@
                                 </div></div>
   <div class="col-sm-6"><div class="form-group">
                                     <label>Payment Mode</label>
-                                    <input type="hidden" id="joinId" name="joiningId"/>
+                                    <input type="hidden" id="schemeId" name="schemeId"/>
+                                    <input type="hidden" id="userId" name="joiningId"/>
                                     <select id="paymode"  name="paymentModeId" class="form-control">
 
                                         <option value="1">by Cash</option>
@@ -307,7 +308,8 @@
                                                                     .draw();
                                                             jQuery.each(response, function(index, value) {
 //    var dt = "<tr><td>"+index+"</td><td>"+value.name+"</td><td><button type='button' class='btn btn-block btn-success'>Accept</button></td><td><button type='button' class='btn btn-block  btn-danger'>Deny</button></td></tr>";
-//                                                                var userId=value.userId;
+                                                                var userId=value.userId;
+                                                                var schemeId=value.schemeId;
                                                                 var name= value.userName;
                                                                 var amount =value.amount;
                                                                 var dat=value.joinDates;
@@ -316,7 +318,7 @@
                                                                     
                                                                     name,
                                                                     amount,
-                                                                "<button type='button' class='btn btn-block btn-success'  onClick=showPayModal('"+dat+"',"+amount+")>View</button>"]);
+                                                                "<button type='button' class='btn btn-block btn-success'  onClick=showPayModal('"+dat+"',"+amount+","+schemeId+","+userId+",'"+encodeURIComponent(name)+"')>View</button>"]);
 
 
                                                             });
@@ -347,16 +349,22 @@
                                                     }
                                                 })
 
-                                                function showPayModal(id,amount)
+                                                function showPayModal(id,amount,schemeId,userId,userName)
                                                 {
                                                     var res = id.split(",");
+
+                                                    $("#joinDates").find("tr:gt(0)").remove();
                                                      for (i = 0; i < res.length; i++) { 
                     $("#joinDates").append("<tr><td>"+res[i]+"</td></tr>");
                                                  
                 
 }
                                                     
-                                                        $("#joinId").val(id);
+                                                        $("#schemeId").val(schemeId);
+                                                        $("#userId").val(userId);
+
+        $("#userName").text(decodeURIComponent(userName));
+        $("#amount").val(amount);
                                                         $('#modal-default').modal('show');
                                                         
                                                    

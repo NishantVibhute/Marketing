@@ -5,9 +5,11 @@
  */
 package com.redirect;
 
+import com.beans.PaymentBean;
 import com.beans.PaymentRealeaseRequestBean;
 import com.beans.PendingJoinRequest;
 import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.ModelDriven;
 import com.util.ServiceUtil;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -24,13 +26,15 @@ import org.codehaus.jackson.type.TypeReference;
  *
  * @author Nishant
  */
-public class PaymentAction {
+public class PaymentAction extends ActionSupport implements ModelDriven {
 
     List<PendingJoinRequest> pendingJoinRequestList = new ArrayList<>();
     String successMsg = StringUtils.EMPTY, errorMsg = StringUtils.EMPTY;
     ObjectMapper objectMapper = new ObjectMapper();
     String val;
     private InputStream inputStream;
+
+    PaymentBean paymentBean = new PaymentBean();
 
     public String redirect() {
 
@@ -64,6 +68,34 @@ public class PaymentAction {
 
         return ActionSupport.SUCCESS;
 
+    }
+
+    public String saveCustomerPayment() {
+
+        try {
+            String input = objectMapper.writeValueAsString(this.paymentBean);
+            String resp = ServiceUtil.getResponse(input, "/payment/saveCustomerPaymentDetails");
+
+            if (Integer.parseInt(resp) != 0) {
+                successMsg = " Payment Save Successfully";
+            } else {
+                errorMsg = " Failed to Save Payment";
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(SchemeAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return ActionSupport.SUCCESS;
+
+    }
+
+    public PaymentBean getPaymentBean() {
+        return paymentBean;
+    }
+
+    public void setPaymentBean(PaymentBean paymentBean) {
+        this.paymentBean = paymentBean;
     }
 
     public List<PendingJoinRequest> getPendingJoinRequestList() {
@@ -112,6 +144,11 @@ public class PaymentAction {
 
     public void setInputStream(InputStream inputStream) {
         this.inputStream = inputStream;
+    }
+
+    @Override
+    public Object getModel() {
+        return paymentBean;
     }
 
 }

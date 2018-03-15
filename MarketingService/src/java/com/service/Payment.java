@@ -5,13 +5,12 @@
  */
 package com.service;
 
+import com.beans.PaymentBean;
 import com.beans.PaymentRealeaseRequestBean;
 import com.beans.PendingJoinRequest;
 import com.dao.PaymentDao;
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -29,6 +28,7 @@ public class Payment {
 
     PaymentDao paymentDao = new PaymentDao();
     ObjectMapper objectMapper = new ObjectMapper();
+    org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(Payment.class);
 
     @GET
     @Path("/getPaymentRealeaseSchemewiseCount")
@@ -41,7 +41,7 @@ public class Payment {
             List<PendingJoinRequest> prrbs = paymentDao.getPaymentRealeaseSchemewiseCount();
             json = objectMapper.writeValueAsString(prrbs);
         } catch (IOException ex) {
-            Logger.getLogger(Payment.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error("Payment Class" + ex);
         }
         return json;
     }
@@ -57,8 +57,30 @@ public class Payment {
             List<PaymentRealeaseRequestBean> prrbs = paymentDao.getPaymentRealeaseRequest(Integer.parseInt(data));
             json = objectMapper.writeValueAsString(prrbs);
         } catch (IOException ex) {
-            Logger.getLogger(Payment.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error("Payment Class" + ex);
         }
         return json;
+    }
+
+    @POST
+    @Path("/saveCustomerPaymentDetails")
+    @Consumes("text/plain")
+    @Produces("text/plain")
+
+    public String saveCustomerPaymentDetails(String data) {
+        //TODO return proper representation object
+        String jsonInString = "";
+        try {
+
+            //TODO return proper representation object
+            PaymentBean up = objectMapper.readValue(data, PaymentBean.class);
+
+            int count = paymentDao.updatePayment(up);
+
+            jsonInString = "" + count;
+        } catch (Exception ex) {
+            logger.error("Payment Class" + ex);
+        }
+        return jsonInString;
     }
 }

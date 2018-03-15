@@ -5,8 +5,10 @@
  */
 package com.dao;
 
+import com.beans.PaymentBean;
 import com.beans.PaymentRealeaseRequestBean;
 import com.beans.PendingJoinRequest;
+import com.ennum.StatusEnum;
 import com.util.DbUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -86,6 +88,36 @@ public class PaymentDao {
 
         return pendingJoinRequestList;
 
+    }
+
+    public int updatePayment(PaymentBean payBean) {
+        int count = 0;
+
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement("call updateCustomerPaymentDetails(?,?,?,?,?,?,?,?,?)");
+            ps.setInt(1, payBean.getJoiningId());
+            ps.setInt(2, payBean.getPaymentModeId());
+            ps.setString(3, payBean.getChequeNo());
+            ps.setString(4, payBean.getChequeDate());
+            ps.setString(5, payBean.getBankName());
+            ps.setString(6, payBean.getUTRNo());
+            ps.setInt(7, StatusEnum.CONFIRMED.getId());
+            ps.setDouble(8, payBean.getAmount());
+            ps.setInt(9, payBean.getSchemeId());
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                count = rs.getInt(1);
+
+            }
+
+            db.closeConnection(con);
+        } catch (Exception ex) {
+            logger.error("CreateUser", ex);
+        }
+        return count;
     }
 
 }
