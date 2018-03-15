@@ -8,7 +8,9 @@ package com.service;
 import com.beans.CreateVirtualUser;
 import com.beans.JoiningDetailsBean;
 import com.beans.UserBean;
+import com.beans.UserJoinPaymentBean;
 import com.beans.UserPassword;
+import com.beans.UserSchemeBalance;
 import com.dao.UserDao;
 import java.util.List;
 import javax.ws.rs.Consumes;
@@ -137,8 +139,26 @@ public class User {
     public String getUserListWithDetails() {
         String jsonInString = "";
         try {
-            int a = 10 / 0;
+
             List<UserBean> userBean = userDao.getUserDetilsList();
+
+            jsonInString = objectMapper.writeValueAsString(userBean);
+        } catch (Exception ex) {
+            errorLog.error("User Class : " + ex);
+            infoLog.info("User Class info hey");
+        }
+        return jsonInString;
+    }
+
+    @POST
+    @Path("/getUserDetailsByUserId")
+    @Produces("text/plain")
+    @Consumes("text/plain")
+    public String getUserDetailsByUserId(String data) {
+        String jsonInString = "";
+        try {
+
+            UserBean userBean = userDao.getUserDetailsByUserId(Integer.parseInt(data));
 
             jsonInString = objectMapper.writeValueAsString(userBean);
         } catch (Exception ex) {
@@ -196,6 +216,41 @@ public class User {
             List<JoiningDetailsBean> updatedRows = userDao.userschemejoininglist(up);
             jsonInString = objectMapper.writeValueAsString(updatedRows);
 
+        } catch (Exception ex) {
+            logger.error("User Class" + ex);
+        }
+        return jsonInString;
+    }
+
+    @POST
+    @Path("/getschemeuserbalance")
+    @Consumes("text/plain")
+    @Produces("text/plain")
+
+    public String getSchemeUserBalance(String data) {
+        //TODO return proper representation object
+        String jsonInString = "";
+        try {
+            List<UserSchemeBalance> schemeRowList = userDao.getSchemeUserBalance(Integer.parseInt(data));
+            jsonInString = objectMapper.writeValueAsString(schemeRowList);
+        } catch (Exception ex) {
+            logger.error("User Class" + ex);
+        }
+        return jsonInString;
+    }
+
+    @POST
+    @Path("/getuserjoinpayment")
+    @Consumes("text/plain")
+    @Produces("text/plain")
+
+    public String getUserJoinPayment(String data) {
+        //TODO return proper representation object
+        String jsonInString = "";
+        try {
+            JoiningDetailsBean up = objectMapper.readValue(data, JoiningDetailsBean.class);
+            List<UserJoinPaymentBean> schemeRowList = userDao.getUserJoinPayment(up);
+            jsonInString = objectMapper.writeValueAsString(schemeRowList);
         } catch (Exception ex) {
             logger.error("User Class" + ex);
         }

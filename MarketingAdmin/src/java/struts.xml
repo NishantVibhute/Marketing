@@ -94,6 +94,29 @@
             <result name="login">/index.jsp</result>
         </action>
         
+        <action name="redirectUserDetails" class="com.redirect.UserAction" method="redirectDetails">
+            <result name="success" >/userDetails.jsp</result>
+            <result name="login">/index.jsp</result>
+        </action>
+        
+        <action name="getUserDetails" class="com.redirect.UserAction" method="getUserDetails">
+            <result type="stream">
+                <param name="contentType">text/plain</param>
+            </result>
+        </action>
+        
+        <action name="getSchemeUserBalanceDetails" class="com.redirect.UserAction" method="getSchemeUserBalance">
+            <result type="stream">
+                <param name="contentType">text/plain</param>
+            </result>
+        </action>
+        
+        <action name="getUserSchemeJoiningDetails" class="com.redirect.UserAction" method="getSchemeJoiningDetails">
+            <result type="stream">
+                <param name="contentType">text/plain</param>
+            </result>
+        </action>
+        
         
         <action name="detailScheme" class="com.redirect.SchemeAction" method="redirectList">
             <result name="success">/schemedetails.jsp</result>

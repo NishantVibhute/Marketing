@@ -352,13 +352,25 @@ $("#countMsg").text(i);
           
         </li>
         
-        <li id="userLi" >
-          <a href="users">
-            <i class="fa fa-inbox"></i> <span>Users</span>
-            
+        
+        <li id="userLi" class="treeview">
+          <a href="#">
+            <i class="fa fa-envelope"></i> <span>Users </span>
+             <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
           </a>
-          
+          <ul class="treeview-menu">
+              <li id="smsNewLi"><a href="#"><i class="fa fa-circle-o"></i> New</a></li>
+              <li id="smsNewLi"><a href="users"><i class="fa fa-circle-o"></i> List</a></li>
+              <li id="smsDetailLi"><a href="redirectUserDetails"><i class="fa fa-circle-o"></i> Details</a></li>
+           
+            
+            
+            
+          </ul>
         </li>
+       
         
         <li id="visitorLi" >
           <a href="visitors">

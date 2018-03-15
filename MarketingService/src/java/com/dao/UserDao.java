@@ -9,7 +9,9 @@ import com.beans.BankDetailsBean;
 import com.beans.CreateVirtualUser;
 import com.beans.JoiningDetailsBean;
 import com.beans.UserBean;
+import com.beans.UserJoinPaymentBean;
 import com.beans.UserPassword;
+import com.beans.UserSchemeBalance;
 import com.service.User;
 import com.util.DbUtil;
 import java.sql.Connection;
@@ -185,6 +187,46 @@ public class UserDao {
 
     }
 
+    public UserBean getUserDetailsByUserId(int userId) {
+        UserBean ub = new UserBean();
+
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement("call getUserDetailsByUserId(?)");
+            ps.setInt(1, userId);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                ub.setId(rs.getInt(1));
+                ub.setFirstName(rs.getString(2));
+                ub.setMiddleName(rs.getString(3));
+                ub.setLastName(rs.getString(4));
+                ub.setEmailId(rs.getString(5));
+                ub.setMobileNo(rs.getString(6));
+                ub.setAddress(rs.getString(7));
+                ub.setPanCardNo(rs.getString(8));
+                ub.setAadharCardNo(rs.getString(9));
+                BankDetailsBean b = new BankDetailsBean();
+                b.setBankName(rs.getString(10));
+                b.setIfscCode(rs.getString(11));
+                b.setBranchName(rs.getString(12));
+                b.setBankAccNo(rs.getString(13));
+                ub.setBankDetails(b);
+                ub.setBalance(rs.getDouble(14));
+                ub.setPassword(rs.getString(15));
+                ub.setJoinDate(rs.getString(16));
+
+            }
+
+            db.closeConnection(con);
+        } catch (Exception ex) {
+            logger.error("CreateUser", ex);
+        }
+        return ub;
+
+    }
+
     public List<UserPassword> getVisitorList() {
         List<UserPassword> userList = new ArrayList<>();
         int count = 0;
@@ -262,6 +304,78 @@ public class UserDao {
             logger.error("CreateUser", ex);
         }
         return jdbs;
+
+    }
+
+    public List<UserSchemeBalance> getSchemeUserBalance(int userId) {
+        List<UserSchemeBalance> chartData = new ArrayList<>();
+
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement("call getUserSchemeBalance(?)");
+            ps.setInt(1, userId);
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                UserSchemeBalance ud = new UserSchemeBalance();
+                ud.setUserSchemeBalId(rs.getInt(1));
+                ud.setUserId(rs.getInt(2));
+                ud.setSchemeId(rs.getInt(3));
+                ud.setSchemeName(rs.getString(4));
+                ud.setBalance(rs.getDouble(5));
+                chartData.add(ud);
+
+            }
+
+            db.closeConnection(con);
+        } catch (Exception ex) {
+            logger.error("CreateUser", ex);
+        }
+
+        return chartData;
+
+    }
+
+    public List<UserJoinPaymentBean> getUserJoinPayment(JoiningDetailsBean data) {
+        List<UserJoinPaymentBean> chartData = new ArrayList<>();
+
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement("call getUserJoinPaymentDetails(?,?)");
+            ps.setLong(1, data.getUserId());
+            ps.setLong(2, data.getSchemeId());
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                UserJoinPaymentBean ud = new UserJoinPaymentBean();
+                ud.setPaymenttype(rs.getInt(1));
+                ud.setChequeno(rs.getString(2));
+                ud.setAmount(rs.getDouble(3));
+                ud.setCheque_date(rs.getString(4));
+                ud.setBank_name(rs.getString(5));
+                ud.setUtrno(rs.getString(6));
+                ud.setPaymentstatus(rs.getInt(7));
+                ud.setPaymentdate(rs.getString(8));
+                ud.setPayment_modeid(rs.getInt(9));
+                ud.setUserstatus(rs.getInt(10));
+                ud.setRequestdate(rs.getString(11));
+                ud.setJoindate(rs.getString(12));
+                ud.setIsExit(rs.getInt(13));
+                ud.setIsPaymentRealease(rs.getInt(14));
+                ud.setPaymentid(rs.getInt(15));
+
+                chartData.add(ud);
+
+            }
+
+            db.closeConnection(con);
+        } catch (Exception ex) {
+            logger.error("CreateUser", ex);
+        }
+
+        return chartData;
 
     }
 

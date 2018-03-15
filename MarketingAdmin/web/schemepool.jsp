@@ -58,27 +58,27 @@
                 <!-- Main content -->
                 <section class="content">
                     <div class="row">
-                    <div class="box">
-            <div class="box-body">
-              
-                        
-                        <label  class="col-sm-2  control-label">Select Scheme</label>
-                        <div class="col-sm-7">
-                            <select id="schemeMode"   class="form-control">
-                                <s:iterator value="schemeList" var="sb">
-                                    <option value="<s:property value="id" />"><s:property value="schemeName" /></option>
+                        <div class="box">
+                            <div class="box-body">
 
-                                </s:iterator>
-                            </select>
-                        </div>
-                        <div class="col-sm-2">
-                            <button type="button" onclick="getData()" class="btn btn-info">SEARCH</button>
+
+                                <label  class="col-sm-2  control-label">Select Scheme</label>
+                                <div class="col-sm-7">
+                                    <select id="schemeMode"   class="form-control">
+                                        <s:iterator value="schemeList" var="sb">
+                                            <option value="<s:property value="id" />"><s:property value="schemeName" /></option>
+
+                                        </s:iterator>
+                                    </select>
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="button" onclick="getData()" class="btn btn-info">SEARCH</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    </div>
-                        </div>
                     <div class="row">
-                    
+
                         <div class="col-md-12">
                             <!-- DONUT CHART -->
                             <div class="box box-danger ">
@@ -105,45 +105,45 @@
                     <div class="row">
                         <!-- /.col -->
                         <div class="col-md-12">
-                            
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">Scheme Pool</h3>
-            </div>
-                            <div class="box-body">
-              <table id="tablePool" class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th colspan="2" style="text-align: center;width: 25%">Parent</th>
-                  <th colspan="2" style="text-align: center;width: 25%">Child 1</th>
-                  <th colspan="2" style="text-align: center;width: 25%">Child 2</th>
-                  <th colspan="2" style="text-align: center;width: 25%">Child 3</th>
-                  
-                </tr>
-                <tr>
-                    <th >Name</th>
-                  <th >Joined On</th>
-                  <th >Name</th>
-                  <th >Joined On</th>
-                  <th >Name</th>
-                  <th >Joined On</th>
-                  <th >Name</th>
-                  <th >Joined On</th>
-                </tr>
-                </thead>
-                <tbody>
-                
-               
-                </tbody>
-                
-              </table>
-            </div>
-          </div>
+
+                            <div class="box">
+                                <div class="box-header">
+                                    <h3 class="box-title">Scheme Pool</h3>
+                                </div>
+                                <div class="box-body">
+                                    <table id="tablePool" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="2" style="text-align: center;width: 25%">Parent</th>
+                                                <th colspan="2" style="text-align: center;width: 25%">Child 1</th>
+                                                <th colspan="2" style="text-align: center;width: 25%">Child 2</th>
+                                                <th colspan="2" style="text-align: center;width: 25%">Child 3</th>
+
+                                            </tr>
+                                            <tr>
+                                                <th >Name</th>
+                                                <th >Joined On</th>
+                                                <th >Name</th>
+                                                <th >Joined On</th>
+                                                <th >Name</th>
+                                                <th >Joined On</th>
+                                                <th >Name</th>
+                                                <th >Joined On</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            </div>
 
 
                         </div>
                         <!-- /.col -->
-                        
+
                     </div>
 
 
@@ -165,8 +165,8 @@
         <!-- Bootstrap 3.3.7 -->
         <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
         <!-- DataTables -->
-<script src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
-<script src="bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+        <script src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
         <!-- Morris.js charts -->
         <script src="bower_components/raphael/raphael.min.js"></script>
         <script src="bower_components/morris.js/morris.min.js"></script>
@@ -179,124 +179,127 @@
         <!-- page script -->
 
         <script>
-               
-     $(document).ready(function(){
-          
-          $("#dashboardli").removeClass("active");
-          $("#schmeLi").addClass("active");
-          $("#schemePoolLi").addClass("active");
-          $("#schemeDetailLi").removeClass("active");
-          $("#schmeNewLi").removeClass("active");
-          $("#joiningLi").removeClass("active");
-          $("#emailLi").removeClass("active");
-          $("#smsLi").removeClass("active");
-                    $("#chatroomLi").removeClass("active");
 
-      });
-                                  var donut = "";
-                                  $(function() {
-                                      $('#tablePool').DataTable({
-                                                        'paging': true,
-                                                        'lengthChange': true,
-                                                        'searching': true,
-                                                        'ordering': false,
-                                                        'info': true,
-                                                        'autoWidth': false,
-                                                        'aaSorting': [],
-                                                        'searchHighlight': true,
-                                                    });
-                                                    
-                                               
+                                        $(document).ready(function() {
 
-                                      //DONUT CHART
-                                      donut = new Morris.Donut({
-                                          element: 'sales-chart',
-                                          resize: true,
-                                          colors: ["#3c8dbc", "#f56954", "#00a65a", "red", "blue"],
-                                          data: [{"label": "Select Scheme", "value": 0}],
-                                          hideHover: 'auto'
-                                      });
+                                            $("#dashboardli").removeClass("active");
+                                            $("#schmeLi").addClass("active");
+                                            $("#schemePoolLi").addClass("active");
+                                            $("#schemeDetailLi").removeClass("active");
+                                            $("#schmeNewLi").removeClass("active");
+                                            $("#joiningLi").removeClass("active");
+                                            $("#emailLi").removeClass("active");
+                                            $("#smsLi").removeClass("active");
+                                            $("#chatroomLi").removeClass("active");
+
+                                        });
+                                        var donut = "";
+                                        $(function() {
+                                            $('#tablePool').DataTable({
+                                                'paging': true,
+                                                'lengthChange': true,
+                                                'searching': true,
+                                                'ordering': false,
+                                                'info': true,
+                                                'autoWidth': false,
+                                                'aaSorting': [],
+                                                'searchHighlight': true,
+                                            });
 
 
 
+                                            //DONUT CHART
+                                            donut = new Morris.Donut({
+                                                element: 'sales-chart',
+                                                resize: true,
+                                                colors: ["#3c8dbc", "#f56954", "#00a65a", "red", "blue"],
+                                                data: [{"label": "Select Scheme", "value": 0}],
+                                                hideHover: 'auto'
+                                            });
 
-                                  });
-                                  function getData()
-                                  {
-                                      var a = $('#schemeMode').val();
 
 
-                                      $.ajax({
-                                          type: "post",
-                                          url: "getSchemeStats?val=" + a,
-                                          dataType: 'json',
-                                          success: function(response) {
 
-                                              donut.setData(response);
-                                          }
-                                      });
+                                        });
+                                        function getData()
+                                        {
+                                            var a = $('#schemeMode').val();
 
-$.ajax({
-                                        type: "post",
-                                        url: "getSchemePoolByName?val2=" + a,
-                                        dataType: 'json',
-                                        success: function(response) {
-                                            jQuery.each(response, function(index, value) {
-                                                
-                                                var pr ="";
-                                                
-                                                
-                                                                if (value.pmemberType === 1) {
-                                                                    pr = "<span class='badge bg-green'>P</span> "+value.pname
-                                                                } else if (value.pmemberType === 2) {
-                                                                    pr = "<span class='badge bg-red'>V</span> "+value.pname
-                                                                }
-                                                                
-                                                                var ch1 ="";
-                                                
-                                                
-                                                                if (value.ch1memberType === 1) {
-                                                                    ch1 = "<span class='badge bg-green'>P</span> "+value.ch1name
-                                                                } else if (value.ch1memberType === 2) {
-                                                                    ch1 = "<span class='badge bg-red'>V</span> "+value.ch1name
-                                                                }
-                                                
-                                                var ch2 ="";
-                                                
-                                                
-                                                                if (value.ch2memberType === 1) {
-                                                                    ch2 = "<span class='badge bg-green'>P</span> "+value.ch2name
-                                                                } else if (value.ch2memberType === 2) {
-                                                                    ch2 = "<span class='badge bg-red'>V</span> "+value.ch2name
-                                                                }
-                                                                
-                                                                var ch3 ="";
-                                                
-                                                
-                                                                if (value.ch3memberType === 1) {
-                                                                    ch3 = "<span class='badge bg-green'>P</span> "+value.ch3name
-                                                                } else if (value.ch3memberType === 2) {
-                                                                    ch3 = "<span class='badge bg-red'>V</span> "+value.ch3name
-                                                                }
-                                                
-                                                
-                                                
-                                                $('#tablePool').dataTable().fnAddData([
-                                                   pr,
-                                                     value.pjoinDate,
-                                                    ch1,
-                                                    value.ch1joinDate,
-                                                    ch2,
-                                                    value.ch2joinDate,
-                                                    ch3,
-                                                    value.ch3joinDate,
-                                                    ]);
-                                            })
+
+                                            $.ajax({
+                                                type: "post",
+                                                url: "getSchemeStats?val=" + a,
+                                                dataType: 'json',
+                                                success: function(response) {
+
+                                                    donut.setData(response);
+                                                }
+                                            });
+
+                                            $.ajax({
+                                                type: "post",
+                                                url: "getSchemePoolByName?val2=" + a,
+                                                dataType: 'json',
+                                                success: function(response) {
+                                                    $('#tablePool').DataTable().rows()
+                                                            .remove()
+                                                            .draw();
+                                                    jQuery.each(response, function(index, value) {
+
+                                                        var pr = "";
+
+
+                                                        if (value.pmemberType === 1) {
+                                                            pr = "<span class='badge bg-green'>P</span> " + value.pname
+                                                        } else if (value.pmemberType === 2) {
+                                                            pr = "<span class='badge bg-red'>V</span> " + value.pname
+                                                        }
+
+                                                        var ch1 = "";
+
+
+                                                        if (value.ch1memberType === 1) {
+                                                            ch1 = "<span class='badge bg-green'>P</span> " + value.ch1name
+                                                        } else if (value.ch1memberType === 2) {
+                                                            ch1 = "<span class='badge bg-red'>V</span> " + value.ch1name
+                                                        }
+
+                                                        var ch2 = "";
+
+
+                                                        if (value.ch2memberType === 1) {
+                                                            ch2 = "<span class='badge bg-green'>P</span> " + value.ch2name
+                                                        } else if (value.ch2memberType === 2) {
+                                                            ch2 = "<span class='badge bg-red'>V</span> " + value.ch2name
+                                                        }
+
+                                                        var ch3 = "";
+
+
+                                                        if (value.ch3memberType === 1) {
+                                                            ch3 = "<span class='badge bg-green'>P</span> " + value.ch3name
+                                                        } else if (value.ch3memberType === 2) {
+                                                            ch3 = "<span class='badge bg-red'>V</span> " + value.ch3name
+                                                        }
+
+
+
+                                                        $('#tablePool').dataTable().fnAddData([
+                                                            pr,
+                                                            value.pjoinDate,
+                                                            ch1,
+                                                            value.ch1joinDate,
+                                                            ch2,
+                                                            value.ch2joinDate,
+                                                            ch3,
+                                                            value.ch3joinDate,
+                                                        ]);
+                                                    })
+
+                                                }
+                                            });
 
                                         }
-                                    });
-
-                                  }
 
         </script>
     </body>

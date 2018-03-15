@@ -3,13 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/old%20data/Personal/SanjayGurav/Marketing/MarketingAdmin/src/java/com/redirect/PaymentAction.java</file>
-            <file>file:/E:/old%20data/Personal/SanjayGurav/Marketing/MarketingAdmin/src/java/com/redirect/JoiningAction.java</file>
-            <file>file:/E:/old%20data/Personal/SanjayGurav/Marketing/MarketingAdmin/web/paymentRequest.jsp</file>
-            <file>file:/E:/old%20data/Personal/SanjayGurav/Marketing/MarketingAdmin/src/java/com/util/ServiceUtil.java</file>
+            <file>file:/E:/old%20data/Personal/SanjayGurav/Marketing/MarketingAdmin/web/schemepool.jsp</file>
+            <file>file:/E:/old%20data/Personal/SanjayGurav/Marketing/MarketingAdmin/web/userDetails.jsp</file>
             <file>file:/E:/old%20data/Personal/SanjayGurav/Marketing/MarketingAdmin/web/joininingrequest.jsp</file>
+            <file>file:/E:/old%20data/Personal/SanjayGurav/Marketing/MarketingAdmin/src/java/com/redirect/UserAction.java</file>
             <file>file:/E:/old%20data/Personal/SanjayGurav/Marketing/MarketingAdmin/src/java/struts.xml</file>
-            <file>file:/E:/old%20data/Personal/SanjayGurav/Marketing/MarketingAdmin/src/java/com/redirect/SchemeAction.java</file>
         </group>
     </open-files>
 </project-private>

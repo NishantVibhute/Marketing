@@ -24,6 +24,15 @@ public class UserBean {
     double balance;
     String password;
     int isValid;
+    String joinDate;
+
+    public String getJoinDate() {
+        return joinDate;
+    }
+
+    public void setJoinDate(String joinDate) {
+        this.joinDate = joinDate;
+    }
 
     public long getId() {
         return id;

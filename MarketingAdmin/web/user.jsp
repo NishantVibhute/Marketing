@@ -70,42 +70,42 @@
                                         <thead>
                                             <tr>
                                                 <th width="5%" rowspan="2">Sr No.</th>
-                                                <th width="5%" rowspan="2">User Id</th>
+                                                <!--<th width="2%" rowspan="2">User Id</th>-->
                                                 <th rowspan="2">Name</th>
-                                                <th rowspan="2">Address</th>
+                                                <!--<th rowspan="2">Address</th>-->
                                                 <th rowspan="2">Email Id</th>
                                                 <th rowspan="2">Mobile No</th>
-                                                <th rowspan="2">Pan Card No</th>
-                                                <th rowspan="2">Aadhar Card No</th>
+                                                <!--<th rowspan="2">Pan Card No</th>-->
+                                                <!--<th rowspan="2">Aadhar Card No</th>-->
                                                 <th rowspan="2">Balance</th>
-                                                <th colspan="4">Bank Details</th>
+                                                <!--<th colspan="4">Bank Details</th>-->
                                                 <th rowspan="2"></th>
 
                                             </tr>
-                                            <tr>
+<!--                                            <tr>
                                                 <th >IFSC Code</th>
                                                 <th >Account No</th>
                                                 <th >Bank Name</th>
                                                 <th >Branch Name</th>
-                                            </tr>
+                                            </tr>-->
                                         </thead>
                                         <tbody>
 
                                             <s:iterator value="userList" status="sb">
                                                 <tr>
                                                     <td><s:property value="%{#sb.index+1}" /></td>
-                                                    <td><s:property value="id" /></td>
+                                                    <!--<td><s:property value="id" /></td>-->
                                                     <td><s:property value="firstName" /><s:property value="middleName" /><s:property value="lastName" /></td>
-                                                    <td><s:property value="address" /></td>
+                                                    <!--<td><s:property value="address" /></td>-->
                                                     <td><s:property value="emailId" /></td>
                                                     <td><s:property value="mobileNo" /></td>
-                                                    <td><s:property value="panCardNo" /></td>
-                                                    <td><s:property value="aadharCardNo" /></td>
+                                                    <!--<td><s:property value="panCardNo" /></td>-->
+                                                    <!--<td><s:property value="aadharCardNo" /></td>-->
                                                     <td><s:property value="balance" /></td>
-                                                    <td><s:property value="bankDetails.ifscCode" /></td>
+<!--                                                    <td><s:property value="bankDetails.ifscCode" /></td>
                                                     <td><s:property value="bankDetails.bankAccNo" /></td>
                                                     <td><s:property value="bankDetails.bankName" /></td>
-                                                    <td><s:property value="bankDetails.branchName" /></td>
+                                                    <td><s:property value="bankDetails.branchName" /></td>-->
                                                     
                                                     <td>EDIT</td>
 
