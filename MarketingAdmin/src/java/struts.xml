@@ -73,6 +73,11 @@
             </result>
         </action>
         
+        <action name="saveCustomerPaymentDetails" class="com.redirect.PaymentAction" method="saveCustomerPayment">
+            <result name="success" type="chain">paymentRelease</result>
+            <result name="login">/index.jsp</result>
+        </action>
+        
         
         <action name="poolScheme" class="com.redirect.SchemeAction" method="poolScheme">
             <result name="success">/schemepool.jsp</result>
