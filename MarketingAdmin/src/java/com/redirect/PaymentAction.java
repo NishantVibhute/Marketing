@@ -50,7 +50,7 @@ public class PaymentAction {
     public String getPaymentRealeaseRequest() {
 
         try {
-            String resp = ServiceUtil.getResponse(this.getVal(), "/scheme/getPaymentRealeaseRequest");
+            String resp = ServiceUtil.getResponse(this.getVal(), "/payment/getPaymentRealeaseRequest");
 
             List<PaymentRealeaseRequestBean> paymentRealeaseRequestBean = objectMapper.readValue(resp, new TypeReference<List<PaymentRealeaseRequestBean>>() {
             });

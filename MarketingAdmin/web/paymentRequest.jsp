@@ -151,7 +151,24 @@
                         </div>
                         <form method="post" action="savePaymentDetails">
                             <div class="modal-body">
-                                <div class="form-group">
+                                <div class="row">
+  <div class="col-sm-6"><div class="box-body">
+                                    <table id="joinDates" class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                               <th style="text-align: center;width: 15%">Joining Dates</th>
+</tr>
+
+
+                                        </thead>
+                                        <tbody>
+
+
+                                        </tbody>
+
+                                    </table>
+                                </div></div>
+  <div class="col-sm-6"><div class="form-group">
                                     <label>Payment Mode</label>
                                     <input type="hidden" id="joinId" name="joiningId"/>
                                     <select id="paymode"  name="paymentModeId" class="form-control">
@@ -159,9 +176,7 @@
                                         <option value="1">by Cash</option>
                                         <option value="2">by Cheque</option>
                                         <option value="3">by Netbanking</option>
-                                        <option value="4">by Company</option>
-                                        <option value="5">by Rejoining</option>
-
+                                        
 
                                     </select>
 
@@ -202,7 +217,12 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary">Save</button>
-                            </div>
+                            </div></div>
+
+</div>
+                                
+                                
+                                
                         </form>
                     </div>
                     <!-- /.modal-content -->
@@ -211,52 +231,7 @@
             </div>
             <!-- /.modal -->
 
-            <div class="modal fade" id="modal-Virtual">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title">Payment Details</h4>
-                        </div>
-                        <form method="post" action="updateVirtualUserPayment">
-                            <div class="modal-body">
-                                <div class="form-group">
-
-                                    <input type="hidden" id="joinIdVirtual" name="joiningId"/>
-                                    <input type="hidden" id="schemeIdI" name="schemeId"/>
-
-                                    <label>Payment Mode</label>
-                                    <select id="payModeId"  name="paymentModeId" class="form-control">
-                                        <option value="4">by Company</option>
-
-
-                                    </select>
-
-                                    <div class="form-group">
-                                        <label for="amount">Amount</label>
-                                        <input type="text" class="form-control" id="amountV" name="amount" placeholder="UTR No">
-                                    </div>
-
-                                    <label>Create Virtual Ids</label>
-                                    <select id="virtaulIds"  name="vitualIdToBecreated" class="form-control">
-                                        <option value="0">+0</option>
-                                        <option value="1">+1</option>
-                                        <option value="2">+2</option>
-                                        <option value="3">+3</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save</button>
-                            </div>
-                        </form>
-                    </div>
-                    <!-- /.modal-content -->
-                </div>
-                <!-- /.modal-dialog -->
-            </div>
+            
 
             <%@include file="/include/includefooter.jsp"%>
 
@@ -320,9 +295,8 @@
 
                                                 function getSchemePendinInfo(id)
                                                 {
-
-
                                                     $.ajax({
+                                                        
                                                         type: "post",
                                                         url: "getPaymentRealeaseRequest?val=" + id,
                                                         dataType: 'json',
@@ -333,103 +307,24 @@
                                                                     .draw();
                                                             jQuery.each(response, function(index, value) {
 //    var dt = "<tr><td>"+index+"</td><td>"+value.name+"</td><td><button type='button' class='btn btn-block btn-success'>Accept</button></td><td><button type='button' class='btn btn-block  btn-danger'>Deny</button></td></tr>";
-
-                                                                var type = "";
-                                                                if (value.type === 'PHYSICAL') {
-                                                                    type = "<span class='badge bg-green'>P</span>"
-                                                                } else if (value.type === 'VIRTUAL') {
-                                                                    type = "<span class='badge bg-red'>V</span>"
-                                                                }
-
-                                                                var pm = "";
-
-                                                                if (value.paymentModeId === 1) {
-                                                                    pm = "by Cash"
-                                                                } else if (value.paymentModeId === 2) {
-                                                                    pm = "by Cheque"
-                                                                }
-                                                                else if (value.paymentModeId === 3) {
-                                                                    pm = "by Netbanking"
-                                                                }
-                                                                else if (value.paymentModeId === 4)
-                                                                {
-                                                                    pm = "by Company"
-                                                                }
-                                                                else
-                                                                {
-                                                                    pm = "by Rejoining"
-                                                                }
-
+//                                                                var userId=value.userId;
+                                                                var name= value.userName;
+                                                                var amount =value.amount;
+                                                                var dat=value.joinDates;
+                                                           
                                                                 $('#userDetail').dataTable().fnAddData([
-                                                                    type,
-                                                                    value.name,
-                                                                    pm,
-                                                                    " <button type='button' class='btn btn-block btn-success'  onClick=showPayModal(" + value.id + ",'" + value.type + "','" + id + "'," + value.paymentModeId + "," + amount + ")>Accept</button>",
-                                                                    "<button type='button' class='btn btn-block  btn-danger'>Deny</button>"]);
-
-
-
-                                                            });
-                                                        }
-                                                    });
-
-
-                                                    $.ajax({
-                                                        type: "post",
-                                                        url: "getSchemePool?valScheme=" + id,
-                                                        dataType: 'json',
-                                                        success: function(response) {
-
-                                                            $("#schemePool").find("tr:gt(0)").remove();
-                                                            jQuery.each(response, function(index, value) {
-//    var dt = "<tr><td>"+index+"</td><td>"+value.name+"</td><td><button type='button' class='btn btn-block btn-success'>Accept</button></td><td><button type='button' class='btn btn-block  btn-danger'>Deny</button></td></tr>";
-
-                                                                var pn = "";
-                                                                var ch1 = "";
-                                                                var ch2 = "";
-                                                                var ch3 = "";
-
-                                                                if (value.parent === 'Physical') {
-                                                                    pn = "<span class='badge bg-green'>P</span>"
-                                                                } else if (value.parent === 'Virtual') {
-                                                                    pn = "<span class='badge bg-red'>V</span>"
-                                                                }
-
-                                                                if (value.child1 === 'Physical') {
-                                                                    ch1 = "<span class='badge bg-green'>P</span>"
-                                                                } else if (value.child1 === 'Virtual') {
-                                                                    ch1 = "<span class='badge bg-red'>V</span>"
-                                                                }
-
-                                                                if (value.child2 === 'Physical') {
-                                                                    ch2 = "<span class='badge bg-green'>P</span>"
-                                                                } else if (value.child2 === 'Virtual') {
-                                                                    ch2 = "<span class='badge bg-red'>V</span>"
-                                                                }
-
-                                                                if (value.child3 === 'Physical') {
-                                                                    ch3 = "<span class='badge bg-green'>P</span>"
-                                                                } else if (value.child3 === 'Virtual') {
-                                                                    ch3 = "<span class='badge bg-red'>V</span>"
-                                                                }
-
-
-
-
-                                                                var dt = "<tr>\n\
-<td bgcolor='#E0FFFF'>" + pn + "</td>\n\
-<td>" + ch1 + "</td>\n\
-<td>" + ch2 + "</td>\n\
-<td>" + ch3 + "</td></tr>";
-
-                                                                $("#schemePool").append(dt);
-
+                                                                    
+                                                                    name,
+                                                                    amount,
+                                                                "<button type='button' class='btn btn-block btn-success'  onClick=showPayModal('"+dat+"',"+amount+")>View</button>"]);
 
 
                                                             });
                                                         }
                                                     });
 
+
+                                                   
                                                 }
 
                                                 $('#paymode').on('change', function() {
@@ -452,36 +347,19 @@
                                                     }
                                                 })
 
-                                                function showPayModal(id, type, schemeId, paymodeId, amount)
+                                                function showPayModal(id,amount)
                                                 {
-                                                    if (type === 'PHYSICAL') {
+                                                    var res = id.split(",");
+                                                     for (i = 0; i < res.length; i++) { 
+                    $("#joinDates").append("<tr><td>"+res[i]+"</td></tr>");
+                                                 
+                
+}
+                                                    
                                                         $("#joinId").val(id);
                                                         $('#modal-default').modal('show');
-                                                        $('#paymode').val(paymodeId);
-
-                                                        if (paymodeId == "1" || paymodeId == "5")
-                                                        {
-                                                            $('#cheque').hide();
-                                                            $('#netBanking').hide();
-
-                                                        }
-                                                        if (paymodeId == "2")
-                                                        {
-                                                            $('#cheque').show();
-                                                            $('#netBanking').hide();
-                                                        }
-                                                        if (paymodeId == "3")
-                                                        {
-                                                            $('#cheque').hide();
-                                                            $('#netBanking').show();
-
-                                                        }
-                                                    } else if (type === 'VIRTUAL') {
-                                                        $("#joinIdVirtual").val(id);
-                                                        $('#modal-Virtual').modal('show');
-                                                        $("#schemeIdI").val(schemeId);
-                                                        $("#amountV").val(amount);
-                                                    }
+                                                        
+                                                   
                                                 }
         </script>
     </body>
