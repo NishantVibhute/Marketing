@@ -243,8 +243,7 @@
                                                                                         <th>Pool Completed</th>
                                                                                         <th>Payment Release</th>
                                                                                         <th>Release Id</th>
-                                                                                        <th style="width: 50px">Payment</th>
-
+                                                                                       
                                                                                     </tr>
                                                                                 </thead>
                                                                                 <tbody>
@@ -430,54 +429,87 @@
                                                             var requestJoinDate = value.requestdate;
                                                             var joindate = value.joindate;
 
+var amount = value.amount;
+                                                            var actualPay = value.paymenttype;
+
+                                                            if (value.paymenttype === 1) {
+                                                                actualPay = "by Cash<br>Amount :"+value.amount;
+                                                            } else if (value.paymenttype === 2) {
+                                                                actualPay = "by Cheque<br>Amount :"+value.amount+"<br>Cheque Dated :"+value.cheque_date+"<br>Cheque No :"+value.chequeno+"<br>Bank Name :"+value.bank_name;
+                                                            }
+                                                            else if (value.paymenttype === 3) {
+                                                                actualPay = "by Netbanking<br>Amount :"+value.amount+"<br>Bank Name :"+value.bank_name+"<br>UTR No :"+value.utrno;
+                                                            }
+                                                            else if (value.paymenttype === 4)
+                                                            {
+                                                                actualPay = "by Company<br>Amount :"+value.amount;
+                                                            }
+                                                            else
+                                                            {
+                                                                actualPay = "by Rejoining<br>Amount :"+value.amount;
+                                                            }
+
 
                                                             var reuestPay = value.payment_modeid;
 
                                                             if (value.payment_modeid === 1) {
-                                                                reuestPay = "by Cash"
-                                                            } else if (value.payment_modeid === 2) {
-                                                                reuestPay = "by Cheque"
-                                                            }
-                                                            else if (value.payment_modeid === 3) {
-                                                                reuestPay = "by Netbanking"
-                                                            }
-                                                            else if (value.payment_modeid === 4)
-                                                            {
-                                                                reuestPay = "by Company"
-                                                            }
-                                                            else
-                                                            {
-                                                                reuestPay = "by Rejoining"
-                                                            }
+                                                                    reuestPay = "by Cash"
+                                                                } else if (value.payment_modeid === 2) {
+                                                                    reuestPay = "by Cheque"
+                                                                }
+                                                                else if (value.payment_modeid === 3) {
+                                                                    reuestPay = "by Netbanking"
+                                                                }
+                                                                else if (value.payment_modeid === 4)
+                                                                {
+                                                                    reuestPay = "by Company"
+                                                                }
+                                                                else
+                                                                {
+                                                                    reuestPay = "by Rejoining"
+                                                                }
 
-                                                            var actualPay = value.paymenttype;
 
-                                                            var poolComp = value.isExit;
+                                                                var payStatus
+
+var poolComp = value.isExit;
+                                                                if(value.isExit===0)
+                                                                {
+                                                                    poolComp="NO";
+                                                                }else{
+                                                                    poolComp="YES";
+                                                                }
+                                                            
                                                             var payRealease = value.isPaymentRealease;
+                                                                if(value.isPaymentRealease===0)
+                                                                {
+                                                                    payRealease="NO";
+                                                                }else{
+                                                                    payRealease="YES";
+                                                                }
+
+
                                                             var releaseId = value.paymentid;
 
-                                                            var status = value.user_status;
-                                                            var pay = value.paymodeId;
-                                                            alert(joindate);
+                                                            var status = value.userstatus;
+                                                           
+                                                            
                                                             $('#joiningDet').dataTable().fnAddData([
+                                                                requestJoinDate,
                                                                 joindate,
+                                                                reuestPay,
+                                                                actualPay,
+                                                                amount,
                                                                 status,
-                                                                pay
+                                                                poolComp,
+                                                                payRealease,
+                                                                releaseId
+
                                                             ]);
 
                                                         })
 
-                                                        < th style = "width: 10px" > Join Request Date < /th>
-                                                                < th style = "width: 10px" > Join Date < /th>
-                                                                < th > Requested Payment By < /th>
-                                                                < th > Payment By < /th>
-                                                                < th > Amount < /th>
-                                                                < th > Payment Status < /th>
-                                                                < th > Pool Completed < /th>
-                                                                < th > Payment Release < /th>
-                                                                < th > Release Id < /th>
-                                                                < th
-                                                                style = "width: 50px" > Payment < /th>
+                          
 
                                                     }
                                                 });
