@@ -62,7 +62,7 @@
                         <div class="col-md-12">
                             <div class="box">
                                 <div class="box-header">
-                                    <h3 class="box-title">Visitor List</h3>
+                                    <h3 class="box-title">User List</h3>
                                 </div>
                                 <!-- /.box-header -->
                                 <div class="box-body">
@@ -77,17 +77,17 @@
                                                 <th rowspan="2">Mobile No</th>
                                                 <!--<th rowspan="2">Pan Card No</th>-->
                                                 <!--<th rowspan="2">Aadhar Card No</th>-->
-                                                <th rowspan="2">Balance</th>
+                                                <!--<th rowspan="2">Balance</th>-->
                                                 <!--<th colspan="4">Bank Details</th>-->
                                                 <th rowspan="2"></th>
 
                                             </tr>
-<!--                                            <tr>
-                                                <th >IFSC Code</th>
-                                                <th >Account No</th>
-                                                <th >Bank Name</th>
-                                                <th >Branch Name</th>
-                                            </tr>-->
+                                            <!--                                            <tr>
+                                                                                            <th >IFSC Code</th>
+                                                                                            <th >Account No</th>
+                                                                                            <th >Bank Name</th>
+                                                                                            <th >Branch Name</th>
+                                                                                        </tr>-->
                                         </thead>
                                         <tbody>
 
@@ -101,12 +101,12 @@
                                                     <td><s:property value="mobileNo" /></td>
                                                     <!--<td><s:property value="panCardNo" /></td>-->
                                                     <!--<td><s:property value="aadharCardNo" /></td>-->
-                                                    <td><s:property value="balance" /></td>
+                                                    <!--<td><s:property value="balance" /></td>-->
 <!--                                                    <td><s:property value="bankDetails.ifscCode" /></td>
                                                     <td><s:property value="bankDetails.bankAccNo" /></td>
                                                     <td><s:property value="bankDetails.bankName" /></td>
                                                     <td><s:property value="bankDetails.branchName" /></td>-->
-                                                    
+
                                                     <td>EDIT</td>
 
                                                 </tr>
@@ -144,31 +144,31 @@
                 <!-- /.content -->
             </div>
             <!-- /.content-wrapper -->
-<!-- Modal -->
-  <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Alert</h4>
-        </div><form method="post" action="updatevisitorstatus">
-        <div class="modal-body">
-            <input type="hidden" id="userIdMod" name="id"/>
-            <input type="hidden" id="valMod" name="isBlocked"/>
-            <p><span id="msg"></span></p>
-        </div>
-        <div class="modal-footer">
-            <input type="submit" class="btn btn-default" value="YES">
-          <button type="button" class="btn btn-default" data-dismiss="modal">NO</button>
-        </div>
-        </form>
-      </div>
-      
-    </div>
-  </div>
-  
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Alert</h4>
+                        </div><form method="post" action="updatevisitorstatus">
+                            <div class="modal-body">
+                                <input type="hidden" id="userIdMod" name="id"/>
+                                <input type="hidden" id="valMod" name="isBlocked"/>
+                                <p><span id="msg"></span></p>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="submit" class="btn btn-default" value="YES">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">NO</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+
 
             <%@include file="/include/includefooter.jsp"%>
 
@@ -192,42 +192,42 @@
         <!-- bootstrap datepicker -->
         <script src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
         <script>
-                                                                $(function() {
+            $(function() {
 
-                                                                    //Date picker
-                                                                    $('#datepickerDate').datepicker({
-                                                                        autoclose: true,
-                                                                        format: 'dd/mm/yyyy'
-                                                                    });
-                                                                    $('#example2').DataTable({
-                                                                        'paging': true,
-                                                                        'lengthChange': true,
-                                                                        'searching': true,
-                                                                        'ordering': true,
-                                                                        'info': true,
-                                                                        'autoWidth': false,
-                                                                        'aaSorting': []
-                                                                    })
+                //Date picker
+                $('#datepickerDate').datepicker({
+                    autoclose: true,
+                    format: 'dd/mm/yyyy'
+                });
+                $('#example2').DataTable({
+                    'paging': true,
+                    'lengthChange': true,
+                    'searching': true,
+                    'ordering': true,
+                    'info': true,
+                    'autoWidth': false,
+                    'aaSorting': []
+                })
 
-                                                                });
+            });
 
-function deactivate(id,val)
-{
-    
-    $('#userIdMod').val(id);
-    $('#valMod').val(val);
-    
-    if(val===0)
-    {
-        
-        $('#msg').text("Are you Sure you want to ACTIVATE the User");
-    }
-    else{
-        $('#msg').text("Are you Sure you want to DEACTIVATE the User");
-    }
-    
-    $('#myModal').modal('show');
-}
+            function deactivate(id, val)
+            {
+
+                $('#userIdMod').val(id);
+                $('#valMod').val(val);
+
+                if (val === 0)
+                {
+
+                    $('#msg').text("Are you Sure you want to ACTIVATE the User");
+                }
+                else {
+                    $('#msg').text("Are you Sure you want to DEACTIVATE the User");
+                }
+
+                $('#myModal').modal('show');
+            }
 
 
         </script>

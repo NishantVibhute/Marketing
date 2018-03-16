@@ -8,6 +8,7 @@ package com.dao;
 import com.beans.BankDetailsBean;
 import com.beans.CreateVirtualUser;
 import com.beans.JoiningDetailsBean;
+import com.beans.SchemeRowsByName;
 import com.beans.UserBean;
 import com.beans.UserJoinPaymentBean;
 import com.beans.UserPassword;
@@ -376,6 +377,86 @@ public class UserDao {
         }
 
         return chartData;
+
+    }
+
+    public List<SchemeRowsByName> getSchemePoolByNameForUser(JoiningDetailsBean schemeJoinBean) {
+        List<SchemeRowsByName> schemeRowsList = new ArrayList<>();
+
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement("call getSchemePoolDetailsByNameForUser(?,?)");
+            ps.setString(1, "Scheme_" + schemeJoinBean.getSchemeId());
+            ps.setLong(2, schemeJoinBean.getUserId());
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                SchemeRowsByName ud = new SchemeRowsByName();
+                ud.setPmemberType(rs.getInt(1));
+                ud.setPname(rs.getString(2));
+                ud.setPjoinDate(rs.getString(3));
+
+                ud.setCh1memberType(rs.getInt(4));
+                ud.setCh1name(rs.getString(5));
+                ud.setCh1joinDate(rs.getString(6));
+
+                ud.setCh2memberType(rs.getInt(7));
+                ud.setCh2name(rs.getString(8));
+                ud.setCh2joinDate(rs.getString(9));
+
+                ud.setCh3memberType(rs.getInt(10));
+                ud.setCh3name(rs.getString(11));
+                ud.setCh3joinDate(rs.getString(12));
+                schemeRowsList.add(ud);
+
+            }
+
+            db.closeConnection(con);
+        } catch (Exception ex) {
+            logger.error("CreateUser", ex);
+        }
+
+        return schemeRowsList;
+
+    }
+
+    public List<UserJoinPaymentBean> getPaymentDetails(JoiningDetailsBean schemeJoinBean) {
+        List<UserJoinPaymentBean> schemeRowsList = new ArrayList<>();
+
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement("call getCustomerPaymentDetails(?,?)");
+            ps.setLong(1, schemeJoinBean.getUserId());
+            ps.setInt(2, schemeJoinBean.getSchemeId());
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                UserJoinPaymentBean ud = new UserJoinPaymentBean();
+                ud.setPaymentid(rs.getInt(1));
+                ud.setUserId(rs.getInt(2));
+                ud.setPaymenttype(rs.getInt(3));
+
+                ud.setChequeno(rs.getString(4));
+                ud.setAmount(rs.getDouble(5));
+                ud.setCheque_date(rs.getString(6));
+
+                ud.setBank_name(rs.getString(7));
+                ud.setUtrno(rs.getString(8));
+                ud.setPaymentstatus(rs.getInt(9));
+
+                ud.setPaymentdate(rs.getString(10));
+
+                schemeRowsList.add(ud);
+
+            }
+
+            db.closeConnection(con);
+        } catch (Exception ex) {
+            logger.error("CreateUser", ex);
+        }
+
+        return schemeRowsList;
 
     }
 

@@ -7,6 +7,7 @@ package com.service;
 
 import com.beans.CreateVirtualUser;
 import com.beans.JoiningDetailsBean;
+import com.beans.SchemeRowsByName;
 import com.beans.UserBean;
 import com.beans.UserJoinPaymentBean;
 import com.beans.UserPassword;
@@ -250,6 +251,42 @@ public class User {
         try {
             JoiningDetailsBean up = objectMapper.readValue(data, JoiningDetailsBean.class);
             List<UserJoinPaymentBean> schemeRowList = userDao.getUserJoinPayment(up);
+            jsonInString = objectMapper.writeValueAsString(schemeRowList);
+        } catch (Exception ex) {
+            logger.error("User Class" + ex);
+        }
+        return jsonInString;
+    }
+
+    @POST
+    @Path("/getSchemePoolByNameForUser")
+    @Consumes("text/plain")
+    @Produces("text/plain")
+
+    public String getSchemePoolByUserId(String data) {
+        //TODO return proper representation object
+        String jsonInString = "";
+        try {
+            JoiningDetailsBean joiningDetailsBean = objectMapper.readValue(data, JoiningDetailsBean.class);
+            List<SchemeRowsByName> schemeRowList = userDao.getSchemePoolByNameForUser(joiningDetailsBean);
+            jsonInString = objectMapper.writeValueAsString(schemeRowList);
+        } catch (Exception ex) {
+            logger.error("User Class" + ex);
+        }
+        return jsonInString;
+    }
+
+    @POST
+    @Path("/getPaymentDetails")
+    @Consumes("text/plain")
+    @Produces("text/plain")
+
+    public String getPaymentDetails(String data) {
+        //TODO return proper representation object
+        String jsonInString = "";
+        try {
+            JoiningDetailsBean joiningDetailsBean = objectMapper.readValue(data, JoiningDetailsBean.class);
+            List<UserJoinPaymentBean> schemeRowList = userDao.getPaymentDetails(joiningDetailsBean);
             jsonInString = objectMapper.writeValueAsString(schemeRowList);
         } catch (Exception ex) {
             logger.error("User Class" + ex);

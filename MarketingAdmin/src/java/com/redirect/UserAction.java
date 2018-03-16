@@ -17,6 +17,8 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
@@ -107,6 +109,40 @@ public class UserAction extends ActionSupport implements ModelDriven {
         }
         return ActionSupport.SUCCESS;
 
+    }
+
+    public String getSchemePoolByNameByUserId() {
+        try {
+
+            JoiningDetailsBean jdb = new JoiningDetailsBean();
+            jdb.setUserId(Integer.parseInt(userId));
+            jdb.setSchemeId(Integer.parseInt(schemeId));
+            String req = objectMapper.writeValueAsString(jdb);
+            String resp = ServiceUtil.getResponse(req, "/user/getSchemePoolByNameForUser");
+
+            inputStream = new ByteArrayInputStream(resp.getBytes(StandardCharsets.UTF_8));
+
+        } catch (Exception ex) {
+            Logger.getLogger(SchemeAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ActionSupport.SUCCESS;
+    }
+
+    public String getUserPaymentDetails() {
+        try {
+
+            JoiningDetailsBean jdb = new JoiningDetailsBean();
+            jdb.setUserId(Integer.parseInt(userId));
+            jdb.setSchemeId(Integer.parseInt(schemeId));
+            String req = objectMapper.writeValueAsString(jdb);
+            String resp = ServiceUtil.getResponse(req, "/user/getPaymentDetails");
+
+            inputStream = new ByteArrayInputStream(resp.getBytes(StandardCharsets.UTF_8));
+
+        } catch (Exception ex) {
+            Logger.getLogger(SchemeAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ActionSupport.SUCCESS;
     }
 
     public String getSchemeUserBalance() {
