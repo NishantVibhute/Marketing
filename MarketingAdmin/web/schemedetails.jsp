@@ -5,7 +5,8 @@
         <%@ taglib prefix="s" uri="/struts-tags"%>
 
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>AdminLTE 2 | General Form Elements</title>
+        <title>BussiPool</title>
+        <link rel="shortcut icon" href="Images/BussiPoolLogo.jpg" />
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.7 -->
@@ -62,7 +63,7 @@
                         <div class="col-md-12">
                             <div class="box">
                                 <div class="box-header">
-                                    <h3 class="box-title">Scheme Details</h3>
+                                    <h3 class="box-title">Product Details</h3>
                                 </div>
                                 <!-- /.box-header -->
                                 <div class="box-body">
@@ -76,6 +77,7 @@
                                                 <th >Amount</th>
                                                 <th >Member Perc</th>
                                                 <th >Company Perc</th>
+                                                <th >Video ID</th>
                                                 <th >Active/Deactive</th>
                                                 <th >Progess/Closed</th>
                                                 <th >Edit</th>
@@ -93,6 +95,7 @@
                                                     <td><s:property value="amount" /> /-</td>
                                                     <td><s:property value="memberPerc" /> %</td>
                                                     <td><s:property value="companyPerc" /> %</td>
+                                                    <td><s:property value="videoId" /></td>
                                                     <s:if test="isSchemeActive == 1">
                                                         <td style="color: green">Active</td>
                                                     </s:if>
@@ -105,7 +108,7 @@
                                                     </s:if>
                                                     <s:else>
                                                         <td style="color: green">In Progress</td>
-                                                    </s:else> 
+                                                    </s:else>
                                                     <td><button type="button" onclick="getSchemeDetail(<s:property value="id" />)" class="btn btn-block  btn-info"  >EDIT</button></td>
                                                 </tr>
                                             </s:iterator>
@@ -148,15 +151,15 @@
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title">Payment Details</h4>
+                            <h4 class="modal-title">Product Details</h4>
                         </div>
                         <form class="form-horizontal" action="editScheme">
-                        <div class="modal-body">
+                            <div class="modal-body">
 
 
-                            <!-- /.box-header -->
-                            <!-- form start -->
-                            
+                                <!-- /.box-header -->
+                                <!-- form start -->
+
 
                                 <div class="form-group">
                                     <label  class="col-sm-2 control-label">Name</label>
@@ -185,7 +188,7 @@
 
                                     <div class="col-sm-9">
                                         <textarea id="schemeDescription" name="schemeDescription" rows="5" cols="60"></textarea>
-                                        
+
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -202,7 +205,14 @@
                                         <input type="text" class="form-control" id="memberPerc"   name="memberPerc" placeholder="0.0">
                                     </div>
                                 </div>
-                               
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-2 control-label">Video Id</label>
+
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="videoId"   name="videoId" placeholder="0.0">
+                                    </div>
+                                </div>
+
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Status</label>
 
@@ -233,14 +243,14 @@
 
 
                                 <!-- /.box-footer -->
-                          
 
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                            <input type="submit" class="btn btn-primary" value="Save"/>
-                        </div>
-                          </form>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                                <input type="submit" class="btn btn-primary" value="Save"/>
+                            </div>
+                        </form>
                     </div>
                     <!-- /.modal-content -->
                 </div>
@@ -271,21 +281,30 @@
         <!-- bootstrap datepicker -->
         <script src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
         <script>
-            
-     $(document).ready(function(){
-          
-          $("#dashboardli").removeClass("active");
-          $("#schmeLi").addClass("active");
-          $("#schemePoolLi").removeClass("active");
-          $("#schemeDetailLi").addClass("active");
-          $("#schmeNewLi").removeClass("active");
-          $("#joiningLi").removeClass("active");
-          $("#emailLi").removeClass("active");
-          $("#smsLi").removeClass("active");
-                    $("#chatroomLi").removeClass("active");
 
-      });
-    
+                                                        $(document).ready(function() {
+
+                                                            $("#dashboardli").removeClass("active");
+                                                            $("#schmeLi").addClass("active");
+                                                            $("#schemePoolLi").removeClass("active");
+                                                            $("#schemeDetailLi").addClass("active");
+                                                            $("#schmeNewLi").removeClass("active");
+                                                            $("#joiningLi").removeClass("active");
+                                                            $("#emailLi").removeClass("active");
+                                                            $("#smsLi").removeClass("active");
+                                                            $("#smsNewLi").removeClass("active");
+                                                            $("#smsDetailLi").removeClass("active");
+                                                            $("#smsTemplateLi").removeClass("active");
+                                                            $("#chatroomLi").removeClass("active");
+                                                            $("#userLi").removeClass("active");
+                                                            $("#userNewLi").removeClass("active");
+                                                            $("#userListLi").removeClass("active");
+                                                            $("#userDetailLi").removeClass("active");
+                                                            $("#visitorLi").removeClass("active");
+                                                            $("#paymentLi").removeClass("active");
+
+                                                        });
+
                                                         $(function() {
 
                                                             //Date picker
@@ -308,7 +327,7 @@
 
                                                         function getSchemeDetail(id)
                                                         {
-                                                            
+
 //$.ajax({
 //        url: 'getSchemeDetails'+id,
 //        type: "POST",
@@ -327,22 +346,25 @@
                                                                     $('#datepickerDate').val(response.startDate);
                                                                     $('#schemeDescription').val(response.schemeDescription);
                                                                     $('#amount').val(response.amount);
+                                                                    $('#amount').val(response.amount);
+                                                                    $('#videoId').val(response.videoId);
+
                                                                     $('#memberPerc').val(response.memberPerc);
-                                                                    
-$("#isClosed").val(response.isClosed);
-$("#isActive").val(response.isSchemeActive);
 
-$("#schemeId").val(response.id);
+                                                                    $("#isClosed").val(response.isClosed);
+                                                                    $("#isActive").val(response.isSchemeActive);
 
-if(response.isStarted === 1)
-{
-    $('#schemeName').attr('readonly', true);
-    $('#datepickerDate').attr('readonly', true);
-                                                                    $('#schemeDescription').attr('readonly', true);
-                                                                    $('#amount').attr('readonly', true);
-                                                                    $('#memberPerc').attr('readonly', true);
-                                                                    $('#companyPerc').attr('readonly', true);
-}
+                                                                    $("#schemeId").val(response.id);
+
+                                                                    if (response.isStarted === 1)
+                                                                    {
+                                                                        $('#schemeName').attr('readonly', true);
+                                                                        $('#datepickerDate').attr('readonly', true);
+                                                                        $('#schemeDescription').attr('readonly', true);
+                                                                        $('#amount').attr('readonly', true);
+                                                                        $('#memberPerc').attr('readonly', true);
+                                                                        $('#companyPerc').attr('readonly', true);
+                                                                    }
                                                                     $('#modal-default').modal('show');
                                                                 }
                                                             });

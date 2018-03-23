@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : index
     Created on : Jul 17, 2017, 6:30:27 PM
     Author     : nishant.vibhute
@@ -49,7 +49,7 @@
                             <div class="clearfix"></div>
 
                         </div> <!-- end login -->
-                        <div class="logo">LOGO
+                        <div class="logo">BussiPool
 
                             <div class="clearfix"></div>
                         </div>

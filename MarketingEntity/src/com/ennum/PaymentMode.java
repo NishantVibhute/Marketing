@@ -50,4 +50,13 @@ public enum PaymentMode {
         return null;
     }
 
+    public static PaymentMode getByName(String name) {
+        for (PaymentMode e : values()) {
+            if (e.value.equalsIgnoreCase(name)) {
+                return e;
+            }
+        }
+        return null;
+    }
+
 }

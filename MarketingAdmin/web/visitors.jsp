@@ -5,7 +5,8 @@
         <%@ taglib prefix="s" uri="/struts-tags"%>
 
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>AdminLTE 2 | General Form Elements</title>
+        <title>BussiPool</title>
+        <link rel="shortcut icon" href="Images/BussiPoolLogo.jpg" />
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.7 -->
@@ -86,10 +87,10 @@
                                                     <td><s:property value="emailId" /></td>
                                                     <td><s:property value="date" /></td>
                                                     <td><s:if test="isBlocked == 1">
-                                                            <input type="checkbox" name="isBlocked" onchange="deactivate(<s:property value="id" />, 0)" checked> 
+                                                            <input type="checkbox" name="isBlocked" onchange="deactivate(<s:property value="id" />, 0)" checked>
                                                         </s:if>
                                                         <s:else>
-                                                            <input type="checkbox" name="isBlocked" onchange="deactivate(<s:property value="id" />, 1)"> 
+                                                            <input type="checkbox" name="isBlocked" onchange="deactivate(<s:property value="id" />, 1)">
                                                         </s:else></td>
 
                                                 </tr>
@@ -127,31 +128,31 @@
                 <!-- /.content -->
             </div>
             <!-- /.content-wrapper -->
-<!-- Modal -->
-  <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Alert</h4>
-        </div><form method="post" action="updatevisitorstatus">
-        <div class="modal-body">
-            <input type="hidden" id="userIdMod" name="id"/>
-            <input type="hidden" id="valMod" name="isBlocked"/>
-            <p><span id="msg"></span></p>
-        </div>
-        <div class="modal-footer">
-            <input type="submit" class="btn btn-default" value="YES">
-          <button type="button" class="btn btn-default" data-dismiss="modal">NO</button>
-        </div>
-        </form>
-      </div>
-      
-    </div>
-  </div>
-  
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Alert</h4>
+                        </div><form method="post" action="updatevisitorstatus">
+                            <div class="modal-body">
+                                <input type="hidden" id="userIdMod" name="id"/>
+                                <input type="hidden" id="valMod" name="isBlocked"/>
+                                <p><span id="msg"></span></p>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="submit" class="btn btn-default" value="YES">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">NO</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+
 
             <%@include file="/include/includefooter.jsp"%>
 
@@ -175,6 +176,29 @@
         <!-- bootstrap datepicker -->
         <script src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
         <script>
+                                                                $(document).ready(function() {
+
+                                                                    $("#dashboardli").removeClass("active");
+                                                                    $("#schmeLi").removeClass("active");
+                                                                    $("#schemePoolLi").removeClass("active");
+                                                                    $("#schemeDetailLi").removeClass("active");
+                                                                    $("#schmeNewLi").removeClass("active");
+                                                                    $("#joiningLi").removeClass("active");
+                                                                    $("#emailLi").removeClass("active");
+                                                                    $("#smsLi").removeClass("active");
+                                                                    $("#smsNewLi").removeClass("active");
+                                                                    $("#smsDetailLi").removeClass("active");
+                                                                    $("#smsTemplateLi").removeClass("active");
+                                                                    $("#chatroomLi").removeClass("active");
+                                                                    $("#userLi").removeClass("active");
+                                                                    $("#userNewLi").removeClass("active");
+                                                                    $("#userListLi").removeClass("active");
+                                                                    $("#userDetailLi").removeClass("active");
+                                                                    $("#visitorLi").addClass("active");
+                                                                    $("#paymentLi").removeClass("active");
+
+
+                                                                });
                                                                 $(function() {
 
                                                                     //Date picker
@@ -194,23 +218,23 @@
 
                                                                 });
 
-function deactivate(id,val)
-{
-    
-    $('#userIdMod').val(id);
-    $('#valMod').val(val);
-    
-    if(val===0)
-    {
-        
-        $('#msg').text("Are you Sure you want to ACTIVATE the User");
-    }
-    else{
-        $('#msg').text("Are you Sure you want to DEACTIVATE the User");
-    }
-    
-    $('#myModal').modal('show');
-}
+                                                                function deactivate(id, val)
+                                                                {
+
+                                                                    $('#userIdMod').val(id);
+                                                                    $('#valMod').val(val);
+
+                                                                    if (val === 0)
+                                                                    {
+
+                                                                        $('#msg').text("Are you Sure you want to ACTIVATE the User");
+                                                                    }
+                                                                    else {
+                                                                        $('#msg').text("Are you Sure you want to DEACTIVATE the User");
+                                                                    }
+
+                                                                    $('#myModal').modal('show');
+                                                                }
 
 
         </script>

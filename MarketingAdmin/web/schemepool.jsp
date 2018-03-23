@@ -5,7 +5,8 @@
         <%@ taglib prefix="s" uri="/struts-tags"%>
 
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>AdminLTE 2 | General Form Elements</title>
+        <title>BussiPool</title>
+        <link rel="shortcut icon" href="Images/BussiPoolLogo.jpg" />
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.7 -->
@@ -191,7 +192,16 @@
                                             $("#joiningLi").removeClass("active");
                                             $("#emailLi").removeClass("active");
                                             $("#smsLi").removeClass("active");
+                                            $("#smsNewLi").removeClass("active");
+                                            $("#smsDetailLi").removeClass("active");
+                                            $("#smsTemplateLi").removeClass("active");
                                             $("#chatroomLi").removeClass("active");
+                                            $("#userLi").removeClass("active");
+                                            $("#userNewLi").removeClass("active");
+                                            $("#userListLi").removeClass("active");
+                                            $("#userDetailLi").removeClass("active");
+                                            $("#visitorLi").removeClass("active");
+                                            $("#paymentLi").removeClass("active");
 
                                         });
                                         var donut = "";

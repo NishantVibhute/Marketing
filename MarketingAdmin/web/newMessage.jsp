@@ -5,7 +5,8 @@
         <%@ taglib prefix="s" uri="/struts-tags"%>
 
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>AdminLTE 2 | General Form Elements</title>
+        <title>BussiPool</title>
+        <link rel="shortcut icon" href="Images/BussiPoolLogo.jpg" />
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.7 -->
@@ -67,11 +68,11 @@
                                     <!-- /.box-header -->
                                     <div class="box-body">
                                         <!--              <div class="form-group">
-                                                        
+
                                                         <select class="form-control select2" name="to" multiple="multiple" data-placeholder="To:"
                                                                 style="width: 100%;">
-                                                         
-                                                          
+
+
                                         <s:iterator value="emailIdList">
                                             <option><s:property/></option>
                                         </s:iterator>
@@ -82,7 +83,7 @@
                                         </div>
                                         <div class="form-group">
                                             <textarea id="compose-textarea" name="sentMessageBean.message" class="validate[required] form-control" style="height: 300px">
-                      
+
                                             </textarea>
                                         </div>
 
@@ -118,24 +119,48 @@
         <!-- Bootstrap 3.3.7 -->
         <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
         <!-- FastClick -->
-                <script src="bower_components/fastclick/lib/fastclick.js"></script>
+        <script src="bower_components/fastclick/lib/fastclick.js"></script>
         <!-- AdminLTE App -->
-                <script src="dist/js/adminlte.min.js"></script>
+        <script src="dist/js/adminlte.min.js"></script>
         <!-- AdminLTE for demo purposes -->
-                <script src="dist/js/demo.js"></script>
-        
+        <script src="dist/js/demo.js"></script>
+
         <!-- bootstrap datepicker -->
         <script src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
         <script>
+
+
+            $(document).ready(function() {
+
+                $("#dashboardli").removeClass("active");
+                $("#schmeLi").removeClass("active");
+                $("#schemePoolLi").removeClass("active");
+                $("#schemeDetailLi").removeClass("active");
+                $("#schmeNewLi").removeClass("active");
+                $("#joiningLi").removeClass("active");
+                $("#emailLi").removeClass("active");
+                $("#smsLi").addClass("active");
+                $("#smsNewLi").addClass("active");
+                $("#smsDetailLi").removeClass("active");
+                $("#smsTemplateLi").removeClass("active");
+                $("#chatroomLi").removeClass("active");
+                $("#userLi").removeClass("active");
+                $("#userNewLi").removeClass("active");
+                $("#userListLi").removeClass("active");
+                $("#userDetailLi").removeClass("active");
+                $("#visitorLi").removeClass("active");
+                $("#paymentLi").removeClass("active");
+
+            });
             $(function() {
 
-            //Date picker
-            $('#datepickerDate').datepicker({
-            autoclose: true,
+                //Date picker
+                $('#datepickerDate').datepicker({
+                    autoclose: true,
                     format: 'dd/mm/yyyy'
-            });
+                });
 
-        });
+            });
         </script>
         <link rel="stylesheet" href="css/jquery.validationEngine.css" type="text/css"/>
         <!--<script src="bower_components/jquery/dist/jquery.min.js"></script>-->
@@ -146,8 +171,8 @@
         </script>
         <script>
             jQuery(document).ready(function() {
-            // binds form submission and fields to the validation engine
-            jQuery("#formID").validationEngine('attach');
+                // binds form submission and fields to the validation engine
+                jQuery("#formID").validationEngine('attach');
             });
         </script>
     </body>

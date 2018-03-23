@@ -42,7 +42,7 @@ public class SchemeDao {
         int count = 0;
         try {
             this.con = db.getConnection();
-            PreparedStatement ps = this.con.prepareStatement("call createScheme(?,?,?,?,?,?,?)");
+            PreparedStatement ps = this.con.prepareStatement("call createScheme(?,?,?,?,?,?,?,?)");
             ps.setString(1, schemeBean.getSchemeName());
             ps.setString(2, schemeBean.getSchemeDescription());
             ps.setString(3, CommonUtil.convertDate(schemeBean.getStartDate()));
@@ -50,7 +50,7 @@ public class SchemeDao {
             ps.setDouble(5, schemeBean.getMemberPerc());
             ps.setDouble(6, (100 - schemeBean.getMemberPerc()));
             ps.setDouble(7, schemeBean.getAmount());
-
+            ps.setString(8, schemeBean.getVideoId());
             count = ps.executeUpdate();
             db.closeConnection(con);
         } catch (Exception ex) {
@@ -82,6 +82,7 @@ public class SchemeDao {
                 schemeBean.setCompanyPerc(rs.getDouble(7));
                 schemeBean.setAmount(rs.getDouble(8));
                 schemeBean.setIsClosed(rs.getInt(9));
+                schemeBean.setVideoId(rs.getString(10));
                 schemeList.add(schemeBean);
             }
             db.closeConnection(con);
@@ -115,6 +116,7 @@ public class SchemeDao {
                 schemeBean.setAmount(rs.getDouble(8));
                 schemeBean.setIsClosed(rs.getInt(9));
                 schemeBean.setIsStarted(rs.getInt(10));
+                schemeBean.setVideoId(rs.getString(11));
 
             }
             db.closeConnection(con);
@@ -129,7 +131,7 @@ public class SchemeDao {
         int count = 0;
         try {
             this.con = db.getConnection();
-            PreparedStatement ps = this.con.prepareStatement("call editScheme(?,?,?,?,?,?,?,?,?)");
+            PreparedStatement ps = this.con.prepareStatement("call editScheme(?,?,?,?,?,?,?,?,?,?)");
             ps.setString(1, schemeBean.getSchemeName());
             ps.setString(2, schemeBean.getSchemeDescription());
             ps.setString(3, CommonUtil.convertDate(schemeBean.getStartDate()));
@@ -139,6 +141,7 @@ public class SchemeDao {
             ps.setDouble(7, schemeBean.getAmount());
             ps.setInt(8, schemeBean.getIsClosed());
             ps.setInt(9, schemeBean.getId());
+            ps.setString(10, schemeBean.getVideoId());
             count = ps.executeUpdate();
             db.closeConnection(con);
         } catch (Exception ex) {

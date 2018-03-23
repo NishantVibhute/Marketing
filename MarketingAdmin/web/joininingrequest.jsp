@@ -5,7 +5,8 @@
         <%@ taglib prefix="s" uri="/struts-tags"%>
 
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>AdminLTE 2 | General Form Elements</title>
+        <title>BussiPool</title>
+        <link rel="shortcut icon" href="Images/BussiPoolLogo.jpg" />
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.7 -->
@@ -29,10 +30,10 @@
 
         <!-- Google Font -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-         <script>
-     
-      
-  </script>
+        <script>
+
+
+        </script>
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
         <div class="wrapper">
@@ -182,7 +183,7 @@
                                         <option value="3">by Netbanking</option>
                                         <option value="4">by Company</option>
                                         <option value="5">by Rejoining</option>
-                                        
+
 
                                     </select>
 
@@ -243,23 +244,23 @@
                         <form method="post" action="updateVirtualUserPayment">
                             <div class="modal-body">
                                 <div class="form-group">
-                                   
+
                                     <input type="hidden" id="joinIdVirtual" name="joiningId"/>
                                     <input type="hidden" id="schemeIdI" name="schemeId"/>
-                                   
-                                     <label>Payment Mode</label>
+
+                                    <label>Payment Mode</label>
                                     <select id="payModeId"  name="paymentModeId" class="form-control">
                                         <option value="4">by Company</option>
-                                       
-                                        
+
+
                                     </select>
-                                    
+
                                     <div class="form-group">
                                         <label for="amount">Amount</label>
                                         <input type="text" class="form-control" id="amountV" name="amount" placeholder="UTR No">
                                     </div>
-                                    
-                                     <label>Create Virtual Ids</label>
+
+                                    <label>Create Virtual Ids</label>
                                     <select id="virtaulIds"  name="vitualIdToBecreated" class="form-control">
                                         <option value="0">+0</option>
                                         <option value="1">+1</option>
@@ -303,19 +304,28 @@
         <!-- bootstrap datepicker -->
         <script src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
         <script>
-$(document).ready(function(){
-          
-          $("#dashboardli").removeClass("active");
-          $("#schmeLi").removeClass("active");
-          $("#schemePoolLi").removeClass("active");
-          $("#schemeDetailLi").removeClass("active");
-          $("#schmeNewLi").removeClass("active");
-          $("#joiningLi").addClass("active");
-          $("#emailLi").removeClass("active");
-          $("#smsLi").removeClass("active");
-                    $("#chatroomLi").removeClass("active");
+                                                $(document).ready(function() {
 
-      });
+                                                    $("#dashboardli").removeClass("active");
+                                                    $("#schmeLi").removeClass("active");
+                                                    $("#schemePoolLi").removeClass("active");
+                                                    $("#schemeDetailLi").removeClass("active");
+                                                    $("#schmeNewLi").removeClass("active");
+                                                    $("#joiningLi").addClass("active");
+                                                    $("#emailLi").removeClass("active");
+                                                    $("#smsLi").removeClass("active");
+                                                    $("#smsNewLi").removeClass("active");
+                                                    $("#smsDetailLi").removeClass("active");
+                                                    $("#smsTemplateLi").removeClass("active");
+                                                    $("#chatroomLi").removeClass("active");
+                                                    $("#userLi").removeClass("active");
+                                                    $("#userNewLi").removeClass("active");
+                                                    $("#userListLi").removeClass("active");
+                                                    $("#userDetailLi").removeClass("active");
+                                                    $("#visitorLi").removeClass("active");
+                                                    $("#paymentLi").removeClass("active");
+
+                                                });
                                                 $(function() {
 
                                                     //Date picker
@@ -339,7 +349,7 @@ $(document).ready(function(){
                                                     })
                                                 })
 
-                                                function getSchemePendinInfo(id,amount)
+                                                function getSchemePendinInfo(id, amount)
                                                 {
 
 
@@ -349,9 +359,9 @@ $(document).ready(function(){
                                                         dataType: 'json',
                                                         success: function(response) {
 
-$('#userDetail').DataTable().rows()
-    .remove()
-    .draw();
+                                                            $('#userDetail').DataTable().rows()
+                                                                    .remove()
+                                                                    .draw();
                                                             jQuery.each(response, function(index, value) {
 //    var dt = "<tr><td>"+index+"</td><td>"+value.name+"</td><td><button type='button' class='btn btn-block btn-success'>Accept</button></td><td><button type='button' class='btn btn-block  btn-danger'>Deny</button></td></tr>";
 
@@ -385,7 +395,7 @@ $('#userDetail').DataTable().rows()
                                                                     type,
                                                                     value.name,
                                                                     pm,
-                                                                    " <button type='button' class='btn btn-block btn-success'  onClick=showPayModal(" + value.id + ",'" + value.type + "','" + id + "',"+value.paymentModeId+","+amount+")>Accept</button>",
+                                                                    " <button type='button' class='btn btn-block btn-success'  onClick=showPayModal(" + value.id + ",'" + value.type + "','" + id + "'," + value.paymentModeId + "," + amount + ")>Accept</button>",
                                                                     "<button type='button' class='btn btn-block  btn-danger'>Deny</button>"]);
 
 
@@ -400,8 +410,8 @@ $('#userDetail').DataTable().rows()
                                                         url: "getSchemePool?valScheme=" + id,
                                                         dataType: 'json',
                                                         success: function(response) {
-                                                            
-                                                           $("#schemePool").find("tr:gt(0)").remove();
+
+                                                            $("#schemePool").find("tr:gt(0)").remove();
                                                             jQuery.each(response, function(index, value) {
 //    var dt = "<tr><td>"+index+"</td><td>"+value.name+"</td><td><button type='button' class='btn btn-block btn-success'>Accept</button></td><td><button type='button' class='btn btn-block  btn-danger'>Deny</button></td></tr>";
 
@@ -473,30 +483,30 @@ $('#userDetail').DataTable().rows()
                                                     }
                                                 })
 
-                                                function showPayModal(id, type, schemeId,paymodeId,amount)
-                                               {
+                                                function showPayModal(id, type, schemeId, paymodeId, amount)
+                                                {
                                                     if (type === 'PHYSICAL') {
                                                         $("#joinId").val(id);
                                                         $('#modal-default').modal('show');
                                                         $('#paymode').val(paymodeId);
-                                                        
+
                                                         if (paymodeId == "1" || paymodeId == "5")
-                                                    {
-                                                        $('#cheque').hide();
-                                                        $('#netBanking').hide();
+                                                        {
+                                                            $('#cheque').hide();
+                                                            $('#netBanking').hide();
 
-                                                    }
-                                                    if (paymodeId == "2")
-                                                    {
-                                                        $('#cheque').show();
-                                                        $('#netBanking').hide();
-                                                    }
-                                                    if (paymodeId == "3")
-                                                    {
-                                                        $('#cheque').hide();
-                                                        $('#netBanking').show();
+                                                        }
+                                                        if (paymodeId == "2")
+                                                        {
+                                                            $('#cheque').show();
+                                                            $('#netBanking').hide();
+                                                        }
+                                                        if (paymodeId == "3")
+                                                        {
+                                                            $('#cheque').hide();
+                                                            $('#netBanking').show();
 
-                                                    }
+                                                        }
                                                     } else if (type === 'VIRTUAL') {
                                                         $("#joinIdVirtual").val(id);
                                                         $('#modal-Virtual').modal('show');
