@@ -5,7 +5,8 @@
         <%@ taglib prefix="s" uri="/struts-tags"%>
 
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>AdminLTE 2 | General Form Elements</title>
+        <title>BussiPool</title>
+        <link rel="shortcut icon" href="Images/BussiPoolLogo.jpg" />
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.7 -->
@@ -101,16 +102,16 @@
                                                     <s:elseif test="tempId == 5">
                                                         <td> Default </td>
                                                     </s:elseif>
-                                                <td><s:property value="message" /> </td>
-                                                <td><s:date name="sentDate" format="dd-MM-yy  hh:mm:ss a"/> </td>
-                                                <td><s:date name="deliveredDate" format="dd-MM-yy  hh:mm:ss a"/> </td>
-                                                <td><s:property value="status" /> </td>
+                                                    <td><s:property value="message" /> </td>
+                                                    <td><s:date name="sentDate" format="dd-MM-yy  hh:mm:ss a"/> </td>
+                                                    <td><s:date name="deliveredDate" format="dd-MM-yy  hh:mm:ss a"/> </td>
+                                                    <td><s:property value="status" /> </td>
                                                 </tr>
                                             </s:iterator>
 
 
 
-                                            </tbody>
+                                        </tbody>
 
                                     </table>
                                 </div>
@@ -161,15 +162,37 @@
         <!-- bootstrap datepicker -->
         <script src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
         <script>
-                                                        $(function() {
+            $(document).ready(function() {
 
-                                                            //Date picker
-                                                            $('#datepickerDate').datepicker({
-                                                                autoclose: true,
-                                                                format: 'dd/mm/yyyy'
-                                                            });
+                $("#dashboardli").removeClass("active");
+                $("#schmeLi").removeClass("active");
+                $("#schemePoolLi").removeClass("active");
+                $("#schemeDetailLi").removeClass("active");
+                $("#schmeNewLi").removeClass("active");
+                $("#joiningLi").removeClass("active");
+                $("#emailLi").removeClass("active");
+                $("#smsLi").addClass("active");
+                $("#smsNewLi").removeClass("active");
+                $("#smsDetailLi").addClass("active");
+                $("#smsTemplateLi").removeClass("active");
+                $("#chatroomLi").removeClass("active");
+                $("#userLi").removeClass("active");
+                $("#userNewLi").removeClass("active");
+                $("#userListLi").removeClass("active");
+                $("#userDetailLi").removeClass("active");
+                $("#visitorLi").removeClass("active");
+                $("#paymentLi").removeClass("active");
 
-                                                        });
+            });
+            $(function() {
+
+                //Date picker
+                $('#datepickerDate').datepicker({
+                    autoclose: true,
+                    format: 'dd/mm/yyyy'
+                });
+
+            });
         </script>
     </body>
 </html>

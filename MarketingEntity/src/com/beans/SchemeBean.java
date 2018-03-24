@@ -19,6 +19,7 @@ public class SchemeBean {
     double memberPerc;
     double companyPerc;
     double amount;
+    String videoId;
     int isClosed;
     int isStarted;
 
@@ -100,6 +101,14 @@ public class SchemeBean {
 
     public void setIsStarted(int isStarted) {
         this.isStarted = isStarted;
+    }
+
+    public String getVideoId() {
+        return videoId;
+    }
+
+    public void setVideoId(String videoId) {
+        this.videoId = videoId;
     }
 
 }

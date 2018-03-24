@@ -5,7 +5,8 @@
         <%@ taglib prefix="s" uri="/struts-tags"%>
 
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>AdminLTE 2 | General Form Elements</title>
+        <title>BussiPool</title>
+        <link rel="shortcut icon" href="Images/BussiPoolLogo.jpg" />
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.7 -->
@@ -65,7 +66,7 @@
                                 </div>
                                 <!-- /.box-header -->
                                 <!-- form start -->
-                                <form id="formID" class="form-horizontal" action="editMessage"> 
+                                <form id="formID" class="form-horizontal" action="editMessage">
                                     <div class="box-body">
                                         <div class="form-group">
                                             <label>Select</label>
@@ -78,7 +79,7 @@
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <textarea name="messageContent.body" id= "messageBody" class="validate[required] form-control" style="height: 300px; width : 650px"></textarea> 
+                                            <textarea name="messageContent.body" id= "messageBody" class="validate[required] form-control" style="height: 300px; width : 650px"></textarea>
                                         </div>
                                     </div>
                                     <div class="box-footer">
@@ -118,6 +119,28 @@
         <!-- bootstrap datepicker -->
         <script src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
         <script>
+                                                $(document).ready(function() {
+
+                                                    $("#dashboardli").removeClass("active");
+                                                    $("#schmeLi").removeClass("active");
+                                                    $("#schemePoolLi").removeClass("active");
+                                                    $("#schemeDetailLi").removeClass("active");
+                                                    $("#schmeNewLi").removeClass("active");
+                                                    $("#joiningLi").removeClass("active");
+                                                    $("#emailLi").removeClass("active");
+                                                    $("#smsLi").addClass("active");
+                                                    $("#smsNewLi").removeClass("active");
+                                                    $("#smsDetailLi").removeClass("active");
+                                                    $("#smsTemplateLi").addClass("active");
+                                                    $("#chatroomLi").removeClass("active");
+                                                    $("#userLi").removeClass("active");
+                                                    $("#userNewLi").removeClass("active");
+                                                    $("#userListLi").removeClass("active");
+                                                    $("#userDetailLi").removeClass("active");
+                                                    $("#visitorLi").removeClass("active");
+                                                    $("#paymentLi").removeClass("active");
+
+                                                });
                                                 $(function() {
 
                                                     //Date picker

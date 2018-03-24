@@ -5,7 +5,8 @@
         <%@ taglib prefix="s" uri="/struts-tags"%>
 
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>AdminLTE 2 | General Form Elements</title>
+        <title>BussiPool</title>
+        <link rel="shortcut icon" href="Images/BussiPoolLogo.jpg" />
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
         <!-- Bootstrap 3.3.7 -->
@@ -93,7 +94,7 @@
 
                             </div>
                             <!-- /.box -->
-                            
+
 
                         </div>
                         <!-- /.col -->
@@ -152,78 +153,78 @@
                         <form method="post" action="saveCustomerPaymentDetails">
                             <div class="modal-body">
                                 <div class="row">
-  <div class="col-sm-6"><div class="box-body">
-                                    <table id="joinDates" class="table table-bordered table-hover">
-                                        <thead>
-                                            <tr>
-                                               <th style="text-align: center;width: 15%">Joining Dates</th>
-</tr>
+                                    <div class="col-sm-6"><div class="box-body">
+                                            <table id="joinDates" class="table table-bordered table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="text-align: center;width: 15%">Joining Dates</th>
+                                                    </tr>
 
 
-                                        </thead>
-                                        <tbody>
+                                                </thead>
+                                                <tbody>
 
 
-                                        </tbody>
+                                                </tbody>
 
-                                    </table>
-                                </div></div>
-  <div class="col-sm-6"><div class="form-group">
-                                    <label>Payment Mode</label>
-                                    <input type="hidden" id="schemeId" name="schemeId"/>
-                                    <input type="hidden" id="userId" name="joiningId"/>
-                                    <select id="paymode"  name="paymentModeId" class="form-control">
+                                            </table>
+                                        </div></div>
+                                    <div class="col-sm-6"><div class="form-group">
+                                            <label>Payment Mode</label>
+                                            <input type="hidden" id="schemeId" name="schemeId"/>
+                                            <input type="hidden" id="userId" name="joiningId"/>
+                                            <select id="paymode"  name="paymentModeId" class="form-control">
 
-                                        <option value="1">by Cash</option>
-                                        <option value="2">by Cheque</option>
-                                        <option value="3">by Netbanking</option>
-                                        
+                                                <option value="1">by Cash</option>
+                                                <option value="2">by Cheque</option>
+                                                <option value="3">by Netbanking</option>
 
-                                    </select>
 
-                                </div>
-                                <div class="form-group">
-                                    <label for="amount">Amount</label>
-                                    <input type="text" class="form-control" id="amount" name="amount" placeholder="Amount">
-                                </div>
+                                            </select>
 
-                                <div id="cheque" style="display:none">
-                                    <div class="form-group">
-                                        <label for="chequeNo">Cheque No.</label>
-                                        <input type="text" class="form-control" id="amount" name="chequeNo" placeholder="Cheque No">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="amount">Amount</label>
+                                            <input type="text" class="form-control" id="amount" name="amount" placeholder="Amount">
+                                        </div>
+
+                                        <div id="cheque" style="display:none">
+                                            <div class="form-group">
+                                                <label for="chequeNo">Cheque No.</label>
+                                                <input type="text" class="form-control" id="amount" name="chequeNo" placeholder="Cheque No">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="amount">Cheque Date</label>
+                                                <input type="text" class="form-control" id="datepickerDate" name="chequeDate" placeholder="Cheque Date">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="amount">Bank Name</label>
+                                                <input type="text" class="form-control" id="amount" name ="bankName" placeholder="Bank Name">
+                                            </div>
+
+
+                                        </div>
+
+                                        <div id="netBanking" style="display:none">
+                                            <div class="form-group">
+                                                <label for="amount">UTR No.</label>
+                                                <input type="text" class="form-control" id="amount" name="UTRNo" placeholder="UTR No">
+                                            </div>
+
+                                        </div>
+
+
+
                                     </div>
-                                    <div class="form-group">
-                                        <label for="amount">Cheque Date</label>
-                                        <input type="text" class="form-control" id="datepickerDate" name="chequeDate" placeholder="Cheque Date">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="amount">Bank Name</label>
-                                        <input type="text" class="form-control" id="amount" name ="bankName" placeholder="Bank Name">
-                                    </div>
-
-
-                                </div>
-
-                                <div id="netBanking" style="display:none">
-                                    <div class="form-group">
-                                        <label for="amount">UTR No.</label>
-                                        <input type="text" class="form-control" id="amount" name="UTRNo" placeholder="UTR No">
-                                    </div>
-
-                                </div>
-
-
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                    </div></div>
 
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save</button>
-                            </div></div>
 
-</div>
-                                
-                                
-                                
+
+
                         </form>
                     </div>
                     <!-- /.modal-content -->
@@ -232,7 +233,7 @@
             </div>
             <!-- /.modal -->
 
-            
+
 
             <%@include file="/include/includefooter.jsp"%>
 
@@ -265,10 +266,20 @@
                                                     $("#schemePoolLi").removeClass("active");
                                                     $("#schemeDetailLi").removeClass("active");
                                                     $("#schmeNewLi").removeClass("active");
-                                                    $("#joiningLi").addClass("active");
+                                                    $("#joiningLi").removeClass("active");
                                                     $("#emailLi").removeClass("active");
                                                     $("#smsLi").removeClass("active");
+                                                    $("#smsNewLi").removeClass("active");
+                                                    $("#smsDetailLi").removeClass("active");
+                                                    $("#smsTemplateLi").removeClass("active");
                                                     $("#chatroomLi").removeClass("active");
+                                                    $("#userLi").removeClass("active");
+                                                    $("#userNewLi").removeClass("active");
+                                                    $("#userListLi").removeClass("active");
+                                                    $("#userDetailLi").removeClass("active");
+                                                    $("#visitorLi").removeClass("active");
+                                                    $("#paymentLi").addClass("active");
+
 
                                                 });
                                                 $(function() {
@@ -297,7 +308,6 @@
                                                 function getSchemePendinInfo(id)
                                                 {
                                                     $.ajax({
-                                                        
                                                         type: "post",
                                                         url: "getPaymentRealeaseRequest?val=" + id,
                                                         dataType: 'json',
@@ -308,17 +318,16 @@
                                                                     .draw();
                                                             jQuery.each(response, function(index, value) {
 //    var dt = "<tr><td>"+index+"</td><td>"+value.name+"</td><td><button type='button' class='btn btn-block btn-success'>Accept</button></td><td><button type='button' class='btn btn-block  btn-danger'>Deny</button></td></tr>";
-                                                                var userId=value.userId;
-                                                                var schemeId=value.schemeId;
-                                                                var name= value.userName;
-                                                                var amount =value.amount;
-                                                                var dat=value.joinDates;
-                                                           
+                                                                var userId = value.userId;
+                                                                var schemeId = value.schemeId;
+                                                                var name = value.userName;
+                                                                var amount = value.amount;
+                                                                var dat = value.joinDates;
+
                                                                 $('#userDetail').dataTable().fnAddData([
-                                                                    
                                                                     name,
                                                                     amount,
-                                                                "<button type='button' class='btn btn-block btn-success'  onClick=showPayModal('"+dat+"',"+amount+","+schemeId+","+userId+",'"+encodeURIComponent(name)+"')>View</button>"]);
+                                                                    "<button type='button' class='btn btn-block btn-success'  onClick=showPayModal('" + dat + "'," + amount + "," + schemeId + "," + userId + ",'" + encodeURIComponent(name) + "')>View</button>"]);
 
 
                                                             });
@@ -326,7 +335,7 @@
                                                     });
 
 
-                                                   
+
                                                 }
 
                                                 $('#paymode').on('change', function() {
@@ -349,25 +358,25 @@
                                                     }
                                                 })
 
-                                                function showPayModal(id,amount,schemeId,userId,userName)
+                                                function showPayModal(id, amount, schemeId, userId, userName)
                                                 {
                                                     var res = id.split(",");
 
                                                     $("#joinDates").find("tr:gt(0)").remove();
-                                                     for (i = 0; i < res.length; i++) { 
-                    $("#joinDates").append("<tr><td>"+res[i]+"</td></tr>");
-                                                 
-                
-}
-                                                    
-                                                        $("#schemeId").val(schemeId);
-                                                        $("#userId").val(userId);
+                                                    for (i = 0; i < res.length; i++) {
+                                                        $("#joinDates").append("<tr><td>" + res[i] + "</td></tr>");
 
-        $("#userName").text(decodeURIComponent(userName));
-        $("#amount").val(amount);
-                                                        $('#modal-default').modal('show');
-                                                        
-                                                   
+
+                                                    }
+
+                                                    $("#schemeId").val(schemeId);
+                                                    $("#userId").val(userId);
+
+                                                    $("#userName").text(decodeURIComponent(userName));
+                                                    $("#amount").val(amount);
+                                                    $('#modal-default').modal('show');
+
+
                                                 }
         </script>
     </body>

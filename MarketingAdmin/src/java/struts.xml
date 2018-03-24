@@ -3,6 +3,7 @@
 "http://struts.apache.org/dtds/struts-2.0.dtd">
 
 <struts>
+     <constant name="struts.multipart.saveDir" value="/home/ec2-user/Files" />
     <!-- Configuration for the default package. -->
     <package name="default" extends="struts-default">
         
@@ -104,6 +105,17 @@
                 <param name="contentType">text/plain</param>
             </result>
         </action>
+        
+        <action name="redirectcreateuser" class="com.redirect.UserAction" method="redirectCreateUser">
+           <result name="success" >/userNew.jsp</result>
+            <result name="login">/index.jsp</result>
+        </action>
+        
+        <action name="createuser" class="com.redirect.UserAction" method="createUser">
+           <result name="success" >/userNew.jsp</result>
+            <result name="login">/index.jsp</result>
+        </action>
+        
         
         <action name="getSchemeUserBalanceDetails" class="com.redirect.UserAction" method="getSchemeUserBalance">
             <result type="stream">
@@ -212,6 +224,26 @@
             <result name="success">/newMessage.jsp</result>
             <result name="login">/index.jsp</result>
         </action>
+        
+        <action name="account" class="com.redirect.AccountAction" method="redirect">
+            <result name="success">/account.jsp</result>
+            <result name="login">/index.jsp</result>
+        </action>
+        
+        <action name="getSchemePassbook" class="com.redirect.AccountAction" method="getSchemePassbook">
+            <result type="stream">
+                <param name="contentType">text/plain</param>
+            </result>
+        </action>
+        
+        <action name="getSchemeBalance" class="com.redirect.AccountAction" method="getSchemeBalance">
+            <result type="stream">
+                <param name="contentType">text/plain</param>
+            </result>
+        </action>
+        
+        
+        
         <action name="sendemail" class="com.redirect.EmailAction" method="send">
             <result name="success" type="chain">email</result>
             <result name="login">/index.jsp</result>
