@@ -7,6 +7,7 @@ package com.service;
 
 import com.beans.BalanceBean;
 import com.beans.PassRowBean;
+import com.beans.SchemeJoinBean;
 import com.dao.AccountDao;
 import java.util.List;
 import javax.ws.rs.Consumes;
@@ -81,4 +82,21 @@ public class Account {
         return jsonInString;
     }
 
+    @POST
+    @Path("/getUserSchemePassbook")
+    @Produces("text/plain")
+    @Consumes("text/plain")
+    public String getUserSchemePassbook(String data) {
+        //TODO return proper representation object
+        String jsonInString = "";
+        try {
+            SchemeJoinBean schemeJoinBean = objectMapper.readValue(data, SchemeJoinBean.class);
+            //TODO return proper representation object
+            List<PassRowBean> balanceBean = accountDao.getUserSchemePassbook(schemeJoinBean);
+            jsonInString = objectMapper.writeValueAsString(balanceBean);
+        } catch (Exception ex) {
+            logger.error("Chat Class" + ex);
+        }
+        return jsonInString;
+    }
 }

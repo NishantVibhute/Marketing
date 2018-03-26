@@ -8,6 +8,7 @@ package com.redirect;
 import com.beans.BankDetailsBean;
 import com.beans.CreateUserExcelRow;
 import com.beans.JoiningDetailsBean;
+import com.beans.PassRowBean;
 import com.beans.SchemeBean;
 import com.beans.SchemeJoinBean;
 import com.beans.UserBean;
@@ -21,6 +22,7 @@ import com.util.ServiceUtil;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -133,6 +135,26 @@ public class UserAction extends ActionSupport implements ModelDriven, ServletReq
         }
         return ActionSupport.SUCCESS;
 
+    }
+
+    public String getUserSchemePassbook() {
+        try {
+            SchemeJoinBean sjb = new SchemeJoinBean();
+            sjb.setSchemeId(Integer.parseInt(schemeId));
+            sjb.setUserId(Integer.parseInt(userId));
+            String req = objectMapper.writeValueAsString(sjb);
+            String resp = ServiceUtil.getResponse(req, "/account/getUserSchemePassbook");
+
+            List<PassRowBean> passRowBean = objectMapper.readValue(resp, new TypeReference<List<PassRowBean>>() {
+            });
+
+            String res = objectMapper.writeValueAsString(passRowBean);
+            inputStream = new ByteArrayInputStream(res.getBytes(StandardCharsets.UTF_8));
+
+        } catch (IOException ex) {
+            Logger.getLogger(SchemeAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ActionSupport.SUCCESS;
     }
 
     public String getSchemePoolByNameByUserId() {

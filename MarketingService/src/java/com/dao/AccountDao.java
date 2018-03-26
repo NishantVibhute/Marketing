@@ -7,6 +7,7 @@ package com.dao;
 
 import com.beans.BalanceBean;
 import com.beans.PassRowBean;
+import com.beans.SchemeJoinBean;
 import com.util.DbUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -98,6 +99,34 @@ public class AccountDao {
         }
         return balanceBean;
 
+    }
+
+    public List<PassRowBean> getUserSchemePassbook(SchemeJoinBean sjb) {
+        List<PassRowBean> passList = new ArrayList<>();
+
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement("call getUserSchemePassbook(?,?)");
+            ps.setInt(1, sjb.getSchemeId());
+            ps.setInt(2, sjb.getUserId());
+            rs = ps.executeQuery();
+            int i = 0;
+            while (rs.next()) {
+                PassRowBean passRowBean = new PassRowBean();
+                passRowBean.setSrNo(++i);
+                passRowBean.setDate(rs.getString(1));
+                passRowBean.setParticulars(rs.getString(2));
+                passRowBean.setWithdrawl(rs.getDouble(3));
+                passRowBean.setDeposit(rs.getDouble(4));
+                passRowBean.setSchemeid(rs.getInt(5));
+                passRowBean.setBalance(rs.getDouble(6));
+                passList.add(passRowBean);
+            }
+            db.closeConnection(con);
+        } catch (Exception ex) {
+            logger.error("CreateUser", ex);
+        }
+        return passList;
     }
 
 }

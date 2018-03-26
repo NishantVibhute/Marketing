@@ -135,6 +135,11 @@
             </result>
         </action>
         
+        <action name="getUserSchemePassbook" class="com.redirect.UserAction" method="getUserSchemePassbook">
+            <result type="stream">
+                <param name="contentType">text/plain</param>
+            </result>
+        </action>
         
         <action name="getPaymentDetails" class="com.redirect.UserAction" method="getUserPaymentDetails">
             <result type="stream">
