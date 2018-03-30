@@ -319,13 +319,23 @@
                         </a>
 
                     </li>
-                    <li id="emailLi" >
-                        <a href="email">
-                            <i class="fa fa-inbox"></i> <span>Email </span>
-
+                    <li id="emailLi" class="treeview">
+                        <a href="#">
+                            <i class="fa fa-envelope"></i> <span>Email </span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
                         </a>
+                        <ul class="treeview-menu">
+                            <li id="emailNewLi"><a href="email"><i class="fa fa-circle-o"></i> New</a></li>
+                            <li id="emailDetailLi"><a href="showSentSMS"><i class="fa fa-circle-o"></i> List</a></li>
+                            <li id="emailTemplateLi"><a href="redirectToEmailTemplates"><i class="fa fa-circle-o"></i> Templates</a></li>
 
+
+
+                        </ul>
                     </li>
+
 
                     <li id="smsLi" class="treeview">
                         <a href="#">

@@ -59,13 +59,14 @@ public class LoginAction extends ActionSupport implements SessionAware {
                 if (userBean.getEmailId() != null) {
                     session.put("loginId", userName);
                     session.put("user", userBean);
+                    return SUCCESS;
                 } else {
                     return LOGIN;
                 }
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-            return SUCCESS;
+            return LOGIN;
         }
     }
 

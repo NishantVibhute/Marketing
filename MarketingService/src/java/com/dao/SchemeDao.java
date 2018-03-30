@@ -42,7 +42,7 @@ public class SchemeDao {
         int count = 0;
         try {
             this.con = db.getConnection();
-            PreparedStatement ps = this.con.prepareStatement("call createScheme(?,?,?,?,?,?,?,?)");
+            PreparedStatement ps = this.con.prepareStatement("call createScheme(?,?,?,?,?,?,?,?,?)");
             ps.setString(1, schemeBean.getSchemeName());
             ps.setString(2, schemeBean.getSchemeDescription());
             ps.setString(3, CommonUtil.convertDate(schemeBean.getStartDate()));
@@ -51,6 +51,7 @@ public class SchemeDao {
             ps.setDouble(6, (100 - schemeBean.getMemberPerc()));
             ps.setDouble(7, schemeBean.getAmount());
             ps.setString(8, schemeBean.getVideoId());
+            ps.setString(9, schemeBean.getFilePath());
             count = ps.executeUpdate();
             db.closeConnection(con);
         } catch (Exception ex) {

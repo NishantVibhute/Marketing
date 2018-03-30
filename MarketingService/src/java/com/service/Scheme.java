@@ -15,12 +15,17 @@ import com.beans.SchemeRows;
 import com.beans.SchemeRowsByName;
 import com.beans.UserDatails;
 import com.dao.SchemeDao;
+import java.io.File;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 
@@ -264,6 +269,18 @@ public class Scheme {
             logger.error("User Class" + ex);
         }
         return jsonInString;
+    }
+
+    @GET
+    @Path("/getLogo/{id}")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response getFile(@PathParam("id") String data) {
+        String destPath = "/home/ec2-user/Files/";
+        File file = new File(destPath + data + ".jpg");
+        ResponseBuilder response = Response.ok((Object) file);
+        response.header("Content-Disposition", "attachment; filename=" + data + ".jpg");
+        return response.build();
+
     }
 
 }

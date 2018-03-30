@@ -78,6 +78,7 @@
                                                 <th >Member Perc</th>
                                                 <th >Company Perc</th>
                                                 <th >Video ID</th>
+                                                <th >Thumbnail</th>
                                                 <th >Active/Deactive</th>
                                                 <th >Progess/Closed</th>
                                                 <th >Edit</th>
@@ -96,7 +97,8 @@
                                                     <td><s:property value="memberPerc" /> %</td>
                                                     <td><s:property value="companyPerc" /> %</td>
                                                     <td><s:property value="videoId" /></td>
-                                                    <s:if test="isSchemeActive == 1">
+                                                    <td><img height="100" width="100" src="<s:property value="filePath" />"/></td>
+                                                        <s:if test="isSchemeActive == 1">
                                                         <td style="color: green">Active</td>
                                                     </s:if>
                                                     <s:else>

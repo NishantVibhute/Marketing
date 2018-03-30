@@ -7,12 +7,21 @@ package com.service;
 
 import com.beans.CreateVirtualUser;
 import com.beans.JoiningDetailsBean;
+import com.beans.MessageBean;
+import com.beans.Messages;
+import com.beans.SMSResponse;
 import com.beans.SchemeRowsByName;
+import com.beans.SentMessageBean;
 import com.beans.UserBean;
 import com.beans.UserJoinPaymentBean;
 import com.beans.UserPassword;
 import com.beans.UserSchemeBalance;
+import com.beans.Warnings;
+import com.dao.EmailDao;
+import com.dao.MessageDao;
 import com.dao.UserDao;
+import com.util.EmailUtil;
+import com.util.SMSUtil;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -42,6 +51,7 @@ public class User {
     @Consumes("text/plain")
     public String createUser(String data) {
         String jsonInString = "";
+        EmailUtil em = new EmailUtil();
         try {
 
             String msg;
@@ -53,6 +63,48 @@ public class User {
             int updatedRows = userDao.createUser(userBean);
 
             if (updatedRows != 0) {
+                MessageDao messageDao = new MessageDao();
+                SentMessageBean sentMessageBean = new SentMessageBean();
+                MessageBean messageContent = messageDao.getSMSContentFromSubject("Welcome MSG");
+                sentMessageBean.setTempId(messageContent.getId());
+                sentMessageBean.setFrom(1);
+                sentMessageBean.setTo(userBean.getMobileNo());
+                String msg1 = messageContent.getBody().replace("<username>", userBean.getFirstName());
+                sentMessageBean.setMessage(msg1);
+
+                String resp = SMSUtil.sendSms(sentMessageBean.getMessage(), sentMessageBean.getTo());
+                SMSResponse sMSResponse = objectMapper.readValue(resp, SMSResponse.class);
+
+                for (Warnings warnings : sMSResponse.getWarnings()) {
+                    if (warnings.getNumbers().contains(sentMessageBean.getTo())) {
+
+                        sentMessageBean.setStatus("DND");
+                    }
+                }
+
+                for (Messages messages : sMSResponse.getMessages()) {
+                    if (messages.getRecipient().contains(sentMessageBean.getTo())) {
+                        sentMessageBean.setTxtId(messages.getId());
+                        sentMessageBean.setStatus("SUCCESS");
+                    }
+                }
+
+                EmailDao emailDao = new EmailDao();
+                SentMessageBean sentMessageBean1 = new SentMessageBean();
+                MessageBean messageContent1 = emailDao.getEmailContentFromSubject("Welcome Email");
+                sentMessageBean1.setTempId(messageContent1.getId());
+                sentMessageBean1.setFrom(1);
+                sentMessageBean1.setTo(userBean.getEmailId());
+                sentMessageBean1.setSubject(messageContent1.getEmailSubject());
+                String msg11 = messageContent1.getBody().replace("<username>", userBean.getFirstName());
+
+                sentMessageBean1.setMessage(msg11);
+
+                String resp1 = em.send(sentMessageBean1.getTo(), sentMessageBean1.getSubject(), sentMessageBean1.getMessage());
+
+                sentMessageBean1 = emailDao.SendEmail(sentMessageBean1);
+
+                sentMessageBean1 = messageDao.SendSms(sentMessageBean1);
                 msg = "" + updatedRows;
             } else {
                 msg = "" + updatedRows;
@@ -96,10 +148,26 @@ public class User {
             String msg;
             //TODO return proper representation object
             UserPassword up = objectMapper.readValue(data, UserPassword.class);
-
+            EmailUtil em = new EmailUtil();
             int updatedRows = userDao.signUp(up);
 
             if (updatedRows != 0) {
+
+                EmailDao emailDao = new EmailDao();
+                SentMessageBean sentMessageBean = new SentMessageBean();
+                MessageBean messageContent = emailDao.getEmailContentFromSubject("SignUp");
+                sentMessageBean.setTempId(messageContent.getId());
+                sentMessageBean.setFrom(1);
+                sentMessageBean.setTo(up.getEmailId());
+                sentMessageBean.setSubject(messageContent.getEmailSubject());
+                String msg1 = messageContent.getBody().replace("<userid>", up.getEmailId());
+                String msg2 = msg1.replace("<password>", up.getPassword());
+                sentMessageBean.setMessage(msg2);
+
+                String resp = em.send(sentMessageBean.getTo(), sentMessageBean.getSubject(), sentMessageBean.getMessage());
+                if (resp.equalsIgnoreCase("success")) {
+                    sentMessageBean = emailDao.SendEmail(sentMessageBean);
+                }
                 msg = "User Added Successfuly";
             } else {
                 msg = "Failed to Add user";

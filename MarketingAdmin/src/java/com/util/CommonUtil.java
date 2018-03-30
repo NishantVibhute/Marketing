@@ -17,6 +17,14 @@ import java.util.logging.Logger;
  */
 public class CommonUtil {
 
+    public static String filePath = "";
+    public static String url = "";
+
+    static {
+        filePath = "/home/ec2-user/Files/";
+        url = "http://13.127.62.153:8080/MarketingService/webresources";
+    }
+
     public static String convertDate(String date) {
         String newDate = "";
         try {

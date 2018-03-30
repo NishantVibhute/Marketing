@@ -27,6 +27,7 @@ public class MessageAction {
     ObjectMapper objectMapper = new ObjectMapper();
     private String valueToSubmit = "";
     MessageBean messageContent;
+    List<MessageBean> messageContentList;
     SentMessageBean sentMessageBean;
     List<SentMessageBean> sentList;
     String successMsg = StringUtils.EMPTY, errorMsg = StringUtils.EMPTY;
@@ -34,8 +35,9 @@ public class MessageAction {
 
     public String redirect() {
         try {
-            String resp = ServiceUtil.getResponse(valueToSubmit, "/message/getSMSTemplateContent");
-            messageContent = objectMapper.readValue(resp, MessageBean.class);
+            String resp = ServiceUtil.getResponseGet("/message/getSMSTemplates");
+            messageContentList = objectMapper.readValue(resp, new TypeReference<List<MessageBean>>() {
+            });
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -102,6 +104,14 @@ public class MessageAction {
             ex.printStackTrace();
         }
         return ActionSupport.SUCCESS;
+    }
+
+    public List<MessageBean> getMessageContentList() {
+        return messageContentList;
+    }
+
+    public void setMessageContentList(List<MessageBean> messageContentList) {
+        this.messageContentList = messageContentList;
     }
 
     public String getValueToSubmit() {

@@ -262,6 +262,7 @@
                                                                         <li role="presentation" class="active"><a href="#joiningDetails" aria-controls="userDetails" role="tab" data-toggle="tab">Joining</a></li>
                                                                         <li role="presentation"><a href="#poolDetails" aria-controls="poolDetails" role="tab" data-toggle="tab">Bussiness Pool</a></li>
                                                                         <li role="presentation"><a href="#paymentDetails" aria-controls="paymentDetails" role="tab" data-toggle="tab">Payment</a></li>
+                                                                        <li role="presentation"><a href="#accountDetails" aria-controls="accountDetails" role="tab" data-toggle="tab">Account</a></li>
                                                                     </ul>
 
                                                                     <!-- Tab panes -->
@@ -336,6 +337,27 @@
                                                                                 <tbody>
 
 
+                                                                                </tbody>
+
+                                                                            </table>
+
+
+                                                                        </div>
+                                                                        <div role="tabpanel" class="tab-pane" id="accountDetails">
+
+                                                                            <table id="passbook" class="table table-bordered table-hover">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th width="5%">Sr No.</th>
+                                                                                        <th width="20%">Date</th>
+                                                                                        <th>Particulars</th>
+                                                                                        <th width="10%">Withdrawl</th>
+                                                                                        <th width="10%">Deposit</th>
+                                                                                        <th width="10%">Balance</th>
+
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
                                                                                 </tbody>
 
                                                                             </table>
@@ -788,6 +810,28 @@
                                                         })
 
 
+
+                                                    }
+                                                });
+
+                                                $.ajax({
+                                                    type: "post",
+                                                    url: "getUserSchemePassbook?userId=" + userId + "&schemeId=" + shcemeId,
+                                                    dataType: 'json',
+                                                    success: function(response) {
+                                                        $('#passbook').DataTable().rows()
+                                                                        .remove()
+                                                                        .draw();
+                                                                jQuery.each(response, function(index, value) {
+                                                                    $('#passbook').dataTable().fnAddData([
+                                                                        value.srNo,
+                                                                        value.date,
+                                                                        value.particulars,
+                                                                        value.withdrawl,
+                                                                        value.deposit,
+                                                                        value.balance
+                                                                    ]);
+                                                                })
 
                                                     }
                                                 });
