@@ -23,6 +23,15 @@ public class SchemeBean {
     int isClosed;
     int isStarted;
     String filePath;
+    int joinCount;
+
+    public int getJoinCount() {
+        return joinCount;
+    }
+
+    public void setJoinCount(int joinCount) {
+        this.joinCount = joinCount;
+    }
 
     public String getFilePath() {
         return filePath;

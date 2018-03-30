@@ -84,6 +84,7 @@ public class SchemeDao {
                 schemeBean.setAmount(rs.getDouble(8));
                 schemeBean.setIsClosed(rs.getInt(9));
                 schemeBean.setVideoId(rs.getString(10));
+                schemeBean.setJoinCount(rs.getInt(11));
                 schemeList.add(schemeBean);
             }
             db.closeConnection(con);
