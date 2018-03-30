@@ -23,7 +23,25 @@ public class SentMessageBean {
     private Date sentDate;
     private Date deliveredDate;
     private String status;
+    private String subject;
+    private String txtId;
     private List<String> bulkTo;
+
+    public String getTxtId() {
+        return txtId;
+    }
+
+    public void setTxtId(String txtId) {
+        this.txtId = txtId;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
 
     public List<String> getBulkTo() {
         return bulkTo;

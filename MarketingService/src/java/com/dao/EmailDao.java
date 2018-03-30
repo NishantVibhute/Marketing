@@ -17,9 +17,9 @@ import org.apache.log4j.Logger;
 
 /**
  *
- * @author sagar.gurav
+ * @author nishant.vibhute
  */
-public class MessageDao {
+public class EmailDao {
 
     Logger logger = Logger.getLogger(MessageDao.class);
     static final Logger errorLog = Logger.getLogger("errorLogger");
@@ -28,36 +28,12 @@ public class MessageDao {
     Connection con;
     ResultSet rs;
 
-    public MessageBean getSMSContentFromSubject(String subject) {
-
-        MessageBean messageContent = new MessageBean();
-
-        try {
-
-            this.con = db.getConnection();
-            PreparedStatement ps = this.con.prepareStatement("call getSMSContentFromSubject(?)");
-            ps.setString(1, subject);
-            rs = ps.executeQuery();
-
-            while (rs.next()) {
-                messageContent.setId(rs.getInt(1));
-                messageContent.setSubject(rs.getString(2));
-                messageContent.setBody(rs.getString(3));
-            }
-            db.closeConnection(con);
-        } catch (Exception ex) {
-            errorLog.error("MessageDao", ex);
-        }
-        return messageContent;
-
-    }
-
-    public List<MessageBean> getSMSTemplates() {
+    public List<MessageBean> getEmailTemplates() {
         List<MessageBean> msgList = new ArrayList<>();
 
         try {
             this.con = db.getConnection();
-            PreparedStatement ps = this.con.prepareStatement("call getSMSTemplates()");
+            PreparedStatement ps = this.con.prepareStatement("call getEmailTemplates()");
             rs = ps.executeQuery();
             while (rs.next()) {
                 MessageBean messageContent = new MessageBean();
@@ -74,18 +50,46 @@ public class MessageDao {
 
     }
 
-    public MessageBean editSMSContentFromSubject(MessageBean messageContent) {
+    public MessageBean getEmailContentFromSubject(String subject) {
+
+        MessageBean messageContent = new MessageBean();
+
         try {
+
             this.con = db.getConnection();
-            PreparedStatement ps = this.con.prepareStatement("call editSMSContentFromSubject(?,?)");
-            ps.setString(1, messageContent.getSubject());
-            ps.setString(2, messageContent.getBody());
+            PreparedStatement ps = this.con.prepareStatement("call getEmailContentFromSubject(?)");
+            ps.setString(1, subject);
             rs = ps.executeQuery();
 
             while (rs.next()) {
                 messageContent.setId(rs.getInt(1));
                 messageContent.setSubject(rs.getString(2));
                 messageContent.setBody(rs.getString(3));
+                messageContent.setEmailSubject(rs.getString(4));
+
+            }
+            db.closeConnection(con);
+        } catch (Exception ex) {
+            errorLog.error("MessageDao", ex);
+        }
+        return messageContent;
+
+    }
+
+    public MessageBean editEmailContentFromSubject(MessageBean messageContent) {
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement("call editEmailContentFromSubject(?,?,?)");
+            ps.setString(1, messageContent.getSubject());
+            ps.setString(2, messageContent.getBody());
+            ps.setString(3, messageContent.getEmailSubject());
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                messageContent.setId(rs.getInt(1));
+                messageContent.setSubject(rs.getString(2));
+                messageContent.setBody(rs.getString(3));
+                messageContent.setEmailSubject(rs.getString(4));
             }
             db.closeConnection(con);
         } catch (Exception ex) {
@@ -94,17 +98,15 @@ public class MessageDao {
         return messageContent;
     }
 
-    public SentMessageBean SendSms(SentMessageBean sentMessageBean) {
+    public SentMessageBean SendEmail(SentMessageBean sentMessageBean) {
         try {
             this.con = db.getConnection();
-            PreparedStatement ps = this.con.prepareStatement("call saveSMSSentStatus(?,?,?,?,?,?,?)");
+            PreparedStatement ps = this.con.prepareStatement("call saveEmailSent(?,?,?,?)");
             ps.setString(1, sentMessageBean.getTo());
             ps.setString(2, sentMessageBean.getMessage());
             ps.setLong(3, sentMessageBean.getFrom());
             ps.setInt(4, sentMessageBean.getTempId());
-            ps.setInt(5, sentMessageBean.getSchemeId());
-            ps.setString(6, sentMessageBean.getStatus());
-            ps.setString(7, sentMessageBean.getTxtId());
+
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -117,33 +119,5 @@ public class MessageDao {
         }
         return sentMessageBean;
 
-    }
-
-    public List<SentMessageBean> getSentList() {
-        List<SentMessageBean> sentMessageList = new ArrayList();
-
-        try {
-            this.con = db.getConnection();
-            PreparedStatement ps = this.con.prepareStatement("call getSentMessageList()");
-
-            rs = ps.executeQuery();
-
-            while (rs.next()) {
-                SentMessageBean sentMessageBean = new SentMessageBean();
-                sentMessageBean.setId(rs.getInt(1));
-                sentMessageBean.setFrom(rs.getInt(2));
-                sentMessageBean.setTo(rs.getString(3));
-                sentMessageBean.setTempId(rs.getInt(4));
-                sentMessageBean.setMessage(rs.getString(5));
-                sentMessageBean.setSentDate(rs.getTimestamp(6));
-                sentMessageBean.setDeliveredDate(rs.getTimestamp(7));
-                sentMessageBean.setStatus(rs.getString(8));
-                sentMessageList.add(sentMessageBean);
-            }
-            db.closeConnection(con);
-        } catch (Exception ex) {
-            errorLog.error("MessageDao", ex);
-        }
-        return sentMessageList;
     }
 }

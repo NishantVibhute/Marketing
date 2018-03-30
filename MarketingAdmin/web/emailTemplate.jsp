@@ -20,6 +20,10 @@
         <!-- AdminLTE Skins. Choose a skin from the css/skins
              folder instead of downloading all of them to reduce the load. -->
         <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+        <!-- bootstrap wysihtml5 - text editor -->
+        <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+        <!-- Select2 -->
+        <link rel="stylesheet" href="bower_components/select2/dist/css/select2.min.css">
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -30,6 +34,9 @@
 
         <!-- Google Font -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+        <script>
+
+        </script>
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
         <div class="wrapper">
@@ -59,94 +66,54 @@
                 <!-- Main content -->
                 <section class="content">
                     <div class="row">
-                        <!-- left column -->
-
-                        <!--/.col (left) -->
-                        <!-- right column -->
-                        <div class="col-md-8">
-                            <!-- Horizontal Form -->
-                            <div class="box box-info">
+                        <div class="col-md-9">
+                            <div class="box box-primary">
                                 <div class="box-header with-border">
-                                    <h3 class="box-title">Create Product</h3>
+                                    <h3 class="box-title">Templates</h3>
                                 </div>
-                                <!-- /.box-header -->
-                                <!-- form start -->
-                                <form class="form-horizontal"  method="POST" enctype="multipart/form-data" action="createScheme">
+                                <form id="formID" action="editEmail" method="post">
+                                    <!-- /.box-header -->
                                     <div class="box-body">
-                                        <div class="form-group">
-                                            <label  class="col-sm-2 control-label">Name</label>
 
-                                            <div class="col-sm-9">
-                                                <input type="text" name="schemeName" class="form-control" id="inputEmail3" placeholder="Name">
-                                            </div>
+                                        <div class="form-group">
+                                            <select onchange="handleChange(this.value)" class="validate[required] form-control " name="messageContent.subject"
+                                                    style="width: 100%;">
+
+                                                <option>Select</option>
+                                                <s:iterator value="messageContentList">
+                                                    <option><s:property value="subject"/></option>
+                                                </s:iterator>
+                                            </select>
                                         </div>
                                         <div class="form-group">
-                                            <label  class="col-sm-2 control-label">Start Date</label>
+                                            <input type="text" id="messageSubject"  name="messageContent.emailSubject" class="validate[required] form-control" />
 
-
-                                            <div class="col-sm-9">
-                                                <div class="input-group date">
-                                                    <div class="input-group-addon">
-                                                        <i class="fa fa-calendar"></i>
-                                                    </div>
-                                                    <input type="text" name="startDate" class="form-control pull-right" id="datepickerDate">
-                                                </div>
-                                                <!-- /.input group -->
-                                            </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-2 control-label">Description</label>
-
-                                            <div class="col-sm-9">
-                                                <textarea id="editor1" name="schemeDescription" rows="5" cols="90"></textarea>
-                                            </div>
+                                            <textarea id="messageBody"  name="messageContent.body" class="validate[required] form-control" style="height: 300px">
+                                            </textarea>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-2 control-label">Amount</label>
-
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="inputPassword3"  name="amount" placeholder="0.0">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-2 control-label">Member Perc</label>
-
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="inputPassword3"   name="memberPerc" placeholder="0.0">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-2 control-label">Video Id</label>
-
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="inputPassword3"   name="videoId" placeholder="">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-2 control-label">Image</label>
-
-                                            <div class="col-sm-9">
-                                                <input name="fileUpload" id="filename" class="form-control" type="file" /><br><br>
-                                            </div>
-                                        </div>
-
-
 
                                     </div>
+
                                     <!-- /.box-body -->
                                     <div class="box-footer">
-                                        <button type="reset" class="btn btn-default">Cancel</button>
-                                        <button type="submit" class="btn btn-info pull-right">Create</button>
-                                    </div>
-                                    <!-- /.box-footer -->
-                                </form>
-                            </div>
-                            <!-- /.box -->
-                            <!-- general form elements disabled -->
+                                        <div class="pull-right">
 
-                            <!-- /.box -->
+                                            <button type="submit" class="btn btn-primary"><i class="fa fa-envelope-o"></i> Save</button>
+                                        </div>
+
+                                    </div>
+                                </form>
+                                <!-- /.box-footer -->
+                            </div>
+                            <!-- /. box -->
                         </div>
-                        <!--/.col (right) -->
+
+                        <!-- general form elements disabled -->
+
+                        <!-- /.box -->
+
                     </div>
                     <!-- /.row -->
                 </section>
@@ -164,25 +131,48 @@
         <script src="bower_components/jquery/dist/jquery.min.js"></script>
         <!-- Bootstrap 3.3.7 -->
         <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <!-- Select2 -->
+        <script src="bower_components/select2/dist/js/select2.full.min.js"></script>
+        <!-- InputMask -->
+        <script src="plugins/input-mask/jquery.inputmask.js"></script>
+        <script src="plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+        <script src="plugins/input-mask/jquery.inputmask.extensions.js"></script>
+        <!-- date-range-picker -->
+        <script src="bower_components/moment/min/moment.min.js"></script>
+        <script src="bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+        <!-- bootstrap datepicker -->
+        <script src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+        <!-- bootstrap color picker -->
+        <script src="bower_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
+        <!-- bootstrap time picker -->
+        <script src="plugins/timepicker/bootstrap-timepicker.min.js"></script>
+        <!-- SlimScroll -->
+        <script src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+        <!-- iCheck 1.0.1 -->
+        <script src="plugins/iCheck/icheck.min.js"></script>
         <!-- FastClick -->
         <script src="bower_components/fastclick/lib/fastclick.js"></script>
         <!-- AdminLTE App -->
         <script src="dist/js/adminlte.min.js"></script>
         <!-- AdminLTE for demo purposes -->
         <script src="dist/js/demo.js"></script>
-
-        <!-- bootstrap datepicker -->
-        <script src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+        <!-- Page script -->
+        <script src="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+        <link rel="stylesheet" href="css/jquery.validationEngine.css" type="text/css"/>
+        <script src="js/jquery.validationEngine-en.js" type="text/javascript" charset="utf-8">
+        </script>
+        <script src="js/jquery.validationEngine.js" type="text/javascript" charset="utf-8">
+        </script>
         <script>
             $(document).ready(function() {
 
                 $("#dashboardli").removeClass("active");
-                $("#schmeLi").addClass("active");
+                $("#schmeLi").removeClass("active");
                 $("#schemePoolLi").removeClass("active");
                 $("#schemeDetailLi").removeClass("active");
-                $("#schmeNewLi").addClass("active");
+                $("#schmeNewLi").removeClass("active");
                 $("#joiningLi").removeClass("active");
-                $("#emailLi").removeClass("active");
+                $("#emailLi").addClass("active");
                 $("#smsLi").removeClass("active");
                 $("#smsNewLi").removeClass("active");
                 $("#smsDetailLi").removeClass("active");
@@ -195,20 +185,36 @@
                 $("#visitorLi").removeClass("active");
                 $("#paymentLi").removeClass("active");
 
+
             });
 
 
-
             $(function() {
+                //Initialize Select2 Elements
+                $('.select2').select2()
+                //Add text editor
+                $("#compose-textarea").wysihtml5();
+            });
 
-                //Date picker
-                $('#datepickerDate').datepicker({
-                    autoclose: true,
-                    format: 'dd/mm/yyyy'
+            function handleChange(value) {
+                $('#compose-textarea').val("");
+                $.ajax({
+                    url: "showEmailTemplates?valueToSubmit=" + value,
+                    type: "GET",
+                    dataType: 'json',
+                    success: function(response) {
+
+                        $('#messageSubject').val(response.emailSubject);
+                        $('#messageBody').val(response.body);
+                    }
                 });
+//                                                    window.location = "sms?valueToSubmit=" + value; //or you can submit a form from here or make an ajax call
+            }
 
-
-            })
+            jQuery(document).ready(function() {
+                // binds form submission and fields to the validation engine
+                jQuery("#formID").validationEngine('attach');
+            });
         </script>
     </body>
 </html>

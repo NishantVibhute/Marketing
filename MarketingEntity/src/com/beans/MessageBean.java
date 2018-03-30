@@ -14,6 +14,15 @@ public class MessageBean {
     private int id;
     private String subject;
     private String body;
+    private String emailSubject;
+
+    public String getEmailSubject() {
+        return emailSubject;
+    }
+
+    public void setEmailSubject(String emailSubject) {
+        this.emailSubject = emailSubject;
+    }
 
     public int getId() {
         return id;

@@ -66,20 +66,21 @@
                                 </div>
                                 <!-- /.box-header -->
                                 <!-- form start -->
-                                <form id="formID" class="form-horizontal" action="editMessage">
+                                <form id="formID" class="form-horizontal" action="editMessage" method="post">
+
                                     <div class="box-body">
                                         <div class="form-group">
                                             <label>Select</label>
                                             <select class="validate[required] form-control" onchange="handleChange(this.value)" name="messageContent.subject">
                                                 <option value="">Select</option>
-                                                <option>Welcome MSG</option>
-                                                <option>Business pool Completed Msg</option>
-                                                <option>Payment Release Msg</option>
-                                                <option>Business Exit Msg</option>
+                                                <s:iterator value="messageContentList">
+                                                    <option ><s:property value="subject"/></option>
+                                                </s:iterator>
+
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <textarea name="messageContent.body" id= "messageBody" class="validate[required] form-control" style="height: 300px; width : 650px"></textarea>
+                                            <textarea name="messageContent.body" id= "messageBody" class="validate[required] form-control" style="height: 300px;"></textarea>
                                         </div>
                                     </div>
                                     <div class="box-footer">
@@ -88,6 +89,7 @@
                                             <button type="submit" class="btn btn-primary">Save</button>
                                         </div>
                                     </div>
+
                                 </form>
 
                             </div>
