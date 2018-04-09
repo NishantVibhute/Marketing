@@ -67,9 +67,25 @@
                                 <!-- /.box-header -->
                                 <!-- form start -->
                                 <form id="formID" class="form-horizontal" action="editMessage" method="post">
+                                    
 
                                     <div class="box-body">
                                         <div class="form-group">
+                                            <label  class="col-sm-2  control-label">Select Scheme</label>
+                                            <div class="col-sm-7">
+                                                <select id="schemeMode"   class="form-control">
+                                                    <option value="0">Main</option>
+                                                    <s:iterator value="schemeList" var="sb">
+                                                        <option value="<s:property value="id" />"><s:property value="schemeName" /></option>
+
+                                                    </s:iterator>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+
+
                                             <label>Select</label>
                                             <select class="validate[required] form-control" onchange="handleChange(this.value)" name="messageContent.subject">
                                                 <option value="">Select</option>

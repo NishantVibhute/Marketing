@@ -6,6 +6,7 @@
 package com.redirect;
 
 import com.beans.MessageBean;
+import com.beans.SchemeBean;
 import com.beans.SentMessageBean;
 import com.opensymphony.xwork2.ActionSupport;
 import com.util.ServiceUtil;
@@ -13,6 +14,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -26,15 +28,23 @@ public class MessageAction {
 
     ObjectMapper objectMapper = new ObjectMapper();
     private String valueToSubmit = "";
+    private String valueScheme = "";
     MessageBean messageContent;
     List<MessageBean> messageContentList;
     SentMessageBean sentMessageBean;
     List<SentMessageBean> sentList;
     String successMsg = StringUtils.EMPTY, errorMsg = StringUtils.EMPTY;
     private InputStream inputStream;
+    List<SchemeBean> schemeList = new ArrayList<>();
 
     public String redirect() {
         try {
+
+            String resp1 = ServiceUtil.getResponseGet("/scheme/getlist");
+
+            schemeList = objectMapper.readValue(resp1, new TypeReference<List<SchemeBean>>() {
+            });
+
             String resp = ServiceUtil.getResponseGet("/message/getSMSTemplates");
             messageContentList = objectMapper.readValue(resp, new TypeReference<List<MessageBean>>() {
             });
@@ -168,6 +178,14 @@ public class MessageAction {
 
     public void setInputStream(InputStream inputStream) {
         this.inputStream = inputStream;
+    }
+
+    public List<SchemeBean> getSchemeList() {
+        return schemeList;
+    }
+
+    public void setSchemeList(List<SchemeBean> schemeList) {
+        this.schemeList = schemeList;
     }
 
 }

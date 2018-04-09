@@ -42,6 +42,7 @@ public class Message {
     public String getSMSTemplates() {
         String jsonInString = "";
         try {
+
             MessageDao messageDao = new MessageDao();
             List<MessageBean> messageContent = messageDao.getSMSTemplates();
             jsonInString = objectMapper.writeValueAsString(messageContent);
