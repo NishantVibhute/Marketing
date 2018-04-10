@@ -10,7 +10,6 @@ import java.util.Properties;
 import javax.mail.Message;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
-import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
@@ -56,7 +55,7 @@ public class EmailUtil {
             message.setSubject(subject);
 //            message.setText("<html><head></head><body>" + body + "</body></html>");
             message.setContent(body, "text/html");
-            Transport.send(message);
+//            Transport.send(message);
 
             return "success";
         } catch (Exception e) {
