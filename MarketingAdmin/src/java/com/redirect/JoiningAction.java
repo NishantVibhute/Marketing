@@ -6,12 +6,18 @@
 package com.redirect;
 
 import com.beans.CreateVirtualUser;
+import com.beans.JoiningDetailsBean;
+import com.beans.MessageBean;
 import com.beans.PaymentBean;
 import com.beans.PaymentResponse;
 import com.beans.PendingJoinRequest;
 import com.beans.SchemeJoinBean;
 import com.beans.SchemeRows;
+import com.beans.SentMessageBean;
+import com.beans.TemplateBean;
+import com.beans.UserBean;
 import com.beans.UserDatails;
+import com.beans.UserSchemeBalance;
 import com.ennum.MemberType;
 import com.ennum.PaymentMode;
 import com.ennum.StatusEnum;
@@ -104,6 +110,41 @@ public class JoiningAction extends ActionSupport implements ModelDriven {
             String resp = ServiceUtil.getResponse(input, "/scheme/savePaymentDetails");
 
             PaymentResponse ps = objectMapper.readValue(resp, PaymentResponse.class);
+            if (paymentBean.getPaymentModeId() == PaymentMode.REJOINING.getId() && ps.getMemberType() == MemberType.PHYSICAL.getId()) {
+                String respJoin = ServiceUtil.getResponse("" + this.paymentBean.getJoiningId(), "/scheme/getUserIdSchemeIdByJoinId");
+                JoiningDetailsBean uJoin = objectMapper.readValue(respJoin, JoiningDetailsBean.class);
+
+                UserSchemeBalance u = new UserSchemeBalance();
+                u.setUserId((int) uJoin.getUserId());
+                u.setSchemeId(uJoin.getSchemeId());
+                String inputBal = objectMapper.writeValueAsString(this.paymentBean);
+                String respBal = ServiceUtil.getResponse(inputBal, "/user/getschemeusertotalbalance");
+                UserSchemeBalance uBal = objectMapper.readValue(respBal, UserSchemeBalance.class);
+
+                TemplateBean sc = new TemplateBean();
+                sc.setSchemId(uJoin.getSchemeId());
+                sc.setTemplate("Rejoining");
+                String inputTemp = objectMapper.writeValueAsString(sc);
+                String respTemp = ServiceUtil.getResponse(inputTemp, "/message/getSMSTemplateContent");
+                MessageBean messageContent = objectMapper.readValue(respTemp, MessageBean.class);
+
+                String respUser = ServiceUtil.getResponse("" + uJoin.getUserId(), "/user/getUserDetailsByUserId");
+                UserBean userDetails = objectMapper.readValue(respUser, UserBean.class);
+                SentMessageBean sentMessageBean = new SentMessageBean();
+                sentMessageBean.setTempId(messageContent.getId());
+                sentMessageBean.setFrom(userDetails.getId());
+                sentMessageBean.setTo(userDetails.getMobileNo());
+                String msg1 = messageContent.getBody().replace("<userId>", "P" + userDetails.getId());
+                String msg2 = msg1.replace("<productName>", uBal.getSchemeName());
+//                String msg3 = msg2.replace("<balance>", "" + uBal.getBalance());
+//                String msg4 = msg2.replace("<paymentAmount>", "" + paymentBean.getAmount());
+//                String msg5 = msg2.replace("<paymentDate>", "" + payDate);
+                sentMessageBean.setMessage(msg2);
+                sentMessageBean.setSchemeId(uJoin.getSchemeId());
+                String inputSMS = objectMapper.writeValueAsString(sentMessageBean);
+                String respSMS = ServiceUtil.getResponse(inputSMS, "/message/sendSMS");
+                SentMessageBean uSMS = objectMapper.readValue(respSMS, SentMessageBean.class);
+            }
 
             SchemeJoinBean sjb = new SchemeJoinBean();
 
@@ -111,6 +152,7 @@ public class JoiningAction extends ActionSupport implements ModelDriven {
                 successMsg = "Payment Added Successfully";
                 if (ps.getIsExit() == 1) {
                     if (ps.getMemberType() == MemberType.PHYSICAL.getId()) {
+
                         sjb.setMemberType(MemberType.PHYSICAL.getId());
                         sjb.setPaymentModeId(PaymentMode.REJOINING.getId());
                         sjb.setSchemeId(ps.getSchemeId());
@@ -124,6 +166,35 @@ public class JoiningAction extends ActionSupport implements ModelDriven {
                         } else {
                             errorMsg = successMsg + " Failed Create Join Request";
                         }
+
+                        UserSchemeBalance u = new UserSchemeBalance();
+                        u.setUserId(ps.getUserId());
+                        u.setSchemeId(ps.getSchemeId());
+                        String inputBal = objectMapper.writeValueAsString(u);
+                        String respBal = ServiceUtil.getResponse(inputBal, "/user/getschemeusertotalbalance");
+                        UserSchemeBalance uBal = objectMapper.readValue(respBal, UserSchemeBalance.class);
+
+                        TemplateBean sc = new TemplateBean();
+                        sc.setSchemId(ps.getSchemeId());
+                        sc.setTemplate("Business Pool Completed Msg");
+                        String inputTemp = objectMapper.writeValueAsString(sc);
+                        String respTemp = ServiceUtil.getResponse(inputTemp, "/message/getSMSTemplateContent");
+                        MessageBean messageContent = objectMapper.readValue(respTemp, MessageBean.class);
+
+                        String respUser = ServiceUtil.getResponse("" + ps.getUserId(), "/user/getUserDetailsByUserId");
+                        UserBean userDetails = objectMapper.readValue(respUser, UserBean.class);
+                        SentMessageBean sentMessageBean = new SentMessageBean();
+                        sentMessageBean.setTempId(messageContent.getId());
+                        sentMessageBean.setFrom(userDetails.getId());
+                        sentMessageBean.setTo(userDetails.getMobileNo());
+                        String msg1 = messageContent.getBody().replace("<userId>", "P" + userDetails.getId());
+                        String msg2 = msg1.replace("<productName>", uBal.getSchemeName());
+                        String msg3 = msg2.replace("<balance>", "" + uBal.getBalance());
+                        sentMessageBean.setMessage(msg3);
+                        sentMessageBean.setSchemeId(ps.getSchemeId());
+                        String inputSMS = objectMapper.writeValueAsString(sentMessageBean);
+                        String respSMS = ServiceUtil.getResponse(inputSMS, "/message/sendSMS");
+                        SentMessageBean uSMS = objectMapper.readValue(respSMS, SentMessageBean.class);
 
                     } else {
                         sjb.setMemberType(MemberType.VIRTUAL.getId());

@@ -65,27 +65,26 @@ public class User {
             if (updatedRows != 0) {
                 MessageDao messageDao = new MessageDao();
                 SentMessageBean sentMessageBean = new SentMessageBean();
-                MessageBean messageContent = messageDao.getSMSContentFromSubject("Welcome MSG");
+                MessageBean messageContent = messageDao.getSMSContentFromSubject("Welcome MSG", 0);
                 sentMessageBean.setTempId(messageContent.getId());
                 sentMessageBean.setFrom(1);
                 sentMessageBean.setTo(userBean.getMobileNo());
                 String msg1 = messageContent.getBody().replace("<username>", userBean.getFirstName());
                 sentMessageBean.setMessage(msg1);
-
                 String resp = SMSUtil.sendSms(sentMessageBean.getMessage(), sentMessageBean.getTo());
                 SMSResponse sMSResponse = objectMapper.readValue(resp, SMSResponse.class);
-
-                for (Warnings warnings : sMSResponse.getWarnings()) {
-                    if (warnings.getNumbers().contains(sentMessageBean.getTo())) {
-
-                        sentMessageBean.setStatus("DND");
+                if (sMSResponse.getStatus().equals("failure")) {
+                    for (Warnings warnings : sMSResponse.getWarnings()) {
+                        if (warnings.getNumbers().contains(sentMessageBean.getTo())) {
+                            sentMessageBean.setStatus("DND");
+                        }
                     }
-                }
-
-                for (Messages messages : sMSResponse.getMessages()) {
-                    if (messages.getRecipient().contains(sentMessageBean.getTo())) {
-                        sentMessageBean.setTxtId(messages.getId());
-                        sentMessageBean.setStatus("SUCCESS");
+                } else {
+                    for (Messages messages : sMSResponse.getMessages()) {
+                        if (messages.getRecipient().contains(sentMessageBean.getTo())) {
+                            sentMessageBean.setTxtId(messages.getId());
+                            sentMessageBean.setStatus("SUCCESS");
+                        }
                     }
                 }
 
@@ -96,15 +95,11 @@ public class User {
                 sentMessageBean1.setFrom(1);
                 sentMessageBean1.setTo(userBean.getEmailId());
                 sentMessageBean1.setSubject(messageContent1.getEmailSubject());
-                String msg11 = messageContent1.getBody().replace("<username>", userBean.getFirstName());
-
-                sentMessageBean1.setMessage(msg11);
-
+//                String msg11 = messageContent1.getBody().replace("<username>", userBean.getFirstName());
+                sentMessageBean1.setMessage(messageContent1.getBody());
                 String resp1 = em.send(sentMessageBean1.getTo(), sentMessageBean1.getSubject(), sentMessageBean1.getMessage());
-
                 sentMessageBean1 = emailDao.SendEmail(sentMessageBean1);
-
-                sentMessageBean1 = messageDao.SendSms(sentMessageBean1);
+                sentMessageBean = messageDao.SendSms(sentMessageBean);
                 msg = "" + updatedRows;
             } else {
                 msg = "" + updatedRows;
@@ -309,6 +304,24 @@ public class User {
     }
 
     @POST
+    @Path("/getschemeusertotalbalance")
+    @Consumes("text/plain")
+    @Produces("text/plain")
+
+    public String getSchemeUserTotalBalance(String data) {
+        //TODO return proper representation object
+        String jsonInString = "";
+        try {
+            UserSchemeBalance u = objectMapper.readValue(data, UserSchemeBalance.class);
+            UserSchemeBalance schemeRowList = userDao.getSchemeUserTotalBalance(u.getUserId(), u.getSchemeId());
+            jsonInString = objectMapper.writeValueAsString(schemeRowList);
+        } catch (Exception ex) {
+            logger.error("User Class" + ex);
+        }
+        return jsonInString;
+    }
+
+    @POST
     @Path("/getuserjoinpayment")
     @Consumes("text/plain")
     @Produces("text/plain")
@@ -362,4 +375,22 @@ public class User {
         return jsonInString;
     }
 
+    @POST
+    @Path("/changePassword")
+    @Produces("text/plain")
+    @Consumes("text/plain")
+    public String changePassword(String data) {
+        String jsonInString = "";
+        try {
+
+            String msg;
+            //TODO return proper representation object
+            UserPassword up = objectMapper.readValue(data, UserPassword.class);
+            int updatedRows = userDao.changePassword(up);
+            jsonInString = objectMapper.writeValueAsString(updatedRows);
+        } catch (Exception ex) {
+            logger.error("User Class" + ex);
+        }
+        return jsonInString;
+    }
 }

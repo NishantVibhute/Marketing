@@ -28,15 +28,16 @@ public class MessageDao {
     Connection con;
     ResultSet rs;
 
-    public MessageBean getSMSContentFromSubject(String subject) {
+    public MessageBean getSMSContentFromSubject(String template, int schemeId) {
 
         MessageBean messageContent = new MessageBean();
 
         try {
 
             this.con = db.getConnection();
-            PreparedStatement ps = this.con.prepareStatement("call getSMSContentFromSubject(?)");
-            ps.setString(1, subject);
+            PreparedStatement ps = this.con.prepareStatement("call getSMSContentFromSubject(?,?)");
+            ps.setString(1, template);
+            ps.setInt(2, schemeId);
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -77,9 +78,10 @@ public class MessageDao {
     public MessageBean editSMSContentFromSubject(MessageBean messageContent) {
         try {
             this.con = db.getConnection();
-            PreparedStatement ps = this.con.prepareStatement("call editSMSContentFromSubject(?,?)");
+            PreparedStatement ps = this.con.prepareStatement("call editSMSContentFromSubject(?,?,?)");
             ps.setString(1, messageContent.getSubject());
             ps.setString(2, messageContent.getBody());
+            ps.setInt(3, messageContent.getSchemeId());
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -131,13 +133,63 @@ public class MessageDao {
             while (rs.next()) {
                 SentMessageBean sentMessageBean = new SentMessageBean();
                 sentMessageBean.setId(rs.getInt(1));
-                sentMessageBean.setFrom(rs.getInt(2));
+                sentMessageBean.setFromName(rs.getString(2));
                 sentMessageBean.setTo(rs.getString(3));
                 sentMessageBean.setTempId(rs.getInt(4));
                 sentMessageBean.setMessage(rs.getString(5));
                 sentMessageBean.setSentDate(rs.getTimestamp(6));
                 sentMessageBean.setDeliveredDate(rs.getTimestamp(7));
                 sentMessageBean.setStatus(rs.getString(8));
+                sentMessageList.add(sentMessageBean);
+            }
+            db.closeConnection(con);
+        } catch (Exception ex) {
+            errorLog.error("MessageDao", ex);
+        }
+        return sentMessageList;
+    }
+
+    public List<SentMessageBean> getSentListWithCount(SentMessageBean sb) {
+        List<SentMessageBean> sentMessageList = new ArrayList();
+
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement("call getUserSentSmsListWithCount(?,?,?,?)");
+            ps.setInt(1, (int) sb.getFrom());
+            ps.setString(2, sb.getTo());
+            ps.setInt(3, sb.getSchemeId());
+            ps.setInt(4, sb.getTempId());
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                SentMessageBean sentMessageBean = new SentMessageBean();
+
+                sentMessageBean.setTo(rs.getString(1));
+                sentMessageBean.setCount(rs.getInt(2));
+                sentMessageList.add(sentMessageBean);
+            }
+            db.closeConnection(con);
+        } catch (Exception ex) {
+            errorLog.error("MessageDao", ex);
+        }
+        return sentMessageList;
+    }
+
+    public List<SentMessageBean> getSentDetails(SentMessageBean sb) {
+        List<SentMessageBean> sentMessageList = new ArrayList();
+
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement("call getUserSentSmsDetails(?,?,?,?)");
+            ps.setInt(1, (int) sb.getFrom());
+            ps.setString(2, sb.getTo());
+            ps.setInt(3, sb.getSchemeId());
+            ps.setInt(4, sb.getTempId());
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                SentMessageBean sentMessageBean = new SentMessageBean();
+                sentMessageBean.setMessage(rs.getString(1));
                 sentMessageList.add(sentMessageBean);
             }
             db.closeConnection(con);

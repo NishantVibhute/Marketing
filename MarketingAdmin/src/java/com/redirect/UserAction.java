@@ -11,8 +11,6 @@ import com.beans.JoiningDetailsBean;
 import com.beans.PassRowBean;
 import com.beans.SchemeBean;
 import com.beans.SchemeJoinBean;
-import com.beans.SchemeBean;
-import com.beans.SchemeJoinBean;
 import com.beans.UserBean;
 import com.beans.UserJoinPaymentBean;
 import com.beans.UserPassword;
@@ -22,8 +20,6 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import com.util.ServiceUtil;
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -232,26 +228,28 @@ public class UserAction extends ActionSupport implements ModelDriven, ServletReq
 
                 int i = 0;
                 CreateUserExcelRow createUserExcelRow = new CreateUserExcelRow();
-                createUserExcelRow.setEmailId(currentRow.getCell(i) == null ? "" : currentRow.getCell(i).getStringCellValue());
-                createUserExcelRow.setPassword(currentRow.getCell(++i) == null ? "" : currentRow.getCell(i).getStringCellValue());
-                createUserExcelRow.setFirstName(currentRow.getCell(++i) == null ? "" : currentRow.getCell(i).getStringCellValue());
-                createUserExcelRow.setMiddleName(currentRow.getCell(++i) == null ? "" : currentRow.getCell(i).getStringCellValue());
-                createUserExcelRow.setLastName(currentRow.getCell(++i) == null ? "" : currentRow.getCell(i).getStringCellValue());
-                currentRow.getCell(++i).setCellType(Cell.CELL_TYPE_STRING);
-                createUserExcelRow.setMobileNo(currentRow.getCell(i) == null ? "" : "" + currentRow.getCell(i).getStringCellValue());
-                createUserExcelRow.setAddress(currentRow.getCell(++i) == null ? "" : currentRow.getCell(i).getStringCellValue());
-                createUserExcelRow.setPanCardNo(currentRow.getCell(++i) == null ? "" : currentRow.getCell(i).getStringCellValue());
-                createUserExcelRow.setAadharCardNo(currentRow.getCell(++i) == null ? "" : currentRow.getCell(i).getStringCellValue());
-                BankDetailsBean bankDetailsBean = new BankDetailsBean();
-                bankDetailsBean.setBankName(currentRow.getCell(++i) == null ? "" : currentRow.getCell(i).getStringCellValue());
-                bankDetailsBean.setIfscCode(currentRow.getCell(++i) == null ? "" : currentRow.getCell(i).getStringCellValue());
-                bankDetailsBean.setBranchName(currentRow.getCell(++i) == null ? "" : currentRow.getCell(i).getStringCellValue());
-                currentRow.getCell(++i).setCellType(Cell.CELL_TYPE_STRING);
-                bankDetailsBean.setBankAccNo(currentRow.getCell(i) == null ? "" : "" + currentRow.getCell(i).getStringCellValue());
-                createUserExcelRow.setBankDetails(bankDetailsBean);
-                createUserExcelRow.setScheme(currentRow.getCell(++i) == null ? "" : currentRow.getCell(i).getStringCellValue());
-                createUserExcelRow.setPaymentModeId(PaymentMode.getByName(currentRow.getCell(++i).getStringCellValue()).getId());
-                excelRows.add(createUserExcelRow);
+                if (!currentRow.getCell(i).getStringCellValue().equals("")) {
+                    createUserExcelRow.setEmailId(currentRow.getCell(i) == null ? "" : currentRow.getCell(i).getStringCellValue());
+                    createUserExcelRow.setPassword(currentRow.getCell(++i) == null ? "" : currentRow.getCell(i).getStringCellValue());
+                    createUserExcelRow.setFirstName(currentRow.getCell(++i) == null ? "" : currentRow.getCell(i).getStringCellValue());
+                    createUserExcelRow.setMiddleName(currentRow.getCell(++i) == null ? "" : currentRow.getCell(i).getStringCellValue());
+                    createUserExcelRow.setLastName(currentRow.getCell(++i) == null ? "" : currentRow.getCell(i).getStringCellValue());
+                    currentRow.getCell(++i).setCellType(Cell.CELL_TYPE_STRING);
+                    createUserExcelRow.setMobileNo(currentRow.getCell(i) == null ? "" : "" + currentRow.getCell(i).getStringCellValue());
+                    createUserExcelRow.setAddress(currentRow.getCell(++i) == null ? "" : currentRow.getCell(i).getStringCellValue());
+                    createUserExcelRow.setPanCardNo(currentRow.getCell(++i) == null ? "" : currentRow.getCell(i).getStringCellValue());
+                    createUserExcelRow.setAadharCardNo(currentRow.getCell(++i) == null ? "" : currentRow.getCell(i).getStringCellValue());
+                    BankDetailsBean bankDetailsBean = new BankDetailsBean();
+                    bankDetailsBean.setBankName(currentRow.getCell(++i) == null ? "" : currentRow.getCell(i).getStringCellValue());
+                    bankDetailsBean.setIfscCode(currentRow.getCell(++i) == null ? "" : currentRow.getCell(i).getStringCellValue());
+                    bankDetailsBean.setBranchName(currentRow.getCell(++i) == null ? "" : currentRow.getCell(i).getStringCellValue());
+                    currentRow.getCell(++i).setCellType(Cell.CELL_TYPE_STRING);
+                    bankDetailsBean.setBankAccNo(currentRow.getCell(i) == null ? "" : "" + currentRow.getCell(i).getStringCellValue());
+                    createUserExcelRow.setBankDetails(bankDetailsBean);
+                    createUserExcelRow.setScheme(currentRow.getCell(++i) == null ? "" : currentRow.getCell(i).getStringCellValue());
+                    createUserExcelRow.setPaymentModeId(PaymentMode.getByName(currentRow.getCell(++i).getStringCellValue()).getId());
+                    excelRows.add(createUserExcelRow);
+                }
             }
 
             String respUser = ServiceUtil.getResponseGet("/user/getuserdetailslist");
@@ -302,6 +300,8 @@ public class UserAction extends ActionSupport implements ModelDriven, ServletReq
                         int userId = Integer.parseInt(ret1);
 
                         if (userId != 0) {
+                            createUserExcelRowNew.setStatus("Success");
+                            createUserExcelRowNew.setReason("User created Successfully ");
                             SchemeJoinBean up = new SchemeJoinBean();
                             up.setSchemeId(schemes.get(createUserExcelRow.getScheme()));
                             up.setUserId(userId);
@@ -315,10 +315,10 @@ public class UserAction extends ActionSupport implements ModelDriven, ServletReq
                             int joinId = Integer.parseInt(ret3);
                             if (joinId != 0) {
                                 createUserExcelRowNew.setStatus("Success");
-                                createUserExcelRowNew.setReason("Created");
+                                createUserExcelRowNew.setReason(createUserExcelRowNew.getReason() + "| Joined Product");
                             } else {
                                 createUserExcelRowNew.setStatus("Error");
-                                createUserExcelRowNew.setReason("Failed To join");
+                                createUserExcelRowNew.setReason(createUserExcelRowNew.getReason() + "| Failed To join");
                             }
                         } else {
                             createUserExcelRowNew.setStatus("Error");
@@ -331,6 +331,37 @@ public class UserAction extends ActionSupport implements ModelDriven, ServletReq
                 } else {
                     createUserExcelRowNew.setStatus("Error");
                     createUserExcelRowNew.setReason("User Already Exists");
+                    UserPassword userBean = new UserPassword();
+                    userBean.setEmailId(createUserExcelRow.getEmailId());
+                    userBean.setPassword(createUserExcelRow.getPassword());
+                    String req = objectMapper.writeValueAsString(userBean);
+                    String respUserValid = ServiceUtil.getResponse(req, "/user/validate");
+                    UserBean ur = objectMapper.readValue(respUserValid, UserBean.class);
+
+                    if (ur.getId() != 0) {
+                        SchemeJoinBean up = new SchemeJoinBean();
+                        up.setSchemeId(schemes.get(createUserExcelRow.getScheme()));
+                        up.setUserId((int) ur.getId());
+                        up.setMemberType(1);
+                        up.setPaymentModeId(createUserExcelRow.getPaymentModeId());
+                        up.setUserStatus(1);
+                        String req3 = objectMapper.writeValueAsString(up);
+                        String resp3 = ServiceUtil.getResponse(req3, "/scheme/join");
+                        String ret3 = objectMapper.readValue(resp3, String.class);
+
+                        int joinId = Integer.parseInt(ret3);
+                        if (joinId != 0) {
+                            createUserExcelRowNew.setStatus("Success");
+                            createUserExcelRowNew.setReason(createUserExcelRowNew.getReason() + "| Joined Product");
+                        } else {
+                            createUserExcelRowNew.setStatus("Error");
+                            createUserExcelRowNew.setReason(createUserExcelRowNew.getReason() + "| Failed To join");
+                        }
+                    } else {
+                        createUserExcelRowNew.setStatus("Error");
+                        createUserExcelRowNew.setReason(createUserExcelRowNew.getReason() + "| Invalid credential");
+                    }
+
                 }
                 userStatus.add(createUserExcelRowNew);
             }

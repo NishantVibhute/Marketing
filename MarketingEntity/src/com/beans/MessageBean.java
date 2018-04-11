@@ -15,6 +15,7 @@ public class MessageBean {
     private String subject;
     private String body;
     private String emailSubject;
+    private int schemeId;
 
     public String getEmailSubject() {
         return emailSubject;
@@ -46,6 +47,14 @@ public class MessageBean {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public int getSchemeId() {
+        return schemeId;
+    }
+
+    public void setSchemeId(int schemeId) {
+        this.schemeId = schemeId;
     }
 
 }

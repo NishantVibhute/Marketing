@@ -327,8 +327,8 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li id="emailNewLi"><a href="email"><i class="fa fa-circle-o"></i> New</a></li>
-                            <li id="emailDetailLi"><a href="showSentSMS"><i class="fa fa-circle-o"></i> List</a></li>
+                            <li id="emailNewLi"><a href="email"><i class="fa fa-circle-o"></i> Send</a></li>
+                            <li id="emailDetailLi"><a href="showSentEmail"><i class="fa fa-circle-o"></i> List</a></li>
                             <li id="emailTemplateLi"><a href="redirectToEmailTemplates"><i class="fa fa-circle-o"></i> Templates</a></li>
 
 
@@ -345,7 +345,7 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li id="smsNewLi"><a href="newMessage"><i class="fa fa-circle-o"></i> New</a></li>
+                            <li id="smsNewLi"><a href="newMessage"><i class="fa fa-circle-o"></i> Send</a></li>
                             <li id="smsDetailLi"><a href="showSentSMS"><i class="fa fa-circle-o"></i> List</a></li>
                             <li id="smsTemplateLi"><a href="redirectToTemplates"><i class="fa fa-circle-o"></i> Templates</a></li>
 
@@ -398,7 +398,7 @@
                     </li>
                     <li id="accountLi" >
                         <a href="account">
-                            <i class="fa fa-credit-card"></i> <span>Account</span>
+                            <i class="fa fa-book"></i> <span>Account</span>
 
                         </a>
 

@@ -67,13 +67,13 @@
                                 <!-- /.box-header -->
                                 <!-- form start -->
                                 <form id="formID" class="form-horizontal" action="editMessage" method="post">
-                                    
+
 
                                     <div class="box-body">
                                         <div class="form-group">
                                             <label  class="col-sm-2  control-label">Select Scheme</label>
                                             <div class="col-sm-7">
-                                                <select id="schemeMode"   class="form-control">
+                                                <select id="schemeMode"  name="messageContent.schemeId" class="form-control">
                                                     <option value="0">Main</option>
                                                     <s:iterator value="schemeList" var="sb">
                                                         <option value="<s:property value="id" />"><s:property value="schemeName" /></option>
@@ -86,17 +86,23 @@
                                         <div class="form-group">
 
 
-                                            <label>Select</label>
-                                            <select class="validate[required] form-control" onchange="handleChange(this.value)" name="messageContent.subject">
-                                                <option value="">Select</option>
-                                                <s:iterator value="messageContentList">
-                                                    <option ><s:property value="subject"/></option>
-                                                </s:iterator>
+                                            <label  class="col-sm-2  control-label">Select Template</label>
+                                            <div class="col-sm-7">
+                                                <select class="validate[required] form-control" onchange="handleChange(this.value)" name="messageContent.subject">
+                                                    <option value="">Select</option>
+                                                    <s:iterator value="messageContentList">
+                                                        <option ><s:property value="subject"/></option>
+                                                    </s:iterator>
 
-                                            </select>
+
+                                                </select>
+                                            </div>
                                         </div>
                                         <div class="form-group">
-                                            <textarea name="messageContent.body" id= "messageBody" class="validate[required] form-control" style="height: 300px;"></textarea>
+                                            <label  class="col-sm-2  control-label">Message</label>
+                                            <div class="col-sm-7">
+                                                <textarea name="messageContent.body" id= "messageBody" class="validate[required] form-control" style="height: 300px;"></textarea>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="box-footer">
@@ -137,49 +143,53 @@
         <!-- bootstrap datepicker -->
         <script src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
         <script>
-                                                $(document).ready(function() {
+                                                    $(document).ready(function() {
 
-                                                    $("#dashboardli").removeClass("active");
-                                                    $("#schmeLi").removeClass("active");
-                                                    $("#schemePoolLi").removeClass("active");
-                                                    $("#schemeDetailLi").removeClass("active");
-                                                    $("#schmeNewLi").removeClass("active");
-                                                    $("#joiningLi").removeClass("active");
-                                                    $("#emailLi").removeClass("active");
-                                                    $("#smsLi").addClass("active");
-                                                    $("#smsNewLi").removeClass("active");
-                                                    $("#smsDetailLi").removeClass("active");
-                                                    $("#smsTemplateLi").addClass("active");
-                                                    $("#chatroomLi").removeClass("active");
-                                                    $("#userLi").removeClass("active");
-                                                    $("#userNewLi").removeClass("active");
-                                                    $("#userListLi").removeClass("active");
-                                                    $("#userDetailLi").removeClass("active");
-                                                    $("#visitorLi").removeClass("active");
-                                                    $("#paymentLi").removeClass("active");
+                                                        $("#dashboardli").removeClass("active");
+                                                        $("#schmeLi").removeClass("active");
+                                                        $("#schemePoolLi").removeClass("active");
+                                                        $("#schemeDetailLi").removeClass("active");
+                                                        $("#schmeNewLi").removeClass("active");
+                                                        $("#joiningLi").removeClass("active");
+                                                        $("#emailLi").removeClass("active");
+                                                        $("#emailNewLi").removeClass("active");
+                                                        $("#emailDetailLi").removeClass("active");
+                                                        $("#emailTemplateLi").removeClass("active");
+                                                        $("#smsLi").addClass("active");
+                                                        $("#smsNewLi").removeClass("active");
+                                                        $("#smsDetailLi").removeClass("active");
+                                                        $("#smsTemplateLi").addClass("active");
+                                                        $("#chatroomLi").removeClass("active");
+                                                        $("#userLi").removeClass("active");
+                                                        $("#userNewLi").removeClass("active");
+                                                        $("#userListLi").removeClass("active");
+                                                        $("#userDetailLi").removeClass("active");
+                                                        $("#visitorLi").removeClass("active");
+                                                        $("#paymentLi").removeClass("active");
 
-                                                });
-                                                $(function() {
-
-                                                    //Date picker
-                                                    $('#datepickerDate').datepicker({
-                                                        autoclose: true,
-                                                        format: 'dd/mm/yyyy'
                                                     });
+                                                    $(function() {
 
-                                                });
-                                                function handleChange(value) {
-                                                    $('#messageBody').val("");
-                                                    $.ajax({
-                                                        url: "showTemplates?valueToSubmit=" + value,
-                                                        type: "GET",
-                                                        dataType: 'json',
-                                                        success: function(response) {
-                                                            $('#messageBody').val(response.body);
-                                                        }
+                                                        //Date picker
+                                                        $('#datepickerDate').datepicker({
+                                                            autoclose: true,
+                                                            format: 'dd/mm/yyyy'
+                                                        });
+
                                                     });
+                                                    function handleChange(value) {
+                                                        var scheme = $('#schemeMode').val();
+                                                        $('#messageBody').val("");
+                                                        $.ajax({
+                                                            url: "showTemplates?valueToSubmit=" + value + "&valueScheme=" + scheme,
+                                                            type: "GET",
+                                                            dataType: 'json',
+                                                            success: function(response) {
+                                                                $('#messageBody').val(response.body);
+                                                            }
+                                                        });
 //                                                    window.location = "sms?valueToSubmit=" + value; //or you can submit a form from here or make an ajax call
-                                                }
+                                                    }
 
         </script>
         <link rel="stylesheet" href="css/jquery.validationEngine.css" type="text/css"/>

@@ -16,6 +16,7 @@ public class SentMessageBean {
 
     private int id;
     private long from;
+    private String fromName;
     private int schemeId;
     private String to;
     private int tempId;
@@ -25,7 +26,25 @@ public class SentMessageBean {
     private String status;
     private String subject;
     private String txtId;
+    private int count;
+    private String sendDate;
     private List<String> bulkTo;
+
+    public String getFromName() {
+        return fromName;
+    }
+
+    public void setFromName(String fromName) {
+        this.fromName = fromName;
+    }
+
+    public String getSendDate() {
+        return sendDate;
+    }
+
+    public void setSendDate(String sendDate) {
+        this.sendDate = sendDate;
+    }
 
     public String getTxtId() {
         return txtId;
@@ -121,6 +140,14 @@ public class SentMessageBean {
 
     public void setSchemeId(int schemeId) {
         this.schemeId = schemeId;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 
 }

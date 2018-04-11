@@ -120,4 +120,31 @@ public class EmailDao {
         return sentMessageBean;
 
     }
+
+    public List<SentMessageBean> getSentList() {
+        List<SentMessageBean> sentMessageList = new ArrayList();
+
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement("call getSentEmailList()");
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                SentMessageBean sentMessageBean = new SentMessageBean();
+                sentMessageBean.setId(rs.getInt(1));
+                sentMessageBean.setFrom(rs.getInt(2));
+                sentMessageBean.setTo(rs.getString(3));
+                sentMessageBean.setMessage(rs.getString(4));
+                sentMessageBean.setTempId(rs.getInt(5));
+                sentMessageBean.setSendDate(rs.getString(6));
+                sentMessageList.add(sentMessageBean);
+            }
+            db.closeConnection(con);
+        } catch (Exception ex) {
+            errorLog.error("MessageDao", ex);
+        }
+        return sentMessageList;
+    }
+
 }

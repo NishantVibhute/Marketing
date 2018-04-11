@@ -21,6 +21,33 @@ public class PaymentBean {
     String UTRNo;
     int vitualIdToBecreated;
     int schemeId;
+    int operationId;
+    double operationalAmount;
+    String reason;
+
+    public int getOperationId() {
+        return operationId;
+    }
+
+    public void setOperationId(int operationId) {
+        this.operationId = operationId;
+    }
+
+    public double getOperationalAmount() {
+        return operationalAmount;
+    }
+
+    public void setOperationalAmount(double operationalAmount) {
+        this.operationalAmount = operationalAmount;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
 
     public int getId() {
         return id;

@@ -258,6 +258,7 @@
                                                                 </table></div>
                                                             <div class="col-sm-9">
                                                                 <div class="card">
+
                                                                     <ul class="nav nav-tabs" role="tablist">
                                                                         <li role="presentation" class="active"><a href="#joiningDetails" aria-controls="userDetails" role="tab" data-toggle="tab">Joining</a></li>
                                                                         <li role="presentation"><a href="#poolDetails" aria-controls="poolDetails" role="tab" data-toggle="tab">Bussiness Pool</a></li>
@@ -268,108 +269,116 @@
                                                                     <!-- Tab panes -->
                                                                     <div class="tab-content">
                                                                         <div role="tabpanel" class="tab-pane active" id="joiningDetails">
+                                                                            <div class="panel panel-default">
+                                                                                <div class="panel-body">
+                                                                                    <table id="joiningDet" class="table table-bordered">
+                                                                                        <thead>
+                                                                                            <tr>
+                                                                                                <th style="width: 15%">Request Date</th>
+                                                                                                <th style="width: 15%">Join Date</th>
+                                                                                                <th style="width: 10%">Requested Payment</th>
+                                                                                                <th style="width: 20%">Payment</th>
 
-                                                                            <table id="joiningDet" class="table table-bordered">
-                                                                                <thead>
-                                                                                    <tr>
-                                                                                        <th style="width: 15%">Request Date</th>
-                                                                                        <th style="width: 15%">Join Date</th>
-                                                                                        <th style="width: 10%">Requested Payment</th>
-                                                                                        <th style="width: 20%">Payment</th>
+                                                                                                <th  style="width: 10%">Status</th>
+                                                                                                <th  style="width: 10%">Pool Completed</th>
+                                                                                                <th  style="width: 10%">Payment Release</th>
+                                                                                                <th  style="width: 10%">Release Id</th>
 
-                                                                                        <th  style="width: 10%">Status</th>
-                                                                                        <th  style="width: 10%">Pool Completed</th>
-                                                                                        <th  style="width: 10%">Payment Release</th>
-                                                                                        <th  style="width: 10%">Release Id</th>
-
-                                                                                    </tr>
-                                                                                </thead>
-                                                                                <tbody>
+                                                                                            </tr>
+                                                                                        </thead>
+                                                                                        <tbody>
 
 
-                                                                                </tbody>
-                                                                            </table>
-
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
 
                                                                         <div role="tabpanel" class="tab-pane" id="poolDetails">
+                                                                            <div class="panel panel-default">
+                                                                                <div class="panel-body">
+                                                                                    <table id="tablePool" class="table table-bordered table-striped">
+                                                                                        <thead>
+                                                                                            <tr>
+                                                                                                <th colspan="2" style="text-align: center;width: 25%">Parent</th>
+                                                                                                <th colspan="2" style="text-align: center;width: 25%">Member 1</th>
+                                                                                                <th colspan="2" style="text-align: center;width: 25%">Member 2</th>
+                                                                                                <th colspan="2" style="text-align: center;width: 25%">Member 3</th>
 
-                                                                            <table id="tablePool" class="table table-bordered table-striped">
-                                                                                <thead>
-                                                                                    <tr>
-                                                                                        <th colspan="2" style="text-align: center;width: 25%">Parent</th>
-                                                                                        <th colspan="2" style="text-align: center;width: 25%">Member 1</th>
-                                                                                        <th colspan="2" style="text-align: center;width: 25%">Member 2</th>
-                                                                                        <th colspan="2" style="text-align: center;width: 25%">Member 3</th>
-
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <th >Name</th>
-                                                                                        <th >Joined On</th>
-                                                                                        <th >Name</th>
-                                                                                        <th >Joined On</th>
-                                                                                        <th >Name</th>
-                                                                                        <th >Joined On</th>
-                                                                                        <th >Name</th>
-                                                                                        <th >Joined On</th>
-                                                                                    </tr>
-                                                                                </thead>
-                                                                                <tbody>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <th >Name</th>
+                                                                                                <th >Joined On</th>
+                                                                                                <th >Name</th>
+                                                                                                <th >Joined On</th>
+                                                                                                <th >Name</th>
+                                                                                                <th >Joined On</th>
+                                                                                                <th >Name</th>
+                                                                                                <th >Joined On</th>
+                                                                                            </tr>
+                                                                                        </thead>
+                                                                                        <tbody>
 
 
-                                                                                </tbody>
+                                                                                        </tbody>
 
-                                                                            </table>
-
+                                                                                    </table>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
 
                                                                         <div role="tabpanel" class="tab-pane" id="paymentDetails">
+                                                                            <div class="panel panel-default">
+                                                                                <div class="panel-body">
+                                                                                    <table id="tablePay" class="table table-bordered table-striped">
+                                                                                        <thead>
+                                                                                            <tr>
+                                                                                                <th >Id</th>
+                                                                                                <th >Payment</th>
+                                                                                                <th >Date</th>
 
-                                                                            <table id="tablePay" class="table table-bordered table-striped">
-                                                                                <thead>
-                                                                                    <tr>
-                                                                                        <th >Id</th>
-                                                                                        <th >Payment</th>
-                                                                                        <th >Date</th>
-
-                                                                                    </tr>
-                                                                                </thead>
-                                                                                <tbody>
-
-
-                                                                                </tbody>
-
-                                                                            </table>
+                                                                                            </tr>
+                                                                                        </thead>
+                                                                                        <tbody>
 
 
+                                                                                        </tbody>
+
+                                                                                    </table>
+
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
                                                                         <div role="tabpanel" class="tab-pane" id="accountDetails">
+                                                                            <div class="panel panel-default">
+                                                                                <div class="panel-body">
+                                                                                    <table id="passbook" class="table table-bordered table-hover">
+                                                                                        <thead>
+                                                                                            <tr>
+                                                                                                <th width="5%">Sr No.</th>
+                                                                                                <th width="20%">Date</th>
+                                                                                                <th>Particulars</th>
+                                                                                                <th width="10%">Withdrawl</th>
+                                                                                                <th width="10%">Deposit</th>
+                                                                                                <th width="10%">Balance</th>
 
-                                                                            <table id="passbook" class="table table-bordered table-hover">
-                                                                                <thead>
-                                                                                    <tr>
-                                                                                        <th width="5%">Sr No.</th>
-                                                                                        <th width="20%">Date</th>
-                                                                                        <th>Particulars</th>
-                                                                                        <th width="10%">Withdrawl</th>
-                                                                                        <th width="10%">Deposit</th>
-                                                                                        <th width="10%">Balance</th>
+                                                                                            </tr>
+                                                                                        </thead>
+                                                                                        <tbody>
+                                                                                        </tbody>
 
-                                                                                    </tr>
-                                                                                </thead>
-                                                                                <tbody>
-                                                                                </tbody>
+                                                                                    </table>
 
-                                                                            </table>
-
-
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
 
-                                                                    </div></div>
+                                                                    </div>
 
 
 
-
+                                                                </div>
                                                             </div>
 
                                                         </div>
@@ -466,6 +475,9 @@
                                                 $("#schmeNewLi").removeClass("active");
                                                 $("#joiningLi").removeClass("active");
                                                 $("#emailLi").removeClass("active");
+                                                $("#emailNewLi").removeClass("active");
+                                                $("#emailDetailLi").removeClass("active");
+                                                $("#emailTemplateLi").removeClass("active");
                                                 $("#smsLi").removeClass("active");
                                                 $("#smsNewLi").removeClass("active");
                                                 $("#smsDetailLi").removeClass("active");
@@ -544,7 +556,7 @@
                                                         var value = JSON.parse(response);
 
                                                         $("#joinDate").val(value.joinDate);
-//                                                        $("#balance").val(value.balance);
+                                                        //                                                        $("#balance").val(value.balance);
                                                         $("#userId").val(value.id);
                                                         $("#fname").val(value.firstName);
                                                         $("#mname").val(value.middleName);
@@ -566,8 +578,7 @@
 
                                                 var data = [];
                                                 $.ajax({
-                                                    type: "post",
-                                                    url: "getSchemeUserBalanceDetails?val=" + a,
+                                                    type: "post", url: "getSchemeUserBalanceDetails?val=" + a,
                                                     dataType: 'json',
                                                     success: function(response) {
                                                         $("#schemes").find("tr:gt(0)").remove();
@@ -585,7 +596,6 @@
                                                     }
                                                 });
 
-
                                             }
 
                                             function getUserData(shcemeId)
@@ -593,7 +603,7 @@
                                                 var userId = $('#USERMode').val();
 
                                                 $('#schemes tr').removeClass('highlighted');
-//                                                $(this).toggleClass('highlighted');
+                                                //                                                $(this).toggleClass('highlighted');
                                                 $("#schemetr_" + shcemeId).toggleClass('highlighted');
                                                 $.ajax({
                                                     type: "post",
@@ -699,7 +709,6 @@
 
                                                     }
                                                 });
-
 
                                                 $.ajax({
                                                     type: "post",
@@ -820,18 +829,18 @@
                                                     dataType: 'json',
                                                     success: function(response) {
                                                         $('#passbook').DataTable().rows()
-                                                                        .remove()
-                                                                        .draw();
-                                                                jQuery.each(response, function(index, value) {
-                                                                    $('#passbook').dataTable().fnAddData([
-                                                                        value.srNo,
-                                                                        value.date,
-                                                                        value.particulars,
-                                                                        value.withdrawl,
-                                                                        value.deposit,
-                                                                        value.balance
-                                                                    ]);
-                                                                })
+                                                                .remove()
+                                                                .draw();
+                                                        jQuery.each(response, function(index, value) {
+                                                            $('#passbook').dataTable().fnAddData([
+                                                                value.srNo,
+                                                                value.date,
+                                                                value.particulars,
+                                                                value.withdrawl,
+                                                                value.deposit,
+                                                                value.balance
+                                                            ]);
+                                                        })
 
                                                     }
                                                 });

@@ -5,6 +5,7 @@
  */
 package com.redirect;
 
+import com.beans.TemplateBean;
 import com.beans.MessageBean;
 import com.beans.SchemeBean;
 import com.beans.SentMessageBean;
@@ -28,7 +29,7 @@ public class MessageAction {
 
     ObjectMapper objectMapper = new ObjectMapper();
     private String valueToSubmit = "";
-    private String valueScheme = "";
+    private String valueScheme;
     MessageBean messageContent;
     List<MessageBean> messageContentList;
     SentMessageBean sentMessageBean;
@@ -56,7 +57,11 @@ public class MessageAction {
 
     public String getTemplateContent() {
         try {
-            String resp = ServiceUtil.getResponse(valueToSubmit, "/message/getSMSTemplateContent");
+            TemplateBean sc = new TemplateBean();
+            sc.setSchemId(Integer.parseInt(valueScheme));
+            sc.setTemplate(valueToSubmit);
+            String input = objectMapper.writeValueAsString(sc);
+            String resp = ServiceUtil.getResponse(input, "/message/getSMSTemplateContent");
             messageContent = objectMapper.readValue(resp, MessageBean.class);
             String res = objectMapper.writeValueAsString(messageContent);
             inputStream = new ByteArrayInputStream(res.getBytes(StandardCharsets.UTF_8));
@@ -104,7 +109,7 @@ public class MessageAction {
     public String sendMessage() {
         try {
             String input = objectMapper.writeValueAsString(sentMessageBean);
-            String resp = ServiceUtil.getResponse(input, "/message/saveSMSSentStatus");
+            String resp = ServiceUtil.getResponse(input, "/message/sendSMS");
             if (!resp.equals(null)) {
                 successMsg = "Message sent successfully";
             } else {
@@ -186,6 +191,14 @@ public class MessageAction {
 
     public void setSchemeList(List<SchemeBean> schemeList) {
         this.schemeList = schemeList;
+    }
+
+    public String getValueScheme() {
+        return valueScheme;
+    }
+
+    public void setValueScheme(String valueScheme) {
+        this.valueScheme = valueScheme;
     }
 
 }

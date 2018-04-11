@@ -83,4 +83,26 @@ public class Payment {
         }
         return jsonInString;
     }
+
+    @POST
+    @Path("/saveCustomerPaymentBonusPenalty")
+    @Consumes("text/plain")
+    @Produces("text/plain")
+
+    public String saveCustomerPaymentBonusPenalty(String data) {
+        //TODO return proper representation object
+        String jsonInString = "";
+        try {
+
+            //TODO return proper representation object
+            PaymentBean up = objectMapper.readValue(data, PaymentBean.class);
+
+            int count = paymentDao.updatePaymentBonusPenalty(up);
+
+            jsonInString = "" + count;
+        } catch (Exception ex) {
+            logger.error("Payment Class" + ex);
+        }
+        return jsonInString;
+    }
 }

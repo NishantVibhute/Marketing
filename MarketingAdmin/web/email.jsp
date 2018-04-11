@@ -168,6 +168,9 @@
                 $("#schmeNewLi").removeClass("active");
                 $("#joiningLi").removeClass("active");
                 $("#emailLi").addClass("active");
+                $("#emailNewLi").addClass("active");
+                $("#emailDetailLi").removeClass("active");
+                $("#emailTemplateLi").removeClass("active");
                 $("#smsLi").removeClass("active");
                 $("#smsNewLi").removeClass("active");
                 $("#smsDetailLi").removeClass("active");

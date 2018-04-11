@@ -5,8 +5,11 @@
  */
 package com.service;
 
+import com.beans.EmailBean;
 import com.beans.MessageBean;
+import com.beans.SentMessageBean;
 import com.dao.EmailDao;
+import com.util.EmailUtil;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -27,6 +30,38 @@ public class Email {
     ObjectMapper objectMapper = new ObjectMapper();
     static final Logger errorLog = Logger.getLogger("errorLogger");
     static final Logger infoLog = Logger.getLogger("infoLogger");
+
+    @POST
+    @Path("/sendEmail")
+    @Produces("text/plain")
+    @Consumes("text/plain")
+    public String sendEmail(String data) {
+        String jsonInString = "";
+        try {
+            EmailUtil eu = new EmailUtil();
+            EmailDao emailDao = new EmailDao();
+            EmailBean emailBean = objectMapper.readValue(data, EmailBean.class);
+            String resp = eu.send(emailBean.getTo(), emailBean.getSubject(), emailBean.getBody());
+            if (resp.equalsIgnoreCase("success")) {
+                SentMessageBean sentMessageBean1 = new SentMessageBean();
+
+                sentMessageBean1.setTempId(0);
+                sentMessageBean1.setFrom(1);
+                sentMessageBean1.setTo(emailBean.getTo());
+                sentMessageBean1.setSubject(emailBean.getSubject());
+                sentMessageBean1.setMessage(emailBean.getBody());
+                sentMessageBean1 = emailDao.SendEmail(sentMessageBean1);
+                jsonInString = "Email sent successfully";
+            } else {
+                jsonInString = "Email sending failed";
+            }
+
+        } catch (Exception ex) {
+            errorLog.error("Message Class" + ex);
+        }
+        return jsonInString;
+
+    }
 
     @GET
     @Path("/getEmailTemplates")
@@ -82,4 +117,22 @@ public class Email {
         return jsonInString;
 
     }
+
+    @GET
+    @Path("/getSentList")
+    @Produces("text/plain")
+
+    public String getSentList() {
+        //TODO return proper representation object
+        String jsonInString = "";
+        try {
+            EmailDao emailDao = new EmailDao();
+            List<SentMessageBean> sentMessageList = emailDao.getSentList();
+            jsonInString = objectMapper.writeValueAsString(sentMessageList);
+        } catch (Exception ex) {
+            errorLog.error("Message Class" + ex);
+        }
+        return jsonInString;
+    }
+
 }

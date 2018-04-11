@@ -76,7 +76,7 @@
                                                 <th >Template</th>
                                                 <th >Message</th>
                                                 <th >Sent on</th>
-                                                <th >Delivered on</th>
+
                                                 <th >Status</th>
                                             </tr>
                                         </thead>
@@ -85,7 +85,7 @@
                                             <s:iterator value="sentList" var="sb">
                                                 <tr>
                                                     <td><s:property value="id" /></td>
-                                                    <td><s:property value="from" /></td>
+                                                    <td><s:property value="fromName" /></td>
                                                     <td><s:property value="to" /></td>
                                                     <s:if test="tempId == 1">
                                                         <td>Welcome MSG</td>
@@ -102,9 +102,12 @@
                                                     <s:elseif test="tempId == 5">
                                                         <td> Default </td>
                                                     </s:elseif>
+                                                    <s:elseif test="tempId == 0">
+                                                        <td> Web </td>
+                                                    </s:elseif>
                                                     <td><s:property value="message" /> </td>
-                                                    <td><s:date name="sentDate" format="dd-MM-yy  hh:mm:ss a"/> </td>
-                                                    <td><s:date name="deliveredDate" format="dd-MM-yy  hh:mm:ss a"/> </td>
+                                                    <td><s:date name="sentDate" format="dd-MMM-yy"/> </td>
+
                                                     <td><s:property value="status" /> </td>
                                                 </tr>
                                             </s:iterator>
@@ -161,6 +164,10 @@
 
         <!-- bootstrap datepicker -->
         <script src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+
+        <!-- DataTables -->
+        <script src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
         <script>
             $(document).ready(function() {
 
@@ -171,6 +178,9 @@
                 $("#schmeNewLi").removeClass("active");
                 $("#joiningLi").removeClass("active");
                 $("#emailLi").removeClass("active");
+                $("#emailNewLi").removeClass("active");
+                $("#emailDetailLi").removeClass("active");
+                $("#emailTemplateLi").removeClass("active");
                 $("#smsLi").addClass("active");
                 $("#smsNewLi").removeClass("active");
                 $("#smsDetailLi").addClass("active");
@@ -193,6 +203,17 @@
                 });
 
             });
+            $(function() {
+                $('#example2').DataTable({
+                    'paging': true,
+                    'lengthChange': true,
+                    'searching': true,
+                    'ordering': true,
+                    'info': true,
+                    'autoWidth': false,
+                    'aaSorting': []
+                })
+            })
         </script>
     </body>
 </html>

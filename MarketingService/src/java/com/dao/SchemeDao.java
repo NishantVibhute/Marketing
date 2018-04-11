@@ -6,6 +6,7 @@
 package com.dao;
 
 import com.beans.ChartData;
+import com.beans.JoiningDetailsBean;
 import com.beans.PaymentBean;
 import com.beans.PaymentResponse;
 import com.beans.PendingJoinRequest;
@@ -366,6 +367,31 @@ public class SchemeDao {
         }
 
         return chartData;
+
+    }
+
+    public JoiningDetailsBean getUserIdSchemeIdByJoinId(int id) {
+
+        JoiningDetailsBean joiningDetailsBean = new JoiningDetailsBean();
+
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement("call getUserIdschemeIdBYJoinId(?)");
+            ps.setInt(1, id);
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                joiningDetailsBean.setUserId(rs.getInt(1));
+                joiningDetailsBean.setSchemeId(rs.getInt(2));
+
+            }
+            db.closeConnection(con);
+        } catch (Exception ex) {
+            logger.error("CreateUser", ex);
+        }
+        return joiningDetailsBean;
 
     }
 

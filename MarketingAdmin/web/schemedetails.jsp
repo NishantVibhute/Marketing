@@ -289,7 +289,10 @@
                                                             $("#dashboardli").removeClass("active");
                                                             $("#schmeLi").addClass("active");
                                                             $("#schemePoolLi").removeClass("active");
-                                                            $("#schemeDetailLi").addClass("active");
+                                                            $("#emailLi").removeClass("active");
+                                                            $("#emailNewLi").removeClass("active");
+                                                            $("#emailDetailLi").removeClass("active");
+                                                            $("#emailTemplateLi").removeClass("active");
                                                             $("#schmeNewLi").removeClass("active");
                                                             $("#joiningLi").removeClass("active");
                                                             $("#emailLi").removeClass("active");

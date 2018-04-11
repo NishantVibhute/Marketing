@@ -6,7 +6,11 @@
 package com.service;
 
 import com.beans.MessageBean;
+import com.beans.Messages;
+import com.beans.SMSResponse;
 import com.beans.SentMessageBean;
+import com.beans.TemplateBean;
+import com.beans.Warnings;
 import com.dao.MessageDao;
 import com.util.SMSUtil;
 import java.util.List;
@@ -58,8 +62,9 @@ public class Message {
     public String getSMSContentFromSubject(String data) {
         String jsonInString = "";
         try {
+            TemplateBean tc = objectMapper.readValue(data, TemplateBean.class);
             MessageDao messageDao = new MessageDao();
-            MessageBean messageContent = messageDao.getSMSContentFromSubject(data);
+            MessageBean messageContent = messageDao.getSMSContentFromSubject(tc.getTemplate(), tc.getSchemId());
             jsonInString = objectMapper.writeValueAsString(messageContent);
 
         } catch (Exception ex) {
@@ -116,23 +121,25 @@ public class Message {
         try {
             MessageDao messageDao = new MessageDao();
             SentMessageBean sentMessageBean = objectMapper.readValue(data, SentMessageBean.class);
-//            String resp = smsUtil.sendSms(sentMessageBean.getMessage(), sentMessageBean.getTo());
-//            SMSResponse sMSResponse = objectMapper.readValue(resp, SMSResponse.class);
-//            System.out.println("here");
-//
-//            for (Warnings warnings : sMSResponse.getWarnings()) {
-//                if (warnings.getNumbers().contains(sentMessageBean.getTo())) {
-//
-//                    sentMessageBean.setStatus("DND");
-//                }
-//            }
-//
-//            for (Messages messages : sMSResponse.getMessages()) {
-//                if (messages.getRecipient().contains(sentMessageBean.getTo())) {
-//                    sentMessageBean.setTxtId(messages.getId());
-//                    sentMessageBean.setStatus("SUCCESS");
-//                }
-//            }
+            String resp = smsUtil.sendSms(sentMessageBean.getMessage(), sentMessageBean.getTo());
+            SMSResponse sMSResponse = objectMapper.readValue(resp, SMSResponse.class);
+            System.out.println("here");
+
+            if (sMSResponse.getStatus().equalsIgnoreCase("failure")) {
+                for (Warnings warnings : sMSResponse.getWarnings()) {
+                    if (warnings.getNumbers().contains(sentMessageBean.getTo())) {
+
+                        sentMessageBean.setStatus("DND");
+                    }
+                }
+            } else {
+                for (Messages messages : sMSResponse.getMessages()) {
+                    if (messages.getRecipient().contains(sentMessageBean.getTo())) {
+                        sentMessageBean.setTxtId(messages.getId());
+                        sentMessageBean.setStatus("SUCCESS");
+                    }
+                }
+            }
 
             sentMessageBean = messageDao.SendSms(sentMessageBean);
             jsonInString = objectMapper.writeValueAsString(sentMessageBean);
@@ -154,8 +161,30 @@ public class Message {
             SentMessageBean sentMessageBean = objectMapper.readValue(data, SentMessageBean.class);
 
             for (String to : sentMessageBean.getBulkTo()) {
-                sentMessageBean.setTo(to);
-                sentMessageBean = messageDao.SendSms(sentMessageBean);
+                SentMessageBean s1 = new SentMessageBean();
+                s1.setTo(to);
+                s1.setMessage(sentMessageBean.getMessage());
+                s1.setFrom(sentMessageBean.getFrom());
+                s1.setTempId(sentMessageBean.getTempId());
+                s1.setSchemeId(sentMessageBean.getSchemeId());
+
+                String resp = smsUtil.sendSms(s1.getMessage(), s1.getTo());
+                SMSResponse sMSResponse = objectMapper.readValue(resp, SMSResponse.class);
+
+                for (Warnings warnings : sMSResponse.getWarnings()) {
+                    if (warnings.getNumbers().contains(s1.getTo())) {
+                        s1.setStatus("DND");
+                    }
+                }
+
+                for (Messages messages : sMSResponse.getMessages()) {
+                    if (messages.getRecipient().contains(s1.getTo())) {
+                        s1.setTxtId(messages.getId());
+                        s1.setStatus("SUCCESS");
+                    }
+                }
+
+                sentMessageBean = messageDao.SendSms(s1);
             }
 
             jsonInString = objectMapper.writeValueAsString(sentMessageBean);
@@ -180,7 +209,7 @@ public class Message {
             List<SentMessageBean> sentMessageList = messageDao.getSentList();
             jsonInString = objectMapper.writeValueAsString(sentMessageList);
         } catch (Exception ex) {
-            errorLog.error("User Class" + ex);
+            errorLog.error("Message Class" + ex);
         }
         return jsonInString;
     }
@@ -199,7 +228,43 @@ public class Message {
             List<SentMessageBean> sentMessageList = messageDao.getSentList();
             jsonInString = objectMapper.writeValueAsString(sentMessageList);
         } catch (Exception ex) {
-            errorLog.error("User Class" + ex);
+            errorLog.error("Message Class" + ex);
+        }
+        return jsonInString;
+    }
+
+    @POST
+    @Path("/getUserSentListWithCount")
+    @Produces("text/plain")
+    public String getUserSentListWithCount(String data) {
+        //TODO return proper representation object
+        String jsonInString = "";
+        try {
+            SentMessageBean smb = objectMapper.readValue(data, SentMessageBean.class);
+
+            MessageDao messageDao = new MessageDao();
+            List<SentMessageBean> sentMessageList = messageDao.getSentListWithCount(smb);
+            jsonInString = objectMapper.writeValueAsString(sentMessageList);
+        } catch (Exception ex) {
+            errorLog.error("Message Class" + ex);
+        }
+        return jsonInString;
+    }
+
+    @POST
+    @Path("/getUserSentSmsDetails")
+    @Produces("text/plain")
+    public String getUserSentSmsDetails(String data) {
+        //TODO return proper representation object
+        String jsonInString = "";
+        try {
+            SentMessageBean smb = objectMapper.readValue(data, SentMessageBean.class);
+
+            MessageDao messageDao = new MessageDao();
+            List<SentMessageBean> sentMessageList = messageDao.getSentListWithCount(smb);
+            jsonInString = objectMapper.writeValueAsString(sentMessageList);
+        } catch (Exception ex) {
+            errorLog.error("Message Class" + ex);
         }
         return jsonInString;
     }

@@ -42,14 +42,23 @@ public class PaymentDao {
                 pd.setSchemeId(rs.getInt(2));
                 pd.setUserId(rs.getInt(3));
                 pd.setUserName(rs.getString(4));
-                pd.setAmount(rs.getDouble(5));
-                PreparedStatement ps1 = this.con.prepareStatement("call getPaymentReleaseRequest(?,?)");
-                ps1.setInt(1, rs.getInt(2));
-                ps1.setInt(2, rs.getInt(3));
-                List<String> joinDates = new ArrayList<>();
+//                pd.setAmount(rs.getDouble(5));
+
+                PreparedStatement ps1 = this.con.prepareStatement("call getUserSchemeBalanceById(?,?)");
+                ps1.setInt(1, rs.getInt(3));
+                ps1.setInt(2, rs.getInt(2));
                 ResultSet rs1 = ps1.executeQuery();
                 while (rs1.next()) {
-                    joinDates.add(rs1.getString(1));
+                    pd.setAmount(rs1.getDouble(1));
+                }
+
+                PreparedStatement ps2 = this.con.prepareStatement("call getPaymentReleaseRequest(?,?)");
+                ps2.setInt(1, rs.getInt(2));
+                ps2.setInt(2, rs.getInt(3));
+                List<String> joinDates = new ArrayList<>();
+                ResultSet rs2 = ps2.executeQuery();
+                while (rs2.next()) {
+                    joinDates.add(rs2.getString(1));
                 }
                 pd.setJoinDates(joinDates);
 
@@ -105,6 +114,32 @@ public class PaymentDao {
             ps.setInt(7, StatusEnum.CONFIRMED.getId());
             ps.setDouble(8, payBean.getAmount());
             ps.setInt(9, payBean.getSchemeId());
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                count = rs.getInt(1);
+
+            }
+
+            db.closeConnection(con);
+        } catch (Exception ex) {
+            logger.error("CreateUser", ex);
+        }
+        return count;
+    }
+
+    public int updatePaymentBonusPenalty(PaymentBean payBean) {
+        int count = 0;
+
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement("call updateCustomerPaymentBonusPenalty(?,?,?,?,?)");
+            ps.setInt(1, payBean.getJoiningId());
+            ps.setDouble(2, payBean.getOperationalAmount());
+            ps.setInt(3, payBean.getSchemeId());
+            ps.setString(4, payBean.getReason());
+            ps.setInt(5, payBean.getOperationId());
             rs = ps.executeQuery();
 
             while (rs.next()) {

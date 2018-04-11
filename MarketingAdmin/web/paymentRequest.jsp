@@ -108,8 +108,9 @@
                                     <table id="userDetail" class="table table-bordered table-hover">
                                         <thead>
                                             <tr>
-                                                <th style="text-align: center;width: 5%">Customer Name</th>
-                                                <th>Amount</th>
+                                                <th style="text-align: center">Customer Name</th>
+                                                <th style="text-align: center;width: 30%">Amount</th>
+                                                <th style="text-align: center;width: 15%">Bonus / Penalty</th>
                                                 <th style="text-align: center;width: 15%">Joining Dates</th>
 
 
@@ -159,8 +160,6 @@
                                                     <tr>
                                                         <th style="text-align: center;width: 15%">Joining Dates</th>
                                                     </tr>
-
-
                                                 </thead>
                                                 <tbody>
 
@@ -169,7 +168,8 @@
 
                                             </table>
                                         </div></div>
-                                    <div class="col-sm-6"><div class="form-group">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
                                             <label>Payment Mode</label>
                                             <input type="hidden" id="schemeId" name="schemeId"/>
                                             <input type="hidden" id="userId" name="joiningId"/>
@@ -186,6 +186,22 @@
                                         <div class="form-group">
                                             <label for="amount">Amount</label>
                                             <input type="text" class="form-control" id="amount" name="amount" placeholder="Amount">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Operation</label>
+                                            <select id="opmode"  name="operationId" class="form-control">
+                                                <option value="0">Full Payment</option>
+                                                <option value="2">Add</option>
+                                                <option value="3">Deduct</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="amount">Amount</label>
+                                            <input type="text" class="form-control" id="amount" value="0" name="operationalAmount" placeholder="Amount">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="amount">Reason</label>
+                                            <input type="text" class="form-control" id="amount"  name="reason" placeholder="Amount">
                                         </div>
 
                                         <div id="cheque" style="display:none">
@@ -233,6 +249,58 @@
             </div>
             <!-- /.modal -->
 
+            <div class="modal fade" id="modal-opration">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title"><span id="userName"></span></h4>
+                        </div>
+                        <form method="post" action="saveCustomerBonusPenalty">
+                            <div class="modal-body">
+                                <div class="col-sm-12">
+                                    <input type="hidden" id="schemeIdop" name="schemeId"/>
+                                    <input type="hidden" id="userIdop" name="joiningId"/>
+                                    <div class="form-group">
+                                        <label for="amount">Actual Amount</label>
+                                        <input type="text" class="form-control" id="amountOp" name="amount" placeholder="Amount">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Operation</label>
+                                        <select id="opmode"  name="operationId" class="form-control">
+                                            <option value="1">Add</option>
+                                            <option value="2">Deduct</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="amount">Amount</label>
+                                        <input type="text" class="form-control" id="amount" value="0" name="operationalAmount" placeholder="Amount">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="amount">Reason</label>
+                                        <input type="text" class="form-control" id="amount"  name="reason" placeholder="Amount">
+                                    </div>
+
+
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+
+                            </div>
+
+
+
+                        </form>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+
 
 
             <%@include file="/include/includefooter.jsp"%>
@@ -268,6 +336,9 @@
                                                     $("#schmeNewLi").removeClass("active");
                                                     $("#joiningLi").removeClass("active");
                                                     $("#emailLi").removeClass("active");
+                                                    $("#emailNewLi").removeClass("active");
+                                                    $("#emailDetailLi").removeClass("active");
+                                                    $("#emailTemplateLi").removeClass("active");
                                                     $("#smsLi").removeClass("active");
                                                     $("#smsNewLi").removeClass("active");
                                                     $("#smsDetailLi").removeClass("active");
@@ -327,9 +398,8 @@
                                                                 $('#userDetail').dataTable().fnAddData([
                                                                     name,
                                                                     amount,
-                                                                    "<button type='button' class='btn btn-block btn-success'  onClick=showPayModal('" + dat + "'," + amount + "," + schemeId + "," + userId + ",'" + encodeURIComponent(name) + "')>View</button>"]);
-
-
+                                                                    "<button type='button' class='btn btn-block btn-success'  onClick=showPayModal('" + dat + "'," + amount + "," + schemeId + "," + userId + ",'" + encodeURIComponent(name) + "')>View</button>",
+                                                                    "<button type='button' class='btn btn-block btn-success'  onClick=showOperationModal(" + amount + "," + schemeId + "," + userId + ")>EDIT</button>"]);
                                                             });
                                                         }
                                                     });
@@ -365,8 +435,6 @@
                                                     $("#joinDates").find("tr:gt(0)").remove();
                                                     for (i = 0; i < res.length; i++) {
                                                         $("#joinDates").append("<tr><td>" + res[i] + "</td></tr>");
-
-
                                                     }
 
                                                     $("#schemeId").val(schemeId);
@@ -375,6 +443,18 @@
                                                     $("#userName").text(decodeURIComponent(userName));
                                                     $("#amount").val(amount);
                                                     $('#modal-default').modal('show');
+
+
+                                                }
+
+                                                function showOperationModal(amount, schemeId, userId)
+                                                {
+                                                    $("#schemeIdop").val(schemeId);
+                                                    $("#userIdop").val(userId);
+
+
+                                                    $("#amountOp").val(amount);
+                                                    $('#modal-opration').modal('show');
 
 
                                                 }

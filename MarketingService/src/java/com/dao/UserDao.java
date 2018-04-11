@@ -14,6 +14,7 @@ import com.beans.UserJoinPaymentBean;
 import com.beans.UserPassword;
 import com.beans.UserSchemeBalance;
 import com.service.User;
+import com.util.CommonUtil;
 import com.util.DbUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -40,9 +41,9 @@ public class UserDao {
         try {
             this.con = db.getConnection();
             PreparedStatement ps = this.con.prepareStatement("call createUser(?,?,?,?,?,?,?,?,?,?,?,?)");
-            ps.setString(1, userBean.getFirstName());
-            ps.setString(2, userBean.getMiddleName());
-            ps.setString(3, userBean.getLastName());
+            ps.setString(1, CommonUtil.toTitleCase(userBean.getFirstName()));
+            ps.setString(2, CommonUtil.toTitleCase(userBean.getMiddleName()));
+            ps.setString(3, CommonUtil.toTitleCase(userBean.getLastName()));
             ps.setString(4, userBean.getEmailId());
             ps.setString(5, userBean.getMobileNo());
             ps.setString(6, userBean.getAddress());
@@ -338,6 +339,33 @@ public class UserDao {
 
     }
 
+    public UserSchemeBalance getSchemeUserTotalBalance(int userId, int schemeId) {
+        UserSchemeBalance ud = new UserSchemeBalance();
+
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement("call getUserTotalSchemeBalanceById(?,?)");
+            ps.setInt(1, userId);
+            ps.setInt(1, schemeId);
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                ud.setSchemeName(rs.getString(1));
+                ud.setBalance(rs.getDouble(2));
+
+            }
+
+            db.closeConnection(con);
+        } catch (Exception ex) {
+            logger.error("CreateUser", ex);
+        }
+
+        return ud;
+
+    }
+
     public List<UserJoinPaymentBean> getUserJoinPayment(JoiningDetailsBean data) {
         List<UserJoinPaymentBean> chartData = new ArrayList<>();
 
@@ -458,6 +486,23 @@ public class UserDao {
 
         return schemeRowsList;
 
+    }
+
+    public int changePassword(UserPassword userBean) {
+
+        int count = 0;
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement("call changePassword(?,?)");
+            ps.setString(1, userBean.getEmailId());
+            ps.setString(2, userBean.getPassword());
+
+            count = ps.executeUpdate();
+            db.closeConnection(con);
+        } catch (Exception ex) {
+            logger.error("CreateUser", ex);
+        }
+        return count;
     }
 
 }

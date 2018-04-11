@@ -5,16 +5,25 @@
  */
 package com.redirect;
 
+import com.beans.JoiningDetailsBean;
+import com.beans.MessageBean;
 import com.beans.PaymentBean;
 import com.beans.PaymentRealeaseRequestBean;
 import com.beans.PendingJoinRequest;
+import com.beans.SentMessageBean;
+import com.beans.TemplateBean;
+import com.beans.UserBean;
+import com.beans.UserSchemeBalance;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import com.util.ServiceUtil;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -71,15 +80,73 @@ public class PaymentAction extends ActionSupport implements ModelDriven {
     }
 
     public String saveCustomerPayment() {
+        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        Date date = new Date();
+        String payDate = dateFormat.format(date);
 
         try {
             String input = objectMapper.writeValueAsString(this.paymentBean);
             String resp = ServiceUtil.getResponse(input, "/payment/saveCustomerPaymentDetails");
 
             if (Integer.parseInt(resp) != 0) {
+
+                String respJoin = ServiceUtil.getResponse("" + this.paymentBean.getJoiningId(), "/scheme/getUserIdSchemeIdByJoinId");
+                JoiningDetailsBean uJoin = objectMapper.readValue(respJoin, JoiningDetailsBean.class);
+
+                UserSchemeBalance u = new UserSchemeBalance();
+                u.setUserId((int) uJoin.getUserId());
+                u.setSchemeId(uJoin.getSchemeId());
+                String inputBal = objectMapper.writeValueAsString(this.paymentBean);
+                String respBal = ServiceUtil.getResponse(inputBal, "/user/getschemeusertotalbalance");
+                UserSchemeBalance uBal = objectMapper.readValue(respBal, UserSchemeBalance.class);
+
+                TemplateBean sc = new TemplateBean();
+                sc.setSchemId(uJoin.getSchemeId());
+                sc.setTemplate("Payment Release Msg");
+                String inputTemp = objectMapper.writeValueAsString(sc);
+                String respTemp = ServiceUtil.getResponse(inputTemp, "/message/getSMSTemplateContent");
+                MessageBean messageContent = objectMapper.readValue(respTemp, MessageBean.class);
+
+                String respUser = ServiceUtil.getResponse("" + uJoin.getUserId(), "/user/getUserDetailsByUserId");
+                UserBean userDetails = objectMapper.readValue(respUser, UserBean.class);
+                SentMessageBean sentMessageBean = new SentMessageBean();
+                sentMessageBean.setTempId(messageContent.getId());
+                sentMessageBean.setFrom(userDetails.getId());
+                sentMessageBean.setTo(userDetails.getMobileNo());
+                String msg1 = messageContent.getBody().replace("<userId>", "P" + userDetails.getId());
+                String msg2 = msg1.replace("<productName>", uBal.getSchemeName());
+                String msg3 = msg2.replace("<balance>", "" + uBal.getBalance());
+                String msg4 = msg2.replace("<paymentAmount>", "" + paymentBean.getAmount());
+                String msg5 = msg2.replace("<paymentDate>", "" + payDate);
+                sentMessageBean.setMessage(msg5);
+                sentMessageBean.setSchemeId(uJoin.getSchemeId());
+                String inputSMS = objectMapper.writeValueAsString(sentMessageBean);
+                String respSMS = ServiceUtil.getResponse(inputSMS, "/message/sendSMS");
+                SentMessageBean uSMS = objectMapper.readValue(respSMS, SentMessageBean.class);
+
                 successMsg = " Payment Save Successfully";
             } else {
                 errorMsg = " Failed to Save Payment";
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(SchemeAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return ActionSupport.SUCCESS;
+
+    }
+
+    public String saveCustomerBonusPenalty() {
+
+        try {
+            String input = objectMapper.writeValueAsString(this.paymentBean);
+            String resp = ServiceUtil.getResponse(input, "/payment/saveCustomerPaymentBonusPenalty");
+
+            if (Integer.parseInt(resp) != 0) {
+                successMsg = " Saved Successfully";
+            } else {
+                errorMsg = " Failed to Save";
             }
 
         } catch (Exception ex) {

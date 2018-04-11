@@ -6,6 +6,7 @@
 package com.service;
 
 import com.beans.ChartData;
+import com.beans.JoiningDetailsBean;
 import com.beans.PaymentBean;
 import com.beans.PaymentResponse;
 import com.beans.PendingJoinRequest;
@@ -264,6 +265,23 @@ public class Scheme {
         String jsonInString = "";
         try {
             List<SchemeRowsByName> schemeRowList = schemeDao.getSchemePoolByName(Integer.parseInt(data));
+            jsonInString = objectMapper.writeValueAsString(schemeRowList);
+        } catch (Exception ex) {
+            logger.error("User Class" + ex);
+        }
+        return jsonInString;
+    }
+
+    @POST
+    @Path("/getUserIdSchemeIdByJoinId")
+    @Consumes("text/plain")
+    @Produces("text/plain")
+
+    public String getUserIdSchemeIdByJoinId(String data) {
+        //TODO return proper representation object
+        String jsonInString = "";
+        try {
+            JoiningDetailsBean schemeRowList = schemeDao.getUserIdSchemeIdByJoinId(Integer.parseInt(data));
             jsonInString = objectMapper.writeValueAsString(schemeRowList);
         } catch (Exception ex) {
             logger.error("User Class" + ex);

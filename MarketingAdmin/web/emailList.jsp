@@ -59,54 +59,74 @@
                 <!-- Main content -->
                 <section class="content">
                     <div class="row">
-                        <div class="col-md-7">
-                            <div class="box box-primary">
-                                <div class="box-header with-border">
-                                    <h3 class="box-title">New SMS</h3>
+                        <!-- left column -->
+                        <div class="col-md-12">
+                            <div class="box">
+                                <div class="box-header">
+                                    <h3 class="box-title">Email sent Details</h3>
                                 </div>
-                                <form id="formID" action="sendMessage" method="post" class="formular" >
-                                    <!-- /.box-header -->
-                                    <div class="box-body">
-                                        <!--              <div class="form-group">
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <table id="example2" class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th width="5%">Sr No.</th>
+                                                <th width="10%">Sent To</th>
+                                                <th width="10%">Template</th>
+                                                <th >Message</th>
+                                                <th width="10%">Sent on</th>
 
-                                                        <select class="form-control select2" name="to" multiple="multiple" data-placeholder="To:"
-                                                                style="width: 100%;">
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <s:iterator value="sentList" var="sb">
+                                                <tr>
+                                                    <td><s:property value="id" /></td>
+                                                    <td><s:property value="to" /></td>
+                                                    <s:if test="tempId == 1">
+                                                        <td>Sign Up</td>
+                                                    </s:if>
+                                                    <s:elseif test="tempId == 2">
+                                                        <td>Welcome Email</td>
+                                                    </s:elseif>
+                                                    <s:elseif test="tempId == 0">
+                                                        <td>Web</td>
+                                                    </s:elseif>
+
+                                                    <td><s:property value="message" /> </td>
+                                                    <td ><s:property value="sendDate" /> </td>
+
+                                                </tr>
+                                            </s:iterator>
 
 
-                                        <s:iterator value="emailIdList">
-                                            <option><s:property/></option>
-                                        </s:iterator>
-                                    </select>
-                                  </div>-->
-                                        <div class="form-group">
-                                            <label  class="col-sm-1  control-label">Number</label>
-                                            <div class="col-sm-11">
-                                                <input type="hidden" name="sentMessageBean.from" value="1">
-                                                <input name="sentMessageBean.to" class="validate[required,custom[mobile]] form-control" placeholder="To:">
-                                            </div>
-                                        </div></br></br>
-                                        <div class="form-group">
-                                            <label  class="col-sm-1  control-label">Message</label>
-                                            <div class="col-sm-11">
-                                                <textarea id="textareaMsg" name="sentMessageBean.message" class="validate[required] form-control" style="height: 300px"></textarea>
 
-                                            </div>
-                                        </div>
+                                        </tbody>
 
-                                    </div>
-
-                                    <!-- /.box-body -->
-                                    <div class="box-footer">
-                                        <div class="pull-right">
-
-                                            <button type="submit" class="btn btn-primary"><i class="fa fa-envelope-o"></i> Send</button>
-                                        </div>
-                                    </div>
-                                </form>
-                                <!-- /.box-footer -->
+                                    </table>
+                                </div>
+                                <!-- /.box-body -->
                             </div>
-                            <!-- /. box -->
+                            <!-- /.box -->
+
+
                         </div>
+                        <!-- /.col -->
+
+
+                        <!--/.col (left) -->
+                        <!-- right column -->
+                        <div class="col-md-10">
+                            <!-- Horizontal Form -->
+
+                            <!-- /.box -->
+                            <!-- general form elements disabled -->
+
+                            <!-- /.box -->
+                        </div>
+                        <!--/.col (right) -->
                     </div>
                     <!-- /.row -->
                 </section>
@@ -133,9 +153,10 @@
 
         <!-- bootstrap datepicker -->
         <script src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+        <!-- DataTables -->
+        <script src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
         <script>
-
-
             $(document).ready(function() {
 
                 $("#dashboardli").removeClass("active");
@@ -144,12 +165,12 @@
                 $("#schemeDetailLi").removeClass("active");
                 $("#schmeNewLi").removeClass("active");
                 $("#joiningLi").removeClass("active");
-                $("#emailLi").removeClass("active");
+                $("#emailLi").addClass("active");
                 $("#emailNewLi").removeClass("active");
-                $("#emailDetailLi").removeClass("active");
+                $("#emailDetailLi").addClass("active");
                 $("#emailTemplateLi").removeClass("active");
-                $("#smsLi").addClass("active");
-                $("#smsNewLi").addClass("active");
+                $("#smsLi").removeClass("active");
+                $("#smsNewLi").removeClass("active");
                 $("#smsDetailLi").removeClass("active");
                 $("#smsTemplateLi").removeClass("active");
                 $("#chatroomLi").removeClass("active");
@@ -170,23 +191,18 @@
                 });
 
             });
-        </script>
-        <link rel="stylesheet" href="css/jquery.validationEngine.css" type="text/css"/>
-        <!--<script src="bower_components/jquery/dist/jquery.min.js"></script>-->
-        <!--<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>-->
-        <script src="js/jquery.validationEngine-en.js" type="text/javascript" charset="utf-8">
-        </script>
-        <script src="js/jquery.validationEngine.js" type="text/javascript" charset="utf-8">
-        </script>
-        <script>
-            jQuery(document).ready(function() {
-                // binds form submission and fields to the validation engine
-                jQuery("#formID").validationEngine('attach');
 
-                $("#textareaMsg").keyup(function() {
-                    $("#count").text("Characters left: " + (500 - $(this).val().length));
-                });
-            });
+            $(function() {
+                $('#example2').DataTable({
+                    'paging': true,
+                    'lengthChange': true,
+                    'searching': true,
+                    'ordering': true,
+                    'info': true,
+                    'autoWidth': false,
+                    'aaSorting': []
+                })
+            })
         </script>
     </body>
 </html>

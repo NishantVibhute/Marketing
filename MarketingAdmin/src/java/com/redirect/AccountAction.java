@@ -12,6 +12,9 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import com.util.ServiceUtil;
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -20,6 +23,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
@@ -35,6 +40,8 @@ public class AccountAction extends ActionSupport implements ModelDriven {
     List<SchemeBean> schemeList = new ArrayList<>();
     private InputStream inputStream;
     String val, valScheme;
+    private InputStream fileInputStream;
+    private String fileName;
 
     public String redirect() {
         try {
@@ -76,6 +83,54 @@ public class AccountAction extends ActionSupport implements ModelDriven {
 
             String res = objectMapper.writeValueAsString(passRowBean);
             inputStream = new ByteArrayInputStream(res.getBytes(StandardCharsets.UTF_8));
+
+        } catch (IOException ex) {
+            Logger.getLogger(SchemeAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ActionSupport.SUCCESS;
+    }
+
+    public String downloadSchemePassbook() {
+        FileOutputStream out = null;
+        try {
+            String resp = ServiceUtil.getResponse(this.getVal(), "/account/getSchemePassbook");
+
+            List<PassRowBean> passRowBean = objectMapper.readValue(resp, new TypeReference<List<PassRowBean>>() {
+            });
+
+            HSSFWorkbook workbook = new HSSFWorkbook();
+            HSSFSheet accountSheet;
+
+            accountSheet = workbook.createSheet("Account Statement");
+
+            int row = 0;
+
+            accountSheet.createRow(row).createCell(0).setCellValue("SrNo");
+            accountSheet.getRow(row).createCell(1).setCellValue("Date");
+            accountSheet.getRow(row).createCell(2).setCellValue("Particulars");
+            accountSheet.getRow(row).createCell(3).setCellValue("Withdrawl");
+            accountSheet.getRow(row).createCell(4).setCellValue("Deposit");
+            accountSheet.getRow(row).createCell(5).setCellValue("Balance");
+            int i = 0;
+            for (PassRowBean rowBean : passRowBean) {
+                i++;
+                accountSheet.createRow(++row).createCell(0).setCellValue(i);
+                accountSheet.getRow(row).createCell(1).setCellValue("" + rowBean.getDate());
+                accountSheet.getRow(row).createCell(2).setCellValue("" + rowBean.getParticulars());
+                accountSheet.getRow(row).createCell(3).setCellValue("" + rowBean.getWithdrawl());
+                accountSheet.getRow(row).createCell(4).setCellValue("" + rowBean.getDeposit());
+                accountSheet.getRow(row).createCell(5).setCellValue("" + rowBean.getBalance());
+            }
+
+            String fileName = "Account_Statement.xls";
+//            File file = new File("/home/mcube/mcube-simulator/files/"+fileName);
+            File file = new File("E:\\mcube-simulator\\" + fileName);
+            out = new FileOutputStream(file);
+            workbook.write(out);
+            out.close();
+            fileInputStream = new FileInputStream(file);
+            this.setFileName(fileName);
+            file.delete();
 
         } catch (IOException ex) {
             Logger.getLogger(SchemeAction.class.getName()).log(Level.SEVERE, null, ex);
@@ -142,6 +197,22 @@ public class AccountAction extends ActionSupport implements ModelDriven {
 
     public void setValScheme(String valScheme) {
         this.valScheme = valScheme;
+    }
+
+    public InputStream getFileInputStream() {
+        return fileInputStream;
+    }
+
+    public void setFileInputStream(InputStream fileInputStream) {
+        this.fileInputStream = fileInputStream;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
 }

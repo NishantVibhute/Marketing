@@ -7,10 +7,10 @@ package com.redirect;
 
 import com.beans.EmailBean;
 import com.beans.MessageBean;
+import com.beans.SentMessageBean;
 import com.beans.UserBean;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
-import com.util.EmailUtil;
 import com.util.ServiceUtil;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -18,6 +18,8 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
@@ -31,12 +33,12 @@ public class EmailAction extends ActionSupport implements ModelDriven {
     ObjectMapper objectMapper = new ObjectMapper();
     List<String> emailIdList = new ArrayList<>();
     String successMsg = StringUtils.EMPTY, errorMsg = StringUtils.EMPTY;
-    EmailUtil emailUtil = new EmailUtil();
     EmailBean emailBean = new EmailBean();
     List<MessageBean> messageContentList;
     private String valueToSubmit = "";
     MessageBean messageContent;
     private InputStream inputStream;
+    List<SentMessageBean> sentList;
 
     public String redirectTemplates() {
         try {
@@ -100,14 +102,33 @@ public class EmailAction extends ActionSupport implements ModelDriven {
     }
 
     public String send() {
-        String resp = emailUtil.send(emailBean.getTo(), emailBean.getSubject(), emailBean.getBody());
+        try {
+            String input = objectMapper.writeValueAsString(emailBean);
+            String resp = ServiceUtil.getResponse(input, "/email/sendEmail");
 
-        if (resp.equalsIgnoreCase("success")) {
-            successMsg = "Email sent successfully";
-        } else {
-            errorMsg = "Email sending failed";
+            if (resp.equalsIgnoreCase("Email sent successfully")) {
+
+                successMsg = "Email sent successfully";
+            } else {
+                errorMsg = "Email sending failed";
+            }
+
+        } catch (IOException ex) {
+            Logger.getLogger(EmailAction.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return ActionSupport.SUCCESS;
+    }
 
+    public String showSentEmail() {
+        try {
+            String resp = ServiceUtil.getResponseGet("/email/getSentList");
+
+            sentList = objectMapper.readValue(resp, new TypeReference<List<SentMessageBean>>() {
+            });
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
         return ActionSupport.SUCCESS;
     }
 
@@ -170,6 +191,14 @@ public class EmailAction extends ActionSupport implements ModelDriven {
 
     public void setInputStream(InputStream inputStream) {
         this.inputStream = inputStream;
+    }
+
+    public List<SentMessageBean> getSentList() {
+        return sentList;
+    }
+
+    public void setSentList(List<SentMessageBean> sentList) {
+        this.sentList = sentList;
     }
 
 }

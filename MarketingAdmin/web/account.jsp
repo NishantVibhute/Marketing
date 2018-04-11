@@ -74,6 +74,7 @@
                                     </div>
                                     <div class="panel panel-default">
                                         <div class="panel-body">
+
                                             <label  class="col-sm-2  control-label">Select Scheme</label>
                                             <div class="col-sm-7">
                                                 <select id="schemeMode"   class="form-control">
@@ -85,7 +86,9 @@
                                             </div>
                                             <div class="col-sm-2">
                                                 <button type="button" onclick="getData()" class="btn btn-info">SEARCH</button>
+                                                <input type="button" value="Download" class="btn btn-info" onclick="download()"/>
                                             </div>
+
                                             <div class="panel-body">
                                                 <br>Total Balance : <span id="schemeTotBal"></span><br>
                                                 Company Balance : <span id="schemeCompBal"></span></br>
@@ -201,6 +204,9 @@
                                                         $("#schmeNewLi").removeClass("active");
                                                         $("#joiningLi").removeClass("active");
                                                         $("#emailLi").removeClass("active");
+                                                        $("#emailNewLi").removeClass("active");
+                                                        $("#emailDetailLi").removeClass("active");
+                                                        $("#emailTemplateLi").removeClass("active");
                                                         $("#smsLi").removeClass("active");
                                                         $("#smsNewLi").removeClass("active");
                                                         $("#smsDetailLi").removeClass("active");
@@ -279,6 +285,11 @@
 
                                                     }
 
+                                                    function download()
+                                                    {
+                                                        var a = $('#schemeMode').val();
+                                                        window.location = 'downloadSchemePassbook?val=' + a;
+                                                    }
 
         </script>
     </body>

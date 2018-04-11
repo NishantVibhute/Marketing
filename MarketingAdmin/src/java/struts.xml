@@ -80,6 +80,11 @@
         </action>
         
         
+        <action name="saveCustomerBonusPenalty" class="com.redirect.PaymentAction" method="saveCustomerBonusPenalty">
+            <result name="success" type="chain">paymentRelease</result>
+            <result name="login">/index.jsp</result>
+        </action>
+        
         <action name="poolScheme" class="com.redirect.SchemeAction" method="poolScheme">
             <result name="success">/schemepool.jsp</result>
             <result name="login">/index.jsp</result>
@@ -236,6 +241,12 @@
             <result name="login">/index.jsp</result>
         </action>
         
+        <action name="showSentEmail" class="com.redirect.EmailAction" method="showSentEmail">
+            <result name="success">/emailList.jsp</result>
+            <result name="login">/index.jsp</result>
+        </action>
+        
+        
         <action name="newMessage" class="com.redirect.MessageAction" method="newMessage">
             <result name="success">/newMessage.jsp</result>
             <result name="login">/index.jsp</result>
@@ -256,6 +267,17 @@
                 <param name="contentType">text/plain</param>
             </result>
         </action>
+        
+        
+        <action name="downloadSchemePassbook" class="com.redirect.AccountAction" method="downloadSchemePassbook">
+           <result name="success" type="stream">
+                <param name="contentType">application/octet-stream</param>
+                <param name="inputName">fileInputStream</param>
+                <param name="contentDisposition">attachment;filename="${fileName}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+        
         
         <action name="getSchemeBalance" class="com.redirect.AccountAction" method="getSchemeBalance">
             <result type="stream">
