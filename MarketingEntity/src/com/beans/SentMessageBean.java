@@ -29,6 +29,15 @@ public class SentMessageBean {
     private int count;
     private String sendDate;
     private List<String> bulkTo;
+    private String toName;
+
+    public String getToName() {
+        return toName;
+    }
+
+    public void setToName(String toName) {
+        this.toName = toName;
+    }
 
     public String getFromName() {
         return fromName;

@@ -309,6 +309,23 @@ public class SchemeDao {
 
     }
 
+    public int denyUser(PaymentBean payBean) {
+        int count = 0;
+        PaymentResponse psResponse = new PaymentResponse();
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement("call denyUser(?)");
+            ps.setInt(1, payBean.getJoiningId());
+
+            count = ps.executeUpdate();
+
+            db.closeConnection(con);
+        } catch (Exception ex) {
+            logger.error("CreateUser", ex);
+        }
+        return count;
+    }
+
     public PaymentResponse updatePayment(PaymentBean payBean) {
         int count = 0;
         PaymentResponse psResponse = new PaymentResponse();

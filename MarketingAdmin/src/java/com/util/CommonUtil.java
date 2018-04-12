@@ -22,9 +22,9 @@ public class CommonUtil {
 
     static {
 //        filePath = "/home/ec2-user/Files/";
-//        url = "http://13.127.62.153:8080/MarketingService/webresources";
+        url = "http://13.127.62.153:8080/MarketingService/webresources";
         filePath = "/home/ec2-user/Files/";
-        url = "http://localhost:8084/MarketingService/webresources";
+//        url = "http://localhost:8084/MarketingService/webresources";
     }
 
     public static String convertDate(String date) {

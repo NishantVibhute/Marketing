@@ -187,22 +187,6 @@
                                             <label for="amount">Amount</label>
                                             <input type="text" class="form-control" id="amount" name="amount" placeholder="Amount">
                                         </div>
-                                        <div class="form-group">
-                                            <label>Operation</label>
-                                            <select id="opmode"  name="operationId" class="form-control">
-                                                <option value="0">Full Payment</option>
-                                                <option value="2">Add</option>
-                                                <option value="3">Deduct</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="amount">Amount</label>
-                                            <input type="text" class="form-control" id="amount" value="0" name="operationalAmount" placeholder="Amount">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="amount">Reason</label>
-                                            <input type="text" class="form-control" id="amount"  name="reason" placeholder="Amount">
-                                        </div>
 
                                         <div id="cheque" style="display:none">
                                             <div class="form-group">
@@ -264,7 +248,7 @@
                                     <input type="hidden" id="userIdop" name="joiningId"/>
                                     <div class="form-group">
                                         <label for="amount">Actual Amount</label>
-                                        <input type="text" class="form-control" id="amountOp" name="amount" placeholder="Amount">
+                                        <input type="text" class="form-control" readonly id="amountOp" name="amount" placeholder="Amount">
                                     </div>
                                     <div class="form-group">
                                         <label>Operation</label>
@@ -398,8 +382,9 @@
                                                                 $('#userDetail').dataTable().fnAddData([
                                                                     name,
                                                                     amount,
-                                                                    "<button type='button' class='btn btn-block btn-success'  onClick=showPayModal('" + dat + "'," + amount + "," + schemeId + "," + userId + ",'" + encodeURIComponent(name) + "')>View</button>",
-                                                                    "<button type='button' class='btn btn-block btn-success'  onClick=showOperationModal(" + amount + "," + schemeId + "," + userId + ")>EDIT</button>"]);
+                                                                    "<button type='button' class='btn btn-block btn-success'  onClick=showOperationModal(" + amount + "," + schemeId + "," + userId + ")>EDIT</button>",
+                                                                    "<button type='button' class='btn btn-block btn-success'  onClick=showPayModal('" + dat + "'," + amount + "," + schemeId + "," + userId + ",'" + encodeURIComponent(name) + "')>View</button>"
+                                                                ]);
                                                             });
                                                         }
                                                     });

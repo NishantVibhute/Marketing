@@ -163,6 +163,12 @@
             <result name="login">/index.jsp</result>
         </action>
         
+        <action name="denyUser" class="com.redirect.JoiningAction" method="denyUser">
+            <result name="success" type="chain">joining</result>
+            <result name="login">/index.jsp</result>
+        </action>
+        
+        
         <action name="updateVirtualUserPayment" class="com.redirect.JoiningAction" method="updateVirtualUserPayment">
             <result name="success" type="chain">joining</result>
             <result name="login">/index.jsp</result>

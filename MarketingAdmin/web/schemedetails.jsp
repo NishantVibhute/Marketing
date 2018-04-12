@@ -155,7 +155,7 @@
                                 <span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title">Product Details</h4>
                         </div>
-                        <form class="form-horizontal" action="editScheme">
+                        <form class="form-horizontal"  method="POST" enctype="multipart/form-data"  action="editScheme">
                             <div class="modal-body">
 
 
@@ -240,6 +240,13 @@
                                         </select>
                                     </div>
 
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-2 control-label">Image</label>
+
+                                    <div class="col-sm-9">
+                                        <input name="fileUpload" id="filename" class="form-control" type="file" /><br><br>
+                                    </div>
                                 </div>
 
 

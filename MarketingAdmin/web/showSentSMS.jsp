@@ -70,12 +70,13 @@
                                     <table id="example2" class="table table-bordered table-hover">
                                         <thead>
                                             <tr>
-                                                <th>Sr No.</th>
-                                                <th>Sent By</th>
-                                                <th >Sent To</th>
-                                                <th >Template</th>
+                                                <th width="5%">Sr No.</th>
+                                                <th width="10%"> Sent By</th>
+                                                <th width="10%">To Name</th>
+                                                <th width="10%">To Number</th>
+                                                <th width="10%">Template</th>
                                                 <th >Message</th>
-                                                <th >Sent on</th>
+                                                <th width="10%">Sent on</th>
 
                                                 <th >Status</th>
                                             </tr>
@@ -86,7 +87,9 @@
                                                 <tr>
                                                     <td><s:property value="id" /></td>
                                                     <td><s:property value="fromName" /></td>
+                                                    <td><s:property value="toName" /></td>
                                                     <td><s:property value="to" /></td>
+
                                                     <s:if test="tempId == 1">
                                                         <td>Welcome MSG</td>
                                                     </s:if>
@@ -101,6 +104,12 @@
                                                     </s:elseif>
                                                     <s:elseif test="tempId == 5">
                                                         <td> Default </td>
+                                                    </s:elseif>
+                                                    <s:elseif test="tempId == 6">
+                                                        <td> Rejoining </td>
+                                                    </s:elseif>
+                                                    <s:elseif test="tempId == 7">
+                                                        <td> Joining </td>
                                                     </s:elseif>
                                                     <s:elseif test="tempId == 0">
                                                         <td> Web </td>

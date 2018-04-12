@@ -99,7 +99,7 @@ public class MessageDao {
     public SentMessageBean SendSms(SentMessageBean sentMessageBean) {
         try {
             this.con = db.getConnection();
-            PreparedStatement ps = this.con.prepareStatement("call saveSMSSentStatus(?,?,?,?,?,?,?)");
+            PreparedStatement ps = this.con.prepareStatement("call saveSMSSentStatus(?,?,?,?,?,?,?,?)");
             ps.setString(1, sentMessageBean.getTo());
             ps.setString(2, sentMessageBean.getMessage());
             ps.setLong(3, sentMessageBean.getFrom());
@@ -107,6 +107,7 @@ public class MessageDao {
             ps.setInt(5, sentMessageBean.getSchemeId());
             ps.setString(6, sentMessageBean.getStatus());
             ps.setString(7, sentMessageBean.getTxtId());
+            ps.setString(8, sentMessageBean.getToName());
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -140,6 +141,7 @@ public class MessageDao {
                 sentMessageBean.setSentDate(rs.getTimestamp(6));
                 sentMessageBean.setDeliveredDate(rs.getTimestamp(7));
                 sentMessageBean.setStatus(rs.getString(8));
+                sentMessageBean.setToName(rs.getString(11));
                 sentMessageList.add(sentMessageBean);
             }
             db.closeConnection(con);

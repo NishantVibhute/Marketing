@@ -273,38 +273,76 @@ public class UserAction extends ActionSupport implements ModelDriven, ServletReq
             for (CreateUserExcelRow createUserExcelRow : excelRows) {
                 CreateUserExcelRow createUserExcelRowNew = new CreateUserExcelRow();
                 createUserExcelRowNew = createUserExcelRow;
-                if (!userEmailList.contains(createUserExcelRow.getEmailId())) {
-                    UserPassword userBean = new UserPassword();
-                    userBean.setEmailId(createUserExcelRow.getEmailId());
-                    userBean.setPassword(createUserExcelRow.getPassword());
-                    String req = objectMapper.writeValueAsString(userBean);
-                    String resp2 = ServiceUtil.getResponse(req, "/user/signup");
+                if (schemes.get(createUserExcelRow.getScheme()) != null) {
+                    if (!userEmailList.contains(createUserExcelRow.getEmailId())) {
+                        UserPassword userBean = new UserPassword();
+                        userBean.setEmailId(createUserExcelRow.getEmailId());
+                        userBean.setPassword(createUserExcelRow.getPassword());
+                        String req = objectMapper.writeValueAsString(userBean);
+                        String resp2 = ServiceUtil.getResponse(req, "/user/signup");
 
-                    String ret = objectMapper.readValue(resp2, String.class);
+                        String ret = objectMapper.readValue(resp2, String.class);
 
-                    if (ret.equalsIgnoreCase("User Added Successfuly")) {
-                        UserBean userBean10 = new UserBean();
-                        userBean10.setFirstName(createUserExcelRow.getFirstName());
-                        userBean10.setMiddleName(createUserExcelRow.getMiddleName());
-                        userBean10.setLastName(createUserExcelRow.getLastName());
-                        userBean10.setEmailId(createUserExcelRow.getEmailId());
-                        userBean10.setMobileNo(createUserExcelRow.getMobileNo());
-                        userBean10.setAddress(createUserExcelRow.getAddress());
-                        userBean10.setPanCardNo(createUserExcelRow.getPanCardNo());
-                        userBean10.setAadharCardNo(createUserExcelRow.getAadharCardNo());
-                        userBean10.setBankDetails(createUserExcelRow.getBankDetails());
-                        String req1 = objectMapper.writeValueAsString(userBean10);
-                        String resp1 = ServiceUtil.getResponse(req1, "/user/create");
-                        String ret1 = objectMapper.readValue(resp1, String.class);
+                        if (ret.equalsIgnoreCase("User Added Successfuly")) {
+                            UserBean userBean10 = new UserBean();
+                            userBean10.setFirstName(createUserExcelRow.getFirstName());
+                            userBean10.setMiddleName(createUserExcelRow.getMiddleName());
+                            userBean10.setLastName(createUserExcelRow.getLastName());
+                            userBean10.setEmailId(createUserExcelRow.getEmailId());
+                            userBean10.setMobileNo(createUserExcelRow.getMobileNo());
+                            userBean10.setAddress(createUserExcelRow.getAddress());
+                            userBean10.setPanCardNo(createUserExcelRow.getPanCardNo());
+                            userBean10.setAadharCardNo(createUserExcelRow.getAadharCardNo());
+                            userBean10.setBankDetails(createUserExcelRow.getBankDetails());
+                            String req1 = objectMapper.writeValueAsString(userBean10);
+                            String resp1 = ServiceUtil.getResponse(req1, "/user/create");
+                            String ret1 = objectMapper.readValue(resp1, String.class);
 
-                        int userId = Integer.parseInt(ret1);
+                            int userId = Integer.parseInt(ret1);
 
-                        if (userId != 0) {
-                            createUserExcelRowNew.setStatus("Success");
-                            createUserExcelRowNew.setReason("User created Successfully ");
+                            if (userId != 0) {
+                                createUserExcelRowNew.setStatus("Success");
+                                createUserExcelRowNew.setReason("User created Successfully ");
+                                SchemeJoinBean up = new SchemeJoinBean();
+                                up.setSchemeId(schemes.get(createUserExcelRow.getScheme()));
+                                up.setUserId(userId);
+                                up.setMemberType(1);
+                                up.setPaymentModeId(createUserExcelRow.getPaymentModeId());
+                                up.setUserStatus(1);
+                                String req3 = objectMapper.writeValueAsString(up);
+                                String resp3 = ServiceUtil.getResponse(req3, "/scheme/join");
+                                String ret3 = objectMapper.readValue(resp3, String.class);
+
+                                int joinId = Integer.parseInt(ret3);
+                                if (joinId != 0) {
+                                    createUserExcelRowNew.setStatus("Success");
+                                    createUserExcelRowNew.setReason(createUserExcelRowNew.getReason() + "| Joined Product");
+                                } else {
+                                    createUserExcelRowNew.setStatus("Error");
+                                    createUserExcelRowNew.setReason(createUserExcelRowNew.getReason() + "| Failed To join");
+                                }
+                            } else {
+                                createUserExcelRowNew.setStatus("Error");
+                                createUserExcelRowNew.setReason("Failed To Create User");
+                            }
+                        } else {
+                            createUserExcelRowNew.setStatus("Error");
+                            createUserExcelRowNew.setReason("Failed To Add User");
+                        }
+                    } else {
+                        createUserExcelRowNew.setStatus("Error");
+                        createUserExcelRowNew.setReason("User Already Exists");
+                        UserPassword userBean = new UserPassword();
+                        userBean.setEmailId(createUserExcelRow.getEmailId());
+                        userBean.setPassword(createUserExcelRow.getPassword());
+                        String req = objectMapper.writeValueAsString(userBean);
+                        String respUserValid = ServiceUtil.getResponse(req, "/user/validate");
+                        UserBean ur = objectMapper.readValue(respUserValid, UserBean.class);
+
+                        if (ur.getId() != 0) {
                             SchemeJoinBean up = new SchemeJoinBean();
                             up.setSchemeId(schemes.get(createUserExcelRow.getScheme()));
-                            up.setUserId(userId);
+                            up.setUserId((int) ur.getId());
                             up.setMemberType(1);
                             up.setPaymentModeId(createUserExcelRow.getPaymentModeId());
                             up.setUserStatus(1);
@@ -322,46 +360,13 @@ public class UserAction extends ActionSupport implements ModelDriven, ServletReq
                             }
                         } else {
                             createUserExcelRowNew.setStatus("Error");
-                            createUserExcelRowNew.setReason("Failed To Create User");
+                            createUserExcelRowNew.setReason(createUserExcelRowNew.getReason() + "| Invalid credential");
                         }
-                    } else {
-                        createUserExcelRowNew.setStatus("Error");
-                        createUserExcelRowNew.setReason("Failed To Add User");
+
                     }
                 } else {
                     createUserExcelRowNew.setStatus("Error");
-                    createUserExcelRowNew.setReason("User Already Exists");
-                    UserPassword userBean = new UserPassword();
-                    userBean.setEmailId(createUserExcelRow.getEmailId());
-                    userBean.setPassword(createUserExcelRow.getPassword());
-                    String req = objectMapper.writeValueAsString(userBean);
-                    String respUserValid = ServiceUtil.getResponse(req, "/user/validate");
-                    UserBean ur = objectMapper.readValue(respUserValid, UserBean.class);
-
-                    if (ur.getId() != 0) {
-                        SchemeJoinBean up = new SchemeJoinBean();
-                        up.setSchemeId(schemes.get(createUserExcelRow.getScheme()));
-                        up.setUserId((int) ur.getId());
-                        up.setMemberType(1);
-                        up.setPaymentModeId(createUserExcelRow.getPaymentModeId());
-                        up.setUserStatus(1);
-                        String req3 = objectMapper.writeValueAsString(up);
-                        String resp3 = ServiceUtil.getResponse(req3, "/scheme/join");
-                        String ret3 = objectMapper.readValue(resp3, String.class);
-
-                        int joinId = Integer.parseInt(ret3);
-                        if (joinId != 0) {
-                            createUserExcelRowNew.setStatus("Success");
-                            createUserExcelRowNew.setReason(createUserExcelRowNew.getReason() + "| Joined Product");
-                        } else {
-                            createUserExcelRowNew.setStatus("Error");
-                            createUserExcelRowNew.setReason(createUserExcelRowNew.getReason() + "| Failed To join");
-                        }
-                    } else {
-                        createUserExcelRowNew.setStatus("Error");
-                        createUserExcelRowNew.setReason(createUserExcelRowNew.getReason() + "| Invalid credential");
-                    }
-
+                    createUserExcelRowNew.setReason("Invalid Product");
                 }
                 userStatus.add(createUserExcelRowNew);
             }

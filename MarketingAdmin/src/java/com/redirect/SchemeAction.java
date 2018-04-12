@@ -145,6 +145,13 @@ public class SchemeAction extends ActionSupport implements ModelDriven {
 
     public String editScheme() {
         try {
+            String myFileFileName = schemeBean.getSchemeName() + ".jpg";
+
+            if (fileUpload != null) {
+                File destFile = new File(CommonUtil.filePath, myFileFileName);
+                FileUtils.copyFile(fileUpload, destFile);
+                schemeBean.setFilePath(destFile.getPath());
+            }
             String input = objectMapper.writeValueAsString(schemeBean);
             String resp = ServiceUtil.getResponse(input, "/scheme/edit");
 

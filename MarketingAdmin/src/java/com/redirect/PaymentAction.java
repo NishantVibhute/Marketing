@@ -96,7 +96,7 @@ public class PaymentAction extends ActionSupport implements ModelDriven {
                 UserSchemeBalance u = new UserSchemeBalance();
                 u.setUserId((int) uJoin.getUserId());
                 u.setSchemeId(uJoin.getSchemeId());
-                String inputBal = objectMapper.writeValueAsString(this.paymentBean);
+                String inputBal = objectMapper.writeValueAsString(u);
                 String respBal = ServiceUtil.getResponse(inputBal, "/user/getschemeusertotalbalance");
                 UserSchemeBalance uBal = objectMapper.readValue(respBal, UserSchemeBalance.class);
 
@@ -111,13 +111,14 @@ public class PaymentAction extends ActionSupport implements ModelDriven {
                 UserBean userDetails = objectMapper.readValue(respUser, UserBean.class);
                 SentMessageBean sentMessageBean = new SentMessageBean();
                 sentMessageBean.setTempId(messageContent.getId());
-                sentMessageBean.setFrom(userDetails.getId());
+                sentMessageBean.setFrom(1);
                 sentMessageBean.setTo(userDetails.getMobileNo());
+                sentMessageBean.setToName(userDetails.getFirstName() + " " + userDetails.getLastName());
                 String msg1 = messageContent.getBody().replace("<userId>", "P" + userDetails.getId());
                 String msg2 = msg1.replace("<productName>", uBal.getSchemeName());
                 String msg3 = msg2.replace("<balance>", "" + uBal.getBalance());
-                String msg4 = msg2.replace("<paymentAmount>", "" + paymentBean.getAmount());
-                String msg5 = msg2.replace("<paymentDate>", "" + payDate);
+                String msg4 = msg3.replace("<paymentAmount>", "" + paymentBean.getAmount());
+                String msg5 = msg4.replace("<paymentDate>", "" + payDate);
                 sentMessageBean.setMessage(msg5);
                 sentMessageBean.setSchemeId(uJoin.getSchemeId());
                 String inputSMS = objectMapper.writeValueAsString(sentMessageBean);

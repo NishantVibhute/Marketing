@@ -633,9 +633,13 @@
                                                             {
                                                                 actualPay = "by Company<br>Amount :" + value.amount;
                                                             }
-                                                            else
+                                                            else if (value.paymenttype === 5)
                                                             {
                                                                 actualPay = "by Rejoining<br>Amount :" + value.amount;
+                                                            }
+                                                            else if (value.paymenttype === 6)
+                                                            {
+                                                                actualPay = "Rejected";
                                                             }
 
 
@@ -653,11 +657,14 @@
                                                             {
                                                                 reuestPay = "by Company"
                                                             }
-                                                            else
+                                                            else if (value.payment_modeid === 5)
                                                             {
                                                                 reuestPay = "by Rejoining"
                                                             }
-
+                                                            else if (value.payment_modeid === 6)
+                                                            {
+                                                                reuestPay = "Rejected";
+                                                            }
 
 
 
@@ -686,8 +693,10 @@
                                                             {
                                                                 status = "Pending";
                                                             }
-                                                            else {
+                                                            else if (value.userstatus == 2) {
                                                                 status = "Confirmed";
+                                                            } else if (value.userstatus == 3) {
+                                                                status = "Rejected";
                                                             }
 
 
@@ -801,10 +810,15 @@
                                                             {
                                                                 actualPay = "by Company<br>Amount :" + value.amount;
                                                             }
-                                                            else
+                                                            else if (value.paymenttype === 5)
                                                             {
                                                                 actualPay = "by Rejoining<br>Amount :" + value.amount;
                                                             }
+                                                            else if (value.paymenttype === 6)
+                                                            {
+                                                                actualPay = "Rejected";
+                                                            }
+
 
 
                                                             var payDate = value.paymentdate;

@@ -233,6 +233,43 @@
             </div>
             <!-- /.modal -->
 
+            <div class="modal fade" id="modal-deny">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Deny Request</h4>
+                        </div>
+                        <form method="post" action="denyUser">
+                            <div class="modal-body">
+                                <div class="form-group">
+
+                                    <input type="hidden" id="joinIdDeny" name="joiningId"/>
+
+
+                                </div>
+                                <div class="form-group">
+                                    <label>Are you sure? You want to reject the request</label>
+
+                                </div>
+
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">No</button>
+                                <button type="submit" class="btn btn-primary">YES</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
+
+
+
             <div class="modal fade" id="modal-Virtual">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -399,7 +436,7 @@
                                                                     value.name,
                                                                     pm,
                                                                     " <button type='button' class='btn btn-block btn-success'  onClick=showPayModal(" + value.id + ",'" + value.type + "','" + id + "'," + value.paymentModeId + "," + amount + ")>Accept</button>",
-                                                                    "<button type='button' class='btn btn-block  btn-danger'>Deny</button>"]);
+                                                                    "<button type='button' class='btn btn-block  btn-danger'  onClick=showDenyModal(" + value.id + ")>Deny</button>"]);
 
 
 
@@ -516,6 +553,14 @@
                                                         $("#schemeIdI").val(schemeId);
                                                         $("#amountV").val(amount);
                                                     }
+                                                }
+
+                                                function showDenyModal(id)
+                                                {
+
+                                                    $("#joinIdDeny").val(id);
+                                                    $('#modal-deny').modal('show');
+
                                                 }
         </script>
     </body>

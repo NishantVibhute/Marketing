@@ -346,7 +346,7 @@ public class UserDao {
             this.con = db.getConnection();
             PreparedStatement ps = this.con.prepareStatement("call getUserTotalSchemeBalanceById(?,?)");
             ps.setInt(1, userId);
-            ps.setInt(1, schemeId);
+            ps.setInt(2, schemeId);
 
             rs = ps.executeQuery();
 

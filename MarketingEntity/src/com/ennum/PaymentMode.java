@@ -15,7 +15,8 @@ public enum PaymentMode {
     CHEQUE(2, "Cheque"),
     NETBANKING(3, "Netbanking"),
     COMPANY(4, "Company"),
-    REJOINING(5, "Rejoining");
+    REJOINING(5, "Rejoining"),
+    DENIED(5, "denied");
 
     int id;
     String value;

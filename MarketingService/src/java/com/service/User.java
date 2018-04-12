@@ -69,6 +69,7 @@ public class User {
                 sentMessageBean.setTempId(messageContent.getId());
                 sentMessageBean.setFrom(1);
                 sentMessageBean.setTo(userBean.getMobileNo());
+                sentMessageBean.setToName(userBean.getFirstName() + " " + userBean.getLastName());
                 String msg1 = messageContent.getBody().replace("<username>", userBean.getFirstName());
                 sentMessageBean.setMessage(msg1);
                 String resp = SMSUtil.sendSms(sentMessageBean.getMessage(), sentMessageBean.getTo());
