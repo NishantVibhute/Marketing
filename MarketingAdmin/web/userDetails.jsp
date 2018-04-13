@@ -489,6 +489,7 @@
                                                 $("#userDetailLi").addClass("active");
                                                 $("#visitorLi").removeClass("active");
                                                 $("#paymentLi").removeClass("active");
+                                                $("#accountLi").removeClass("active");
 
 
                                             });

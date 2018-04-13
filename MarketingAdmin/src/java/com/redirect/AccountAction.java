@@ -76,6 +76,7 @@ public class AccountAction extends ActionSupport implements ModelDriven {
 
     public String getSchemePassbook() {
         try {
+
             String resp = ServiceUtil.getResponse(this.getVal(), "/account/getSchemePassbook");
 
             List<PassRowBean> passRowBean = objectMapper.readValue(resp, new TypeReference<List<PassRowBean>>() {
@@ -93,6 +94,14 @@ public class AccountAction extends ActionSupport implements ModelDriven {
     public String downloadSchemePassbook() {
         FileOutputStream out = null;
         try {
+            String respScheme = ServiceUtil.getResponse(this.getVal(), "/scheme/getschemedetail");
+
+            SchemeBean schemeBean = objectMapper.readValue(respScheme, SchemeBean.class);
+
+            String resp1 = ServiceUtil.getResponse(this.getVal(), "/account/getSchemeBalance");
+
+            BalanceBean balanceBean = objectMapper.readValue(resp1, BalanceBean.class);
+
             String resp = ServiceUtil.getResponse(this.getVal(), "/account/getSchemePassbook");
 
             List<PassRowBean> passRowBean = objectMapper.readValue(resp, new TypeReference<List<PassRowBean>>() {
@@ -105,7 +114,17 @@ public class AccountAction extends ActionSupport implements ModelDriven {
 
             int row = 0;
 
-            accountSheet.createRow(row).createCell(0).setCellValue("SrNo");
+            accountSheet.createRow(row).createCell(0).setCellValue("Product Name");
+            accountSheet.getRow(row).createCell(1).setCellValue(schemeBean.getSchemeName());
+            accountSheet.createRow(++row).createCell(0).setCellValue("Total Balance");
+            accountSheet.getRow(row).createCell(1).setCellValue(balanceBean.getTotalBalance());
+            accountSheet.createRow(++row).createCell(0).setCellValue("Company Balance");
+            accountSheet.getRow(row).createCell(1).setCellValue(balanceBean.getCompanyBalance());
+            accountSheet.createRow(++row).createCell(0).setCellValue("Member Balance");
+            accountSheet.getRow(row).createCell(1).setCellValue(balanceBean.getMemberBalance());
+            ++row;
+
+            accountSheet.createRow(++row).createCell(0).setCellValue("SrNo");
             accountSheet.getRow(row).createCell(1).setCellValue("Date");
             accountSheet.getRow(row).createCell(2).setCellValue("Particulars");
             accountSheet.getRow(row).createCell(3).setCellValue("Withdrawl");
@@ -122,7 +141,12 @@ public class AccountAction extends ActionSupport implements ModelDriven {
                 accountSheet.getRow(row).createCell(5).setCellValue("" + rowBean.getBalance());
             }
 
-            String fileName = "Account_Statement.xls";
+            for (int j = 0; j <= 5; j++) {
+                accountSheet.autoSizeColumn(j);
+
+            }
+
+            String fileName = schemeBean.getSchemeName() + "_Account_Statement.xls";
 //            File file = new File("/home/mcube/mcube-simulator/files/"+fileName);
             File file = new File("E:\\mcube-simulator\\" + fileName);
             out = new FileOutputStream(file);

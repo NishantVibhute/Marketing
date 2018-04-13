@@ -364,7 +364,7 @@
                                                     $("#userDetailLi").removeClass("active");
                                                     $("#visitorLi").removeClass("active");
                                                     $("#paymentLi").removeClass("active");
-
+                                                    $("#accountLi").removeClass("active");
                                                 });
                                                 $(function() {
 

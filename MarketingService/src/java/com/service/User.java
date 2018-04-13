@@ -8,20 +8,16 @@ package com.service;
 import com.beans.CreateVirtualUser;
 import com.beans.JoiningDetailsBean;
 import com.beans.MessageBean;
-import com.beans.Messages;
-import com.beans.SMSResponse;
 import com.beans.SchemeRowsByName;
 import com.beans.SentMessageBean;
 import com.beans.UserBean;
 import com.beans.UserJoinPaymentBean;
 import com.beans.UserPassword;
 import com.beans.UserSchemeBalance;
-import com.beans.Warnings;
 import com.dao.EmailDao;
 import com.dao.MessageDao;
 import com.dao.UserDao;
 import com.util.EmailUtil;
-import com.util.SMSUtil;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -72,22 +68,22 @@ public class User {
                 sentMessageBean.setToName(userBean.getFirstName() + " " + userBean.getLastName());
                 String msg1 = messageContent.getBody().replace("<username>", userBean.getFirstName());
                 sentMessageBean.setMessage(msg1);
-                String resp = SMSUtil.sendSms(sentMessageBean.getMessage(), sentMessageBean.getTo());
-                SMSResponse sMSResponse = objectMapper.readValue(resp, SMSResponse.class);
-                if (sMSResponse.getStatus().equals("failure")) {
-                    for (Warnings warnings : sMSResponse.getWarnings()) {
-                        if (warnings.getNumbers().contains(sentMessageBean.getTo())) {
-                            sentMessageBean.setStatus("DND");
-                        }
-                    }
-                } else {
-                    for (Messages messages : sMSResponse.getMessages()) {
-                        if (messages.getRecipient().contains(sentMessageBean.getTo())) {
-                            sentMessageBean.setTxtId(messages.getId());
-                            sentMessageBean.setStatus("SUCCESS");
-                        }
-                    }
-                }
+//                String resp = SMSUtil.sendSms(sentMessageBean.getMessage(), sentMessageBean.getTo());
+//                SMSResponse sMSResponse = objectMapper.readValue(resp, SMSResponse.class);
+//                if (sMSResponse.getStatus().equals("failure")) {
+//                    for (Warnings warnings : sMSResponse.getWarnings()) {
+//                        if (warnings.getNumbers().contains(sentMessageBean.getTo())) {
+//                            sentMessageBean.setStatus("DND");
+//                        }
+//                    }
+//                } else {
+//                    for (Messages messages : sMSResponse.getMessages()) {
+//                        if (messages.getRecipient().contains(sentMessageBean.getTo())) {
+//                            sentMessageBean.setTxtId(messages.getId());
+//                            sentMessageBean.setStatus("SUCCESS");
+//                        }
+//                    }
+//                }
 
                 EmailDao emailDao = new EmailDao();
                 SentMessageBean sentMessageBean1 = new SentMessageBean();
