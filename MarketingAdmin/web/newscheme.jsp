@@ -77,7 +77,7 @@
                                             <label  class="col-sm-2 control-label">Name</label>
 
                                             <div class="col-sm-9">
-                                                <input type="text" name="schemeName" class="form-control" id="inputEmail3" placeholder="Name">
+                                                <input type="text" name="schemeName" required class="form-control" id="inputEmail3" placeholder="Name">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -89,7 +89,7 @@
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type="text" name="startDate" class="form-control pull-right" id="datepickerDate">
+                                                    <input type="text" name="startDate" required class="form-control pull-right" id="datepickerDate">
                                                 </div>
                                                 <!-- /.input group -->
                                             </div>
@@ -98,38 +98,78 @@
                                             <label for="inputPassword3" class="col-sm-2 control-label">Description</label>
 
                                             <div class="col-sm-9">
-                                                <textarea id="editor1" name="schemeDescription" rows="5" cols="90"></textarea>
+                                                <textarea id="editor1" required name="schemeDescription" rows="5" cols="90"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-2 control-label">Amount</label>
+                                            <label for="inputPassword3"  class="col-sm-2 control-label">Amount</label>
 
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="inputPassword3"  name="amount" placeholder="0.0">
+                                                <input type="text" class="form-control" required id="inputPassword3"  name="amount" placeholder="0.0">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-2 control-label">Member Perc</label>
 
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="inputPassword3"   name="memberPerc" placeholder="0.0">
+                                                <input type="text" class="form-control" id="inputPassword3"  required name="memberPerc" placeholder="0.0">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-2 control-label">Video Id</label>
 
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="inputPassword3"   name="videoId" placeholder="">
+                                                <input type="text" class="form-control" id="inputPassword3"  required name="videoId" placeholder="">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-2 control-label">Image</label>
 
                                             <div class="col-sm-9">
-                                                <input name="fileUpload" id="filename" class="form-control" type="file" /><br><br>
+                                                <input name="fileUpload" id="filename" required class="form-control" type="file" /><br><br>
+                                            </div>
+                                        </div>
+                                        <center><b>Cheque Details</b></center>
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-2 control-label">Name On Cheque</label>
+
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="inputPassword3"  required name="chequeName" >
                                             </div>
                                         </div>
 
+                                        <center><b>NetBanking Details</b></center>
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-2 control-label">Bank Name</label>
+
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="inputPassword3"  required name="bankName" >
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-2 control-label">Account No</label>
+
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="inputPassword3"  required name="accountNo">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-2 control-label">Bank IFSC</label>
+
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="inputPassword3"  required name="bankIfsc" >
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="inputPassword3" class="col-sm-2 control-label">Bank Branch</label>
+
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="inputPassword3"  required name="bankBranch">
+                                            </div>
+                                        </div>
 
 
                                     </div>

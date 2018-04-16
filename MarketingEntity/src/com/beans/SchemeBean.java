@@ -24,6 +24,11 @@ public class SchemeBean {
     int isStarted;
     String filePath;
     int joinCount;
+    String chequeName;
+    String bankName;
+    String accountNo;
+    String bankIfsc;
+    String bankBranch;
 
     public int getJoinCount() {
         return joinCount;
@@ -127,6 +132,46 @@ public class SchemeBean {
 
     public void setVideoId(String videoId) {
         this.videoId = videoId;
+    }
+
+    public String getChequeName() {
+        return chequeName;
+    }
+
+    public void setChequeName(String chequeName) {
+        this.chequeName = chequeName;
+    }
+
+    public String getBankName() {
+        return bankName;
+    }
+
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
+    }
+
+    public String getAccountNo() {
+        return accountNo;
+    }
+
+    public void setAccountNo(String accountNo) {
+        this.accountNo = accountNo;
+    }
+
+    public String getBankIfsc() {
+        return bankIfsc;
+    }
+
+    public void setBankIfsc(String bankIfsc) {
+        this.bankIfsc = bankIfsc;
+    }
+
+    public String getBankBranch() {
+        return bankBranch;
+    }
+
+    public void setBankBranch(String bankBranch) {
+        this.bankBranch = bankBranch;
     }
 
 }

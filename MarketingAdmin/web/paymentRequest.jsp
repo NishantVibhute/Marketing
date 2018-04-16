@@ -111,7 +111,7 @@
                                                 <th style="text-align: center">Customer Name</th>
                                                 <th style="text-align: center;width: 30%">Amount</th>
                                                 <th style="text-align: center;width: 15%">Bonus / Penalty</th>
-                                                <th style="text-align: center;width: 15%">Joining Dates</th>
+                                                <th style="text-align: center;width: 15%">Action</th>
 
 
                                             </tr>
@@ -383,8 +383,8 @@
                                                                 $('#userDetail').dataTable().fnAddData([
                                                                     name,
                                                                     amount,
-                                                                    "<button type='button' class='btn btn-block btn-success'  onClick=showOperationModal(" + amount + "," + schemeId + "," + userId + ")>EDIT</button>",
-                                                                    "<button type='button' class='btn btn-block btn-success'  onClick=showPayModal('" + dat + "'," + amount + "," + schemeId + "," + userId + ",'" + encodeURIComponent(name) + "')>View</button>"
+                                                                    "<button type='button' class='btn btn-block btn-info'  onClick=showOperationModal(" + amount + "," + schemeId + "," + userId + ")>EDIT</button>",
+                                                                    "<button type='button' class='btn btn-block btn-success'  onClick=showPayModal('" + dat + "'," + amount + "," + schemeId + "," + userId + ",'" + encodeURIComponent(name) + "')>PAY</button>"
                                                                 ]);
                                                             });
                                                         }

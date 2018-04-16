@@ -125,6 +125,10 @@
                                 </div>
                                 <!-- /.box-header -->
                                 <div class="box-body">
+
+
+                                    <input type="hidden" class="form-control" id="schemeAmount"  >
+
                                     <table id="userDetail" class="table table-bordered table-hover">
                                         <thead>
                                             <tr>
@@ -181,8 +185,8 @@
                                         <option value="1">by Cash</option>
                                         <option value="2">by Cheque</option>
                                         <option value="3">by Netbanking</option>
-                                        <option value="4">by Company</option>
-                                        <option value="5">by Rejoining</option>
+                                        <option value="4">by Rejoining</option>
+                                        <option value="5">by Company</option>
 
 
                                     </select>
@@ -190,7 +194,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="amount">Amount</label>
-                                    <input type="text" class="form-control" id="amount" name="amount" placeholder="Amount">
+                                    <input type="text" class="form-control" id="amountPay" name="amount" placeholder="Amount">
                                 </div>
 
                                 <div id="cheque" style="display:none">
@@ -392,7 +396,7 @@
                                                 function getSchemePendinInfo(id, amount)
                                                 {
 
-
+                                                    $("#schemeAmount").val(amount);
                                                     $.ajax({
                                                         type: "post",
                                                         url: "getPendingUserList?val=" + id,
@@ -529,6 +533,9 @@
                                                         $("#joinId").val(id);
                                                         $('#modal-default').modal('show');
                                                         $('#paymode').val(paymodeId);
+
+
+                                                        $("#amountPay").val($("#schemeAmount").val());
 
                                                         if (paymodeId == "1" || paymodeId == "5")
                                                         {

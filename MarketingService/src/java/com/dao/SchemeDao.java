@@ -43,7 +43,7 @@ public class SchemeDao {
         int count = 0;
         try {
             this.con = db.getConnection();
-            PreparedStatement ps = this.con.prepareStatement("call createScheme(?,?,?,?,?,?,?,?,?)");
+            PreparedStatement ps = this.con.prepareStatement("call createScheme(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
             ps.setString(1, schemeBean.getSchemeName());
             ps.setString(2, schemeBean.getSchemeDescription());
             ps.setString(3, CommonUtil.convertDate(schemeBean.getStartDate()));
@@ -53,6 +53,11 @@ public class SchemeDao {
             ps.setDouble(7, schemeBean.getAmount());
             ps.setString(8, schemeBean.getVideoId());
             ps.setString(9, schemeBean.getFilePath());
+            ps.setString(10, schemeBean.getChequeName());
+            ps.setString(11, schemeBean.getBankName());
+            ps.setString(12, schemeBean.getAccountNo());
+            ps.setString(13, schemeBean.getBankIfsc());
+            ps.setString(14, schemeBean.getBankBranch());
             count = ps.executeUpdate();
             db.closeConnection(con);
         } catch (Exception ex) {
@@ -120,6 +125,11 @@ public class SchemeDao {
                 schemeBean.setIsClosed(rs.getInt(9));
                 schemeBean.setIsStarted(rs.getInt(10));
                 schemeBean.setVideoId(rs.getString(11));
+                schemeBean.setChequeName(rs.getString(12));
+                schemeBean.setBankName(rs.getString(13));
+                schemeBean.setAccountNo(rs.getString(14));
+                schemeBean.setBankIfsc(rs.getString(15));
+                schemeBean.setBankBranch(rs.getString(16));
 
             }
             db.closeConnection(con);
@@ -134,7 +144,7 @@ public class SchemeDao {
         int count = 0;
         try {
             this.con = db.getConnection();
-            PreparedStatement ps = this.con.prepareStatement("call editScheme(?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement ps = this.con.prepareStatement("call editScheme(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
             ps.setString(1, schemeBean.getSchemeName());
             ps.setString(2, schemeBean.getSchemeDescription());
             ps.setString(3, CommonUtil.convertDate(schemeBean.getStartDate()));
@@ -145,6 +155,11 @@ public class SchemeDao {
             ps.setInt(8, schemeBean.getIsClosed());
             ps.setInt(9, schemeBean.getId());
             ps.setString(10, schemeBean.getVideoId());
+            ps.setString(11, schemeBean.getChequeName());
+            ps.setString(12, schemeBean.getBankName());
+            ps.setString(13, schemeBean.getAccountNo());
+            ps.setString(14, schemeBean.getBankIfsc());
+            ps.setString(15, schemeBean.getBankBranch());
             count = ps.executeUpdate();
             db.closeConnection(con);
         } catch (Exception ex) {

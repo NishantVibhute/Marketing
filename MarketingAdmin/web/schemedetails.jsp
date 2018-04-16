@@ -251,6 +251,51 @@
 
 
 
+                                <center><b>Cheque Details</b></center>
+
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-2 control-label">Name On Cheque</label>
+
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="chequeName"  required name="chequeName" >
+                                    </div>
+                                </div>
+                                <center><b>NetBanking Details</b></center>
+
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-2 control-label">Bank Name</label>
+
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="bankName"  required name="bankName" >
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-2 control-label">Account No</label>
+
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="accountNo"  required name="accountNo" >
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-2 control-label">Bank IFSC</label>
+
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="bankIfsc"  required name="bankIfsc" >
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-2 control-label">Bank Branch</label>
+
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="bankBranch"  required name="bankBranch" >
+                                    </div>
+                                </div>
+
+
+
                                 <!-- /.box-footer -->
 
 
@@ -368,6 +413,12 @@
                                                                     $("#isActive").val(response.isSchemeActive);
 
                                                                     $("#schemeId").val(response.id);
+
+                                                                    $('#chequeName').val(response.chequeName);
+                                                                    $('#bankName').val(response.bankName);
+                                                                    $('#accountNo').val(response.accountNo);
+                                                                    $('#bankIfsc').val(response.bankIfsc);
+                                                                    $('#bankBranch').val(response.bankBranch);
 
                                                                     if (response.isStarted === 1)
                                                                     {
