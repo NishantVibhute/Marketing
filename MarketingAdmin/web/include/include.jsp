@@ -403,6 +403,13 @@
                         </a>
 
                     </li>
+                    <li id="settingsLi" >
+                        <a href="settings">
+                            <i class="fa fa-circle-o"></i> <span>Settings</span>
+
+                        </a>
+
+                    </li>
                 </ul>
             </section>
             <!-- /.sidebar -->

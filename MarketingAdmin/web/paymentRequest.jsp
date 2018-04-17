@@ -335,6 +335,7 @@
                                                     $("#visitorLi").removeClass("active");
                                                     $("#paymentLi").addClass("active");
                                                     $("#accountLi").removeClass("active");
+                                                    $("#settingsLi").removeClass("active");
 
 
                                                 });

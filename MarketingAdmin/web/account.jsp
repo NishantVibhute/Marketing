@@ -219,6 +219,7 @@
                                                         $("#visitorLi").removeClass("active");
                                                         $("#paymentLi").removeClass("active");
                                                         $("#accountLi").addClass("active");
+                                                        $("#settingsLi").removeClass("active");
 
 
 

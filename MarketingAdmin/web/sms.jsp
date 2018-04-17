@@ -167,6 +167,7 @@
                                                         $("#visitorLi").removeClass("active");
                                                         $("#paymentLi").removeClass("active");
                                                         $("#accountLi").removeClass("active");
+                                                        $("#settingsLi").removeClass("active");
 
                                                     });
                                                     $(function() {

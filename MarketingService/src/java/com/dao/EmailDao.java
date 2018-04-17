@@ -101,12 +101,12 @@ public class EmailDao {
     public SentMessageBean SendEmail(SentMessageBean sentMessageBean) {
         try {
             this.con = db.getConnection();
-            PreparedStatement ps = this.con.prepareStatement("call saveEmailSent(?,?,?,?)");
+            PreparedStatement ps = this.con.prepareStatement("call saveEmailSent(?,?,?,?,?)");
             ps.setString(1, sentMessageBean.getTo());
             ps.setString(2, sentMessageBean.getMessage());
             ps.setLong(3, sentMessageBean.getFrom());
             ps.setInt(4, sentMessageBean.getTempId());
-
+            ps.setString(5, sentMessageBean.getStatus());
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -138,6 +138,8 @@ public class EmailDao {
                 sentMessageBean.setMessage(rs.getString(4));
                 sentMessageBean.setTempId(rs.getInt(5));
                 sentMessageBean.setSendDate(rs.getString(6));
+
+                sentMessageBean.setStatus(rs.getString(7));
                 sentMessageList.add(sentMessageBean);
             }
             db.closeConnection(con);

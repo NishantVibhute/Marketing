@@ -73,8 +73,9 @@
                                                 <th width="5%">Sr No.</th>
                                                 <th width="10%">Sent To</th>
                                                 <th width="10%">Template</th>
-                                                <th >Message</th>
-                                                <th width="10%">Sent on</th>
+                                                <th width="35%">Message</th>
+                                                <th width="20%">Sent on</th>
+                                                <th width="10%">Status</th>
 
 
                                             </tr>
@@ -97,6 +98,7 @@
 
                                                     <td><s:property value="message" /> </td>
                                                     <td ><s:property value="sendDate" /> </td>
+                                                    <td ><s:property value="status" /> </td>
 
                                                 </tr>
                                             </s:iterator>
@@ -181,6 +183,7 @@
                 $("#visitorLi").removeClass("active");
                 $("#paymentLi").removeClass("active");
                 $("#accountLi").removeClass("active");
+                $("#settingsLi").removeClass("active");
 
             });
             $(function() {

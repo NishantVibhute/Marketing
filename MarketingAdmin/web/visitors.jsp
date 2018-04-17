@@ -200,6 +200,7 @@
                                                                     $("#visitorLi").addClass("active");
                                                                     $("#paymentLi").removeClass("active");
                                                                     $("#accountLi").removeClass("active");
+                                                                    $("#settingsLi").removeClass("active");
 
 
                                                                 });

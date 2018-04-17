@@ -9,6 +9,7 @@ import com.beans.EmailBean;
 import com.beans.MessageBean;
 import com.beans.SentMessageBean;
 import com.dao.EmailDao;
+import com.dao.SettingsDao;
 import com.util.EmailUtil;
 import java.util.List;
 import javax.ws.rs.Consumes;
@@ -30,6 +31,7 @@ public class Email {
     ObjectMapper objectMapper = new ObjectMapper();
     static final Logger errorLog = Logger.getLogger("errorLogger");
     static final Logger infoLog = Logger.getLogger("infoLogger");
+    SettingsDao settingsDao = new SettingsDao();
 
     @POST
     @Path("/sendEmail")
@@ -41,10 +43,17 @@ public class Email {
             EmailUtil eu = new EmailUtil();
             EmailDao emailDao = new EmailDao();
             EmailBean emailBean = objectMapper.readValue(data, EmailBean.class);
-            String resp = eu.send(emailBean.getTo(), emailBean.getSubject(), emailBean.getBody());
+            SentMessageBean sentMessageBean1 = new SentMessageBean();
+            int isSendEMail = settingsDao.getSettingsValue(2);
+            String resp = "";
+            if (isSendEMail == 1) {
+                resp = eu.send(emailBean.getTo(), emailBean.getSubject(), emailBean.getBody());
+                sentMessageBean1.setStatus("Sent");
+            } else {
+                resp = "success";
+                sentMessageBean1.setStatus("Not Activated");
+            }
             if (resp.equalsIgnoreCase("success")) {
-                SentMessageBean sentMessageBean1 = new SentMessageBean();
-
                 sentMessageBean1.setTempId(0);
                 sentMessageBean1.setFrom(1);
                 sentMessageBean1.setTo(emailBean.getTo());

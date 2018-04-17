@@ -12,6 +12,7 @@ import com.beans.SentMessageBean;
 import com.beans.TemplateBean;
 import com.beans.Warnings;
 import com.dao.MessageDao;
+import com.dao.SettingsDao;
 import com.util.SMSUtil;
 import java.util.List;
 import javax.ws.rs.Consumes;
@@ -35,6 +36,7 @@ public class Message {
     static final Logger errorLog = Logger.getLogger("errorLogger");
     static final Logger infoLog = Logger.getLogger("infoLogger");
     SMSUtil smsUtil = new SMSUtil();
+    SettingsDao settingsDao = new SettingsDao();
 
     @GET
     @Path("/getSMSTemplates")
@@ -120,28 +122,32 @@ public class Message {
         String jsonInString = "";
         try {
             MessageDao messageDao = new MessageDao();
-            SentMessageBean sentMessageBean = objectMapper.readValue(data, SentMessageBean.class);
-//            String resp = smsUtil.sendSms(sentMessageBean.getMessage(), sentMessageBean.getTo());
 
-//            SMSResponse sMSResponse = objectMapper.readValue(resp, SMSResponse.class);
-//            System.out.println("here");
-//
-//            if (sMSResponse.getStatus().equalsIgnoreCase("failure")) {
-//                sentMessageBean.setStatus("FAILURE");
-//                for (Warnings warnings : sMSResponse.getWarnings()) {
-//                    if (warnings.getNumbers().contains(sentMessageBean.getTo())) {
-//
-//                        sentMessageBean.setStatus("DND");
-//                    }
-//                }
-//            } else {
-//                for (Messages messages : sMSResponse.getMessages()) {
-//                    if (messages.getRecipient().contains(sentMessageBean.getTo())) {
-//                        sentMessageBean.setTxtId(messages.getId());
-//                        sentMessageBean.setStatus("SUCCESS");
-//                    }
-//                }
-//            }
+            SentMessageBean sentMessageBean = objectMapper.readValue(data, SentMessageBean.class);
+
+            int isSend = settingsDao.getSettingsValue(1);
+            if (isSend == 1) {
+                String resp = smsUtil.sendSms(sentMessageBean.getMessage(), sentMessageBean.getTo());
+                SMSResponse sMSResponse = objectMapper.readValue(resp, SMSResponse.class);
+                if (sMSResponse.getStatus().equalsIgnoreCase("failure")) {
+                    sentMessageBean.setStatus("FAILURE");
+                    for (Warnings warnings : sMSResponse.getWarnings()) {
+                        if (warnings.getNumbers().contains(sentMessageBean.getTo())) {
+
+                            sentMessageBean.setStatus("DND");
+                        }
+                    }
+                } else {
+                    for (Messages messages : sMSResponse.getMessages()) {
+                        if (messages.getRecipient().contains(sentMessageBean.getTo())) {
+                            sentMessageBean.setTxtId(messages.getId());
+                            sentMessageBean.setStatus("SUCCESS");
+                        }
+                    }
+                }
+            } else {
+                sentMessageBean.setStatus("Not Activated");
+            }
             sentMessageBean = messageDao.SendSms(sentMessageBean);
             jsonInString = objectMapper.writeValueAsString(sentMessageBean);
         } catch (Exception ex) {
@@ -170,20 +176,25 @@ public class Message {
                 s1.setSchemeId(sentMessageBean.getSchemeId());
                 s1.setToName(sentMessageBean.getToName());
 
-                String resp = smsUtil.sendSms(s1.getMessage(), s1.getTo());
-                SMSResponse sMSResponse = objectMapper.readValue(resp, SMSResponse.class);
+                int isSend = settingsDao.getSettingsValue(1);
+                if (isSend == 1) {
+                    String resp = smsUtil.sendSms(s1.getMessage(), s1.getTo());
+                    SMSResponse sMSResponse = objectMapper.readValue(resp, SMSResponse.class);
 
-                for (Warnings warnings : sMSResponse.getWarnings()) {
-                    if (warnings.getNumbers().contains(s1.getTo())) {
-                        s1.setStatus("DND");
+                    for (Warnings warnings : sMSResponse.getWarnings()) {
+                        if (warnings.getNumbers().contains(s1.getTo())) {
+                            s1.setStatus("DND");
+                        }
                     }
-                }
 
-                for (Messages messages : sMSResponse.getMessages()) {
-                    if (messages.getRecipient().contains(s1.getTo())) {
-                        s1.setTxtId(messages.getId());
-                        s1.setStatus("SUCCESS");
+                    for (Messages messages : sMSResponse.getMessages()) {
+                        if (messages.getRecipient().contains(s1.getTo())) {
+                            s1.setTxtId(messages.getId());
+                            s1.setStatus("SUCCESS");
+                        }
                     }
+                } else {
+                    s1.setStatus("Not Activated");
                 }
 
                 sentMessageBean = messageDao.SendSms(s1);
@@ -241,8 +252,10 @@ public class Message {
     public String getUserSentListWithCount(String data) {
         //TODO return proper representation object
         String jsonInString = "";
+
         try {
-            SentMessageBean smb = objectMapper.readValue(data, SentMessageBean.class);
+            SentMessageBean smb = objectMapper.readValue(data, SentMessageBean.class
+            );
 
             MessageDao messageDao = new MessageDao();
             List<SentMessageBean> sentMessageList = messageDao.getSentListWithCount(smb);
@@ -259,8 +272,10 @@ public class Message {
     public String getUserSentSmsDetails(String data) {
         //TODO return proper representation object
         String jsonInString = "";
+
         try {
-            SentMessageBean smb = objectMapper.readValue(data, SentMessageBean.class);
+            SentMessageBean smb = objectMapper.readValue(data, SentMessageBean.class
+            );
 
             MessageDao messageDao = new MessageDao();
             List<SentMessageBean> sentMessageList = messageDao.getSentListWithCount(smb);

@@ -307,5 +307,15 @@
         <action name="logout" class="com.redirect.LoginAction" method="logOut">
             <result name="success">/index.jsp</result>
         </action>
+        
+        <action name="settings" class="com.redirect.SettingsAction" method="redirect">
+            <result name="success">/Settings.jsp</result>
+        </action>
+        
+        <action name="saveSettings" class="com.redirect.SettingsAction" method="saveSettings">
+            <result name="success" type="chain">settings</result>
+        </action>
+        
+        
     </package>
 </struts>
