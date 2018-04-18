@@ -5,6 +5,7 @@
  */
 package com.dao;
 
+import com.beans.JoiningDetailsBean;
 import com.beans.MessageBean;
 import com.beans.SentMessageBean;
 import com.util.DbUtil;
@@ -151,23 +152,24 @@ public class MessageDao {
         return sentMessageList;
     }
 
-    public List<SentMessageBean> getSentListWithCount(SentMessageBean sb) {
+    public List<SentMessageBean> getSentListWithCount(JoiningDetailsBean sb) {
         List<SentMessageBean> sentMessageList = new ArrayList();
 
         try {
             this.con = db.getConnection();
-            PreparedStatement ps = this.con.prepareStatement("call getUserSentSmsListWithCount(?,?,?,?)");
-            ps.setInt(1, (int) sb.getFrom());
-            ps.setString(2, sb.getTo());
-            ps.setInt(3, sb.getSchemeId());
-            ps.setInt(4, sb.getTempId());
+            PreparedStatement ps = this.con.prepareStatement("call getUserSentSmsListWithCount(?,?)");
+            ps.setInt(1, (int) sb.getUserId());
+            
+            ps.setInt(2, sb.getSchemeId());
+           
             rs = ps.executeQuery();
 
             while (rs.next()) {
                 SentMessageBean sentMessageBean = new SentMessageBean();
 
                 sentMessageBean.setTo(rs.getString(1));
-                sentMessageBean.setCount(rs.getInt(2));
+                sentMessageBean.setToName(rs.getString(2));
+                sentMessageBean.setCount(rs.getInt(3));
                 sentMessageList.add(sentMessageBean);
             }
             db.closeConnection(con);
@@ -192,6 +194,7 @@ public class MessageDao {
             while (rs.next()) {
                 SentMessageBean sentMessageBean = new SentMessageBean();
                 sentMessageBean.setMessage(rs.getString(1));
+                sentMessageBean.setSendDate(rs.getString(2));
                 sentMessageList.add(sentMessageBean);
             }
             db.closeConnection(con);

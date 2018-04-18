@@ -90,10 +90,10 @@ public class User {
                         }
                     } else {
                         for (Messages messages : sMSResponse.getMessages()) {
-                            if (messages.getRecipient().contains(sentMessageBean.getTo())) {
+//                            if (messages.getRecipient().contains(sentMessageBean.getTo())) {
                                 sentMessageBean.setTxtId(messages.getId());
                                 sentMessageBean.setStatus("SUCCESS");
-                            }
+//                            }
                         }
                     }
                 } else {
