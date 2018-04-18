@@ -5,6 +5,7 @@
  */
 package com.service;
 
+import com.beans.JoiningDetailsBean;
 import com.beans.MessageBean;
 import com.beans.Messages;
 import com.beans.SMSResponse;
@@ -139,10 +140,10 @@ public class Message {
                     }
                 } else {
                     for (Messages messages : sMSResponse.getMessages()) {
-                        if (messages.getRecipient().contains(sentMessageBean.getTo())) {
+//                        if (messages.getRecipient().contains(sentMessageBean.getTo())) {
                             sentMessageBean.setTxtId(messages.getId());
                             sentMessageBean.setStatus("SUCCESS");
-                        }
+//                        }
                     }
                 }
             } else {
@@ -166,15 +167,16 @@ public class Message {
         try {
             MessageDao messageDao = new MessageDao();
             SentMessageBean sentMessageBean = objectMapper.readValue(data, SentMessageBean.class);
-
+int i =0;
             for (String to : sentMessageBean.getBulkTo()) {
                 SentMessageBean s1 = new SentMessageBean();
                 s1.setTo(to);
+                s1.setToName(sentMessageBean.getBulkNames().get(i));
                 s1.setMessage(sentMessageBean.getMessage());
                 s1.setFrom(sentMessageBean.getFrom());
                 s1.setTempId(sentMessageBean.getTempId());
                 s1.setSchemeId(sentMessageBean.getSchemeId());
-                s1.setToName(sentMessageBean.getToName());
+//                s1.setToName(sentMessageBean.getToName());
 
                 int isSend = settingsDao.getSettingsValue(1);
                 if (isSend == 1) {
@@ -188,10 +190,10 @@ public class Message {
                     }
 
                     for (Messages messages : sMSResponse.getMessages()) {
-                        if (messages.getRecipient().contains(s1.getTo())) {
+//                        if (messages.getRecipient().contains(s1.getTo())) {
                             s1.setTxtId(messages.getId());
                             s1.setStatus("SUCCESS");
-                        }
+//                        }
                     }
                 } else {
                     s1.setStatus("Not Activated");
@@ -254,7 +256,7 @@ public class Message {
         String jsonInString = "";
 
         try {
-            SentMessageBean smb = objectMapper.readValue(data, SentMessageBean.class
+            JoiningDetailsBean smb = objectMapper.readValue(data, JoiningDetailsBean.class
             );
 
             MessageDao messageDao = new MessageDao();
@@ -278,7 +280,7 @@ public class Message {
             );
 
             MessageDao messageDao = new MessageDao();
-            List<SentMessageBean> sentMessageList = messageDao.getSentListWithCount(smb);
+            List<SentMessageBean> sentMessageList = messageDao.getSentDetails(smb);
             jsonInString = objectMapper.writeValueAsString(sentMessageList);
         } catch (Exception ex) {
             errorLog.error("Message Class" + ex);
