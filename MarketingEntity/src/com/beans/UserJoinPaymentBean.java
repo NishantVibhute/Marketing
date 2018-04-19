@@ -27,6 +27,17 @@ public class UserJoinPaymentBean {
     int isPaymentRealease;
     int paymentid;
     int userId;
+    int joinId;
+
+    public int getJoinId() {
+        return joinId;
+    }
+
+    public void setJoinId(int joinId) {
+        this.joinId = joinId;
+    }
+    
+    
 
     public int getUserId() {
         return userId;

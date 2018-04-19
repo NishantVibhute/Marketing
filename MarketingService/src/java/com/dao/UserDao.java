@@ -394,6 +394,7 @@ public class UserDao {
                 ud.setIsExit(rs.getInt(13));
                 ud.setIsPaymentRealease(rs.getInt(14));
                 ud.setPaymentid(rs.getInt(15));
+                ud.setJoinId(rs.getInt(16));
 
                 chartData.add(ud);
 
