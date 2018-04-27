@@ -63,6 +63,7 @@ public class UserAction extends ActionSupport implements ModelDriven, ServletReq
     private String fileUploadContentType;
     private String fileUploadFileName;
     private HttpServletRequest servletRequest;
+    public String id;
 
     List<CreateUserExcelRow> userStatus = new ArrayList<>();
 
@@ -106,6 +107,19 @@ public class UserAction extends ActionSupport implements ModelDriven, ServletReq
 //            userBean = objectMapper.readValue(resp, UserBean.class);
             String res = objectMapper.writeValueAsString(resp);
             inputStream = new ByteArrayInputStream(res.getBytes(StandardCharsets.UTF_8));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ActionSupport.SUCCESS;
+
+    }
+
+    public String getUserDetailsById() {
+
+        try {
+
+            String userId = this.getUserId();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -252,15 +266,14 @@ public class UserAction extends ActionSupport implements ModelDriven, ServletReq
                 }
             }
 
-            String respUser = ServiceUtil.getResponseGet("/user/getuserdetailslist");
+            String respUser = ServiceUtil.getResponseGet("/user/getuseremaillist");
 
-            userList = objectMapper.readValue(respUser, new TypeReference<List<UserBean>>() {
+            userEmailList = objectMapper.readValue(respUser, new TypeReference<List<String>>() {
             });
 
-            for (UserBean ub : userList) {
-                userEmailList.add(ub.getEmailId());
-            }
-
+//            for (UserBean ub : userList) {
+//                userEmailList.add(ub.getEmailId());
+//            }
             String resp = ServiceUtil.getResponseGet("/scheme/getlist");
 
             List<SchemeBean> schemeList = objectMapper.readValue(resp, new TypeReference<List<SchemeBean>>() {
@@ -482,6 +495,14 @@ public class UserAction extends ActionSupport implements ModelDriven, ServletReq
 
     public void setUserStatus(List<CreateUserExcelRow> userStatus) {
         this.userStatus = userStatus;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
 }

@@ -5,7 +5,6 @@
  */
 package com.redirect;
 
-import com.beans.JoiningDetailsBean;
 import com.beans.MessageBean;
 import com.beans.PaymentBean;
 import com.beans.PaymentRealeaseRequestBean;
@@ -90,37 +89,36 @@ public class PaymentAction extends ActionSupport implements ModelDriven {
 
             if (Integer.parseInt(resp) != 0) {
 
-                String respJoin = ServiceUtil.getResponse("" + this.paymentBean.getJoiningId(), "/scheme/getUserIdSchemeIdByJoinId");
-                JoiningDetailsBean uJoin = objectMapper.readValue(respJoin, JoiningDetailsBean.class);
-
+//                String respJoin = ServiceUtil.getResponse("" + this.paymentBean.getJoiningId(), "/scheme/getUserIdSchemeIdByJoinId");
+//                JoiningDetailsBean uJoin = objectMapper.readValue(respJoin, JoiningDetailsBean.class);
                 UserSchemeBalance u = new UserSchemeBalance();
-                u.setUserId((int) uJoin.getUserId());
-                u.setSchemeId(uJoin.getSchemeId());
+                u.setUserId((int) this.paymentBean.getJoiningId());
+                u.setSchemeId(this.paymentBean.getSchemeId());
                 String inputBal = objectMapper.writeValueAsString(u);
                 String respBal = ServiceUtil.getResponse(inputBal, "/user/getschemeusertotalbalance");
                 UserSchemeBalance uBal = objectMapper.readValue(respBal, UserSchemeBalance.class);
 
                 TemplateBean sc = new TemplateBean();
-                sc.setSchemId(uJoin.getSchemeId());
+                sc.setSchemId(this.paymentBean.getSchemeId());
                 sc.setTemplate("Payment Release Msg");
                 String inputTemp = objectMapper.writeValueAsString(sc);
                 String respTemp = ServiceUtil.getResponse(inputTemp, "/message/getSMSTemplateContent");
                 MessageBean messageContent = objectMapper.readValue(respTemp, MessageBean.class);
 
-                String respUser = ServiceUtil.getResponse("" + uJoin.getUserId(), "/user/getUserDetailsByUserId");
+                String respUser = ServiceUtil.getResponse("" + this.paymentBean.getJoiningId(), "/user/getUserDetailsByUserId");
                 UserBean userDetails = objectMapper.readValue(respUser, UserBean.class);
                 SentMessageBean sentMessageBean = new SentMessageBean();
                 sentMessageBean.setTempId(messageContent.getId());
                 sentMessageBean.setFrom(1);
                 sentMessageBean.setTo(userDetails.getMobileNo());
                 sentMessageBean.setToName(userDetails.getFirstName() + " " + userDetails.getLastName());
-                String msg1 = messageContent.getBody().replace("<userId>", "P" + userDetails.getId());
+                String msg1 = messageContent.getBody().replace("<payId>", "TXNP-" + resp);
                 String msg2 = msg1.replace("<productName>", uBal.getSchemeName());
                 String msg3 = msg2.replace("<balance>", "" + uBal.getBalance());
                 String msg4 = msg3.replace("<paymentAmount>", "" + paymentBean.getAmount());
                 String msg5 = msg4.replace("<paymentDate>", "" + payDate);
                 sentMessageBean.setMessage(msg5);
-                sentMessageBean.setSchemeId(uJoin.getSchemeId());
+                sentMessageBean.setSchemeId(this.paymentBean.getSchemeId());
                 String inputSMS = objectMapper.writeValueAsString(sentMessageBean);
                 String respSMS = ServiceUtil.getResponse(inputSMS, "/message/sendSMS");
                 SentMessageBean uSMS = objectMapper.readValue(respSMS, SentMessageBean.class);

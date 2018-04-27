@@ -91,8 +91,8 @@ public class User {
                     } else {
                         for (Messages messages : sMSResponse.getMessages()) {
 //                            if (messages.getRecipient().contains(sentMessageBean.getTo())) {
-                                sentMessageBean.setTxtId(messages.getId());
-                                sentMessageBean.setStatus("SUCCESS");
+                            sentMessageBean.setTxtId(messages.getId());
+                            sentMessageBean.setStatus("SUCCESS");
 //                            }
                         }
                     }
@@ -205,15 +205,22 @@ public class User {
     @Consumes("text/plain")
     public String validate(String data) {
         String jsonInString = "";
+        int count = 0;
         try {
 
             String msg;
             //TODO return proper representation object
             UserPassword up = objectMapper.readValue(data, UserPassword.class);
 
-            UserBean userBean = userDao.validate(up);
+            count = userDao.checkEmailExist(up.getEmailId());
+            if (count != 0) {
 
-            jsonInString = objectMapper.writeValueAsString(userBean);
+                UserBean userBean = userDao.validate(up);
+                jsonInString = objectMapper.writeValueAsString(userBean);
+            } else {
+                jsonInString = "You are not registered with us. Please Sign Up";
+            }
+
         } catch (Exception ex) {
             logger.error("User Class" + ex);
         }
@@ -229,6 +236,23 @@ public class User {
         try {
 
             List<UserBean> userBean = userDao.getUserDetilsList();
+
+            jsonInString = objectMapper.writeValueAsString(userBean);
+        } catch (Exception ex) {
+            errorLog.error("User Class : " + ex);
+            infoLog.info("User Class info hey");
+        }
+        return jsonInString;
+    }
+
+    @GET
+    @Path("/getuseremaillist")
+    @Produces("text/plain")
+    public String getUserListWithEmail() {
+        String jsonInString = "";
+        try {
+
+            List<String> userBean = userDao.getUserEmailList();
 
             jsonInString = objectMapper.writeValueAsString(userBean);
         } catch (Exception ex) {

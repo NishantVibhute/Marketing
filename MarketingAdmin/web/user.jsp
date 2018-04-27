@@ -67,20 +67,22 @@
                                 </div>
                                 <!-- /.box-header -->
                                 <div class="box-body">
-                                    <table id="example2" class="table table-bordered table-hover">
+                                    <table id="userList" class="table table-bordered table-hover">
                                         <thead>
                                             <tr>
-                                                <th width="5%" rowspan="2">Sr No.</th>
+                                                <th width="5%" >User Id</th>
                                                 <!--<th width="2%" rowspan="2">User Id</th>-->
-                                                <th rowspan="2">Name</th>
+                                                <th >Name</th>
                                                 <!--<th rowspan="2">Address</th>-->
-                                                <th rowspan="2">Email Id</th>
-                                                <th rowspan="2">Mobile No</th>
+                                                <th >Email Id</th>
+                                                <th >Mobile No</th>
+                                                <th >Password</th>
+                                                <th ></th>
                                                 <!--<th rowspan="2">Pan Card No</th>-->
                                                 <!--<th rowspan="2">Aadhar Card No</th>-->
                                                 <!--<th rowspan="2">Balance</th>-->
                                                 <!--<th colspan="4">Bank Details</th>-->
-                                                <th rowspan="2"></th>
+
 
                                             </tr>
                                             <!--                                            <tr>
@@ -94,21 +96,24 @@
 
                                             <s:iterator value="userList" status="sb">
                                                 <tr>
-                                                    <td><s:property value="%{#sb.index+1}" /></td>
-                                                    <!--<td><s:property value="id" /></td>-->
+                                                    <!--<td><s:property value="%{#sb.index+1}" /></td>-->
+                                                    <td>P<s:property value="id" /></td>
                                                     <td><s:property value="firstName" /><s:property value="middleName" /><s:property value="lastName" /></td>
                                                     <!--<td><s:property value="address" /></td>-->
                                                     <td><s:property value="emailId" /></td>
                                                     <td><s:property value="mobileNo" /></td>
-                                                    <!--<td><s:property value="panCardNo" /></td>-->
-                                                    <!--<td><s:property value="aadharCardNo" /></td>-->
-                                                    <!--<td><s:property value="balance" /></td>-->
-<!--                                                    <td><s:property value="bankDetails.ifscCode" /></td>
-                                                    <td><s:property value="bankDetails.bankAccNo" /></td>
-                                                    <td><s:property value="bankDetails.bankName" /></td>
-                                                    <td><s:property value="bankDetails.branchName" /></td>-->
+                                                    <td><s:property value="password" /></td>
+                                                    <td><a  href="getuserdetailsbyid?userId=<s:property value="id" />">VIEW</a></td>
 
-                                                    <td>EDIT</td>
+<!--<td><s:property value="panCardNo" /></td>-->
+<!--<td><s:property value="aadharCardNo" /></td>-->
+<!--<td><s:property value="balance" /></td>-->
+<!--                                                    <td><s:property value="bankDetails.ifscCode" /></td>
+<td><s:property value="bankDetails.bankAccNo" /></td>
+<td><s:property value="bankDetails.bankName" /></td>
+<td><s:property value="bankDetails.branchName" /></td>-->
+
+
 
                                                 </tr>
                                             </s:iterator>
@@ -221,6 +226,19 @@
 
 
             });
+
+            $('#userList').DataTable({
+                'paging': true,
+                'lengthChange': true,
+                'searching': true,
+                'ordering': false,
+                'info': true,
+                'autoWidth': false,
+                'aaSorting': [],
+                'searchHighlight': true,
+            });
+
+
             $(function() {
 
                 //Date picker

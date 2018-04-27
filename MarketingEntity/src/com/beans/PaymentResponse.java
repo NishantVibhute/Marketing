@@ -17,6 +17,7 @@ public class PaymentResponse {
     int schemeId;
     int isSuccess;
     int paymentModeId;
+    int parentjoinId;
 
     public int getIsExit() {
         return isExit;
@@ -64,6 +65,14 @@ public class PaymentResponse {
 
     public void setPaymentModeId(int paymentModeId) {
         this.paymentModeId = paymentModeId;
+    }
+
+    public int getParentjoinId() {
+        return parentjoinId;
+    }
+
+    public void setParentjoinId(int parentjoinId) {
+        this.parentjoinId = parentjoinId;
     }
 
 }

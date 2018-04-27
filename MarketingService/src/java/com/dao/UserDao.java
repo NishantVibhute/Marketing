@@ -189,6 +189,27 @@ public class UserDao {
 
     }
 
+    public List<String> getUserEmailList() {
+        List<String> userList = new ArrayList<>();
+        int count = 0;
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement("call getUserEmails()");
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                userList.add(rs.getString(1));
+            }
+
+            db.closeConnection(con);
+        } catch (Exception ex) {
+            logger.error("CreateUser", ex);
+        }
+        return userList;
+
+    }
+
     public UserBean getUserDetailsByUserId(int userId) {
         UserBean ub = new UserBean();
 
@@ -394,6 +415,7 @@ public class UserDao {
                 ud.setIsExit(rs.getInt(13));
                 ud.setIsPaymentRealease(rs.getInt(14));
                 ud.setPaymentid(rs.getInt(15));
+                ud.setJoinId(rs.getInt(16));
 
                 chartData.add(ud);
 
@@ -498,6 +520,25 @@ public class UserDao {
             ps.setString(2, userBean.getPassword());
 
             count = ps.executeUpdate();
+            db.closeConnection(con);
+        } catch (Exception ex) {
+            logger.error("CreateUser", ex);
+        }
+        return count;
+    }
+
+    public int checkEmailExist(String email) {
+
+        int count = 0;
+        try {
+            this.con = db.getConnection();
+            PreparedStatement ps = this.con.prepareStatement("call checkEmailExist(?)");
+            ps.setString(1, email);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                count = rs.getInt(1);
+            }
+
             db.closeConnection(con);
         } catch (Exception ex) {
             logger.error("CreateUser", ex);

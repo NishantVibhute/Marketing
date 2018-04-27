@@ -11,9 +11,11 @@ import com.beans.Messages;
 import com.beans.SMSResponse;
 import com.beans.SentMessageBean;
 import com.beans.TemplateBean;
+import com.beans.UserBean;
 import com.beans.Warnings;
 import com.dao.MessageDao;
 import com.dao.SettingsDao;
+import com.dao.UserDao;
 import com.util.SMSUtil;
 import java.util.List;
 import javax.ws.rs.Consumes;
@@ -141,8 +143,8 @@ public class Message {
                 } else {
                     for (Messages messages : sMSResponse.getMessages()) {
 //                        if (messages.getRecipient().contains(sentMessageBean.getTo())) {
-                            sentMessageBean.setTxtId(messages.getId());
-                            sentMessageBean.setStatus("SUCCESS");
+                        sentMessageBean.setTxtId(messages.getId());
+                        sentMessageBean.setStatus("SUCCESS");
 //                        }
                     }
                 }
@@ -165,14 +167,20 @@ public class Message {
     public String sendBulkSMS(String data) {
         String jsonInString = "";
         try {
+            UserDao ud = new UserDao();
             MessageDao messageDao = new MessageDao();
             SentMessageBean sentMessageBean = objectMapper.readValue(data, SentMessageBean.class);
-int i =0;
+            int i = 0;
             for (String to : sentMessageBean.getBulkTo()) {
                 SentMessageBean s1 = new SentMessageBean();
                 s1.setTo(to);
                 s1.setToName(sentMessageBean.getBulkNames().get(i));
-                s1.setMessage(sentMessageBean.getMessage());
+
+                String msg = sentMessageBean.getMessage();
+                UserBean ub = ud.getUserDetailsByUserId((int) sentMessageBean.getFrom());
+                String msgN = msg.replace("<userName>", ub.getFirstName() + " " + ub.getLastName());
+
+                s1.setMessage(msgN);
                 s1.setFrom(sentMessageBean.getFrom());
                 s1.setTempId(sentMessageBean.getTempId());
                 s1.setSchemeId(sentMessageBean.getSchemeId());
@@ -191,8 +199,8 @@ int i =0;
 
                     for (Messages messages : sMSResponse.getMessages()) {
 //                        if (messages.getRecipient().contains(s1.getTo())) {
-                            s1.setTxtId(messages.getId());
-                            s1.setStatus("SUCCESS");
+                        s1.setTxtId(messages.getId());
+                        s1.setStatus("SUCCESS");
 //                        }
                     }
                 } else {

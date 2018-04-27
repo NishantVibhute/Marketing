@@ -103,7 +103,7 @@
                                                         <td>Business Exit Msg </td>
                                                     </s:elseif>
                                                     <s:elseif test="tempId == 5">
-                                                        <td> Default </td>
+                                                        <td> Promotional </td>
                                                     </s:elseif>
                                                     <s:elseif test="tempId == 6">
                                                         <td> Rejoining </td>

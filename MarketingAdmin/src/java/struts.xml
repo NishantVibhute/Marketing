@@ -111,6 +111,10 @@
             </result>
         </action>
         
+        <action name="getuserdetailsbyid" class="com.redirect.UserAction" method="getUserDetailsById">
+            <result name="success" type="chain">redirectUserDetails</result>
+        </action>
+        
         <action name="redirectcreateuser" class="com.redirect.UserAction" method="redirectCreateUser">
            <result name="success" >/userNew.jsp</result>
             <result name="login">/index.jsp</result>

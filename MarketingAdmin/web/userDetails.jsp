@@ -46,6 +46,8 @@
                 color: black;
             }
         </style>
+
+
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
         <div class="wrapper">
@@ -261,9 +263,10 @@
 
                                                                     <ul class="nav nav-tabs" role="tablist">
                                                                         <li role="presentation" class="active"><a href="#joiningDetails" aria-controls="userDetails" role="tab" data-toggle="tab">Joining</a></li>
-                                                                        <li role="presentation"><a href="#poolDetails" aria-controls="poolDetails" role="tab" data-toggle="tab">Bussiness Pool</a></li>
+
                                                                         <li role="presentation"><a href="#paymentDetails" aria-controls="paymentDetails" role="tab" data-toggle="tab">Payment</a></li>
                                                                         <li role="presentation"><a href="#accountDetails" aria-controls="accountDetails" role="tab" data-toggle="tab">Account</a></li>
+                                                                        <li role="presentation"><a href="#poolDetails" aria-controls="poolDetails" role="tab" data-toggle="tab">Bussiness Pool</a></li>
                                                                     </ul>
 
                                                                     <!-- Tab panes -->
@@ -274,6 +277,7 @@
                                                                                     <table id="joiningDet" class="table table-bordered">
                                                                                         <thead>
                                                                                             <tr>
+                                                                                                <th style="width: 15%">Join ID</th>
                                                                                                 <th style="width: 15%">Request Date</th>
                                                                                                 <th style="width: 15%">Join Date</th>
                                                                                                 <th style="width: 10%">Requested Payment</th>
@@ -282,7 +286,7 @@
                                                                                                 <th  style="width: 10%">Status</th>
                                                                                                 <th  style="width: 10%">Pool Completed</th>
                                                                                                 <th  style="width: 10%">Payment Release</th>
-                                                                                                <th  style="width: 10%">Release Id</th>
+                                                                                                <th  style="width: 10%">Payment Id</th>
 
                                                                                             </tr>
                                                                                         </thead>
@@ -341,8 +345,6 @@
                                                                                             </tr>
                                                                                         </thead>
                                                                                         <tbody>
-
-
                                                                                         </tbody>
 
                                                                                     </table>
@@ -356,9 +358,9 @@
                                                                                     <table id="passbook" class="table table-bordered table-hover">
                                                                                         <thead>
                                                                                             <tr>
-                                                                                                <th width="5%">Sr No.</th>
-                                                                                                <th width="20%">Date</th>
-                                                                                                <th>Particulars</th>
+                                                                                                <th width="10%">Sr No.</th>
+                                                                                                <th width="25%">Date</th>
+                                                                                                <th width="30%">Particulars</th>
                                                                                                 <th width="10%">Withdrawl</th>
                                                                                                 <th width="10%">Deposit</th>
                                                                                                 <th width="10%">Balance</th>
@@ -466,7 +468,73 @@
         <script src="dist/js/demo.js"></script>
         <!-- page script -->
         <script>
+                                            var t, j, p, pp;
+                                            var donut = "";
+                                            $(function() {
+                                                j = $('#joiningDet').DataTable({
+                                                    'paging': true,
+                                                    'lengthChange': true,
+                                                    'searching': true,
+                                                    'ordering': false,
+                                                    'info': true,
+                                                    'autoWidth': false,
+                                                    'aaSorting': [],
+                                                    'searchHighlight': true,
+                                                });
+                                                t = $('#tablePool').DataTable({
+                                                    'paging': true,
+                                                    'lengthChange': true,
+                                                    'searching': true,
+                                                    'ordering': false,
+                                                    'info': true,
+                                                    'autoWidth': false,
+                                                    'aaSorting': [],
+                                                    'searchHighlight': true,
+                                                });
+
+
+                                                pp = $('#passbook').DataTable({
+                                                    'paging': true,
+                                                    'lengthChange': true,
+                                                    'searching': true,
+                                                    'ordering': false,
+                                                    'info': true,
+                                                    'autoWidth': false,
+                                                    'aaSorting': [],
+                                                    'searchHighlight': true,
+                                                });
+                                                p = $('#tablePay').DataTable({
+                                                    'paging': true,
+                                                    'lengthChange': true,
+                                                    'searching': true,
+                                                    'ordering': false,
+                                                    'info': true,
+                                                    'autoWidth': false,
+                                                    'aaSorting': [],
+                                                    'searchHighlight': true,
+                                                });
+
+                                                donut = new Morris.Donut({
+                                                    element: 'sales-chart',
+                                                    resize: true,
+                                                    colors: ["#3c8dbc", "#f56954", "#00a65a", "red", "blue"],
+                                                    data: [{"label": "Select User", "value": 0}],
+                                                    hideHover: 'auto'
+                                                });
+
+                                            });
+
+
                                             $(document).ready(function() {
+
+
+
+                                                var id = "<s:property value="userId" />";
+                                                if (id !== "")
+                                                {
+                                                    $("#USERMode").val(id);
+                                                    getData();
+                                                }
 
                                                 $("#dashboardli").removeClass("active");
                                                 $("#schmeLi").removeClass("active");
@@ -494,55 +562,27 @@
 
 
                                             });
-                                            var donut = "";
-                                            $(function() {
-                                                $('#joiningDet').DataTable({
-                                                    'paging': true,
-                                                    'lengthChange': true,
-                                                    'searching': true,
-                                                    'ordering': false,
-                                                    'info': true,
-                                                    'autoWidth': false,
-                                                    'aaSorting': [],
-                                                    'searchHighlight': true,
-                                                });
-                                                $('#tablePool').DataTable({
-                                                    'paging': true,
-                                                    'lengthChange': true,
-                                                    'searching': true,
-                                                    'ordering': false,
-                                                    'info': true,
-                                                    'autoWidth': false,
-                                                    'aaSorting': [],
-                                                    'searchHighlight': true,
-                                                });
 
-
-                                                $('#tablePay').DataTable({
-                                                    'paging': true,
-                                                    'lengthChange': true,
-                                                    'searching': true,
-                                                    'ordering': false,
-                                                    'info': true,
-                                                    'autoWidth': false,
-                                                    'aaSorting': [],
-                                                    'searchHighlight': true,
-                                                });
-
-                                                donut = new Morris.Donut({
-                                                    element: 'sales-chart',
-                                                    resize: true,
-                                                    colors: ["#3c8dbc", "#f56954", "#00a65a", "red", "blue"],
-                                                    data: [{"label": "Select User", "value": 0}],
-                                                    hideHover: 'auto'
-                                                });
-
-                                            });
 
                                             function getData()
                                             {
-                                                var a = $('#USERMode').val();
 
+
+                                                t.rows()
+                                                        .remove()
+                                                        .draw();
+                                                j.rows()
+                                                        .remove()
+                                                        .draw();
+                                                p.rows()
+                                                        .remove()
+                                                        .draw();
+
+                                                pp.rows()
+                                                        .remove()
+                                                        .draw();
+
+                                                var a = $('#USERMode').val();
                                                 if (a === '0')
                                                 {
                                                     alert("Select User Name");
@@ -554,7 +594,7 @@
                                                     url: "getUserDetails?val=" + a,
                                                     dataType: 'json',
                                                     success: function(response) {
-//                                                        alert(value.firstName);
+                                                        //                                                        alert(value.firstName);
                                                         var value = JSON.parse(response);
 
                                                         $("#joinDate").val(value.joinDate);
@@ -577,7 +617,6 @@
 
                                                     }
                                                 });
-
                                                 var data = [];
                                                 $.ajax({
                                                     type: "post", url: "getSchemeUserBalanceDetails?val=" + a,
@@ -593,7 +632,7 @@
                                                         })
                                                         console.log(data);
                                                         donut.setData(data);
-//                                                        alert(data);
+                                                        //                                                        alert(data);
 
                                                     }
                                                 });
@@ -617,6 +656,7 @@
                                                                 .draw();
 
                                                         jQuery.each(response, function(index, value) {
+                                                            var joinId = "JD" + value.joinId;
                                                             var requestJoinDate = value.requestdate;
                                                             var joindate = value.joindate;
 
@@ -685,9 +725,12 @@
                                                             } else {
                                                                 payRealease = "YES";
                                                             }
+                                                            var releaseId = "";
+                                                            if (value.paymentid != 0)
+                                                            {
+                                                                releaseId = "TXNP-" + value.paymentid;
+                                                            }
 
-
-                                                            var releaseId = value.paymentid;
 
                                                             var status = value.userstatus;
 
@@ -703,6 +746,7 @@
 
 
                                                             $('#joiningDet').dataTable().fnAddData([
+                                                                joinId,
                                                                 requestJoinDate,
                                                                 joindate,
                                                                 reuestPay,
@@ -795,7 +839,7 @@
                                                                 .draw();
 
                                                         jQuery.each(response, function(index, value) {
-                                                            var payId = value.paymentid;
+                                                            var payId = "TXNP-" + value.paymentid;
 
 
                                                             var actualPay = value.paymenttype;

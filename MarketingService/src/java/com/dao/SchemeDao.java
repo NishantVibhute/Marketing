@@ -364,6 +364,7 @@ public class SchemeDao {
                 psResponse.setMemberType(rs.getInt(3));
                 psResponse.setIsSuccess(rs.getInt(4));
                 psResponse.setSchemeId(rs.getInt(5));
+                psResponse.setParentjoinId(rs.getInt(6));
 
             }
 
